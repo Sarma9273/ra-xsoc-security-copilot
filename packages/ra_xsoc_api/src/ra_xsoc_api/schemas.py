@@ -65,3 +65,13 @@ class AnalyzeResponse(BaseModel):
     model_version: str
     review_status: str
     created_at: str
+
+class ErrorResponse(BaseModel):
+    error: ErrorDetail
+    request_id: str
+
+
+class ErrorDetail(BaseModel):
+    code: str
+    message: str
+    details: list[dict[str, Any]] = Field(default_factory=list)
