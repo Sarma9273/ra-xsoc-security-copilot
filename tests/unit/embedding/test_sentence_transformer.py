@@ -26,7 +26,7 @@ def build_mock_model(
     dimension: int = 3,
 ) -> Mock:
     model = Mock()
-    model.get_sentence_embedding_dimension.return_value = dimension
+    model.get_embedding_dimension.return_value = dimension
     return model
 
 

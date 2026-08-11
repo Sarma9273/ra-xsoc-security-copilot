@@ -28,7 +28,7 @@ class SentenceTransformerEmbeddingService:
             revision=configuration.model_revision,
         )
 
-        dimension = self._model.get_sentence_embedding_dimension()
+        dimension = self._model.get_embedding_dimension()
 
         if dimension is None or dimension <= 0:
             raise DomainValidationError(
