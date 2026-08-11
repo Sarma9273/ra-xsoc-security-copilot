@@ -1,0 +1,72 @@
+{
+  "attack_id": "active_directory_compromise",
+  "incident_type": "ACTIVE DIRECTORY COMPROMISE",
+  "description": "Active Directory compromise occurs when attackers gain control of domain resources, privileged accounts, or domain controllers, enabling widespread access across the enterprise.",
+  "severity": "critical",
+  "framework_references": [
+    {
+      "framework": "MITRE ATT&CK",
+      "name": "Domain Policy Modification",
+      "raw_value": "T1484 – Domain Policy Modification",
+      "reference_id": "T1484"
+    }
+  ],
+  "indicators": [
+    "Unauthorized GPO changes",
+    "New privileged accounts",
+    "Kerberos anomalies",
+    "Domain Controller access"
+  ],
+  "containment": [
+    "Isolate Domain Controllers.",
+    "Disable compromised accounts.",
+    "Restrict administrative access.",
+    "Preserve evidence."
+  ],
+  "investigation": [
+    "Review AD logs.",
+    "Analyze privilege changes.",
+    "Identify compromised systems.",
+    "Assess domain-wide impact."
+  ],
+  "recovery": [
+    "Reset privileged credentials.",
+    "Restore AD integrity.",
+    "Rebuild compromised systems.",
+    "Validate trust relationships."
+  ],
+  "prevention": [
+    "Tiered administration",
+    "PAM solutions",
+    "AD auditing",
+    "Least privilege"
+  ],
+  "detection_rules": [
+    "Privileged group changes",
+    "Kerberos anomalies",
+    "GPO modifications"
+  ],
+  "affected_assets": [
+    "Domain Controllers",
+    "Active Directory",
+    "Enterprise systems"
+  ],
+  "source_filename": "active_directory_compromise.txt",
+  "source_sha256": "6c7bae092f947d116f8c48bd01bb13d6790967476799bb18ad98e4c5e467d44e",
+  "source_encoding": "utf-8",
+  "references": [
+    "MITRE ATT&CK T1484"
+  ],
+  "tools": [
+    "Mimikatz",
+    "BloodHound",
+    "Rubeus",
+    "Impacket"
+  ],
+  "real_world_examples": [
+    "Enterprise ransomware campaigns",
+    "Nation-state intrusions"
+  ],
+  "keywords": [],
+  "schema_version": "1.0"
+}

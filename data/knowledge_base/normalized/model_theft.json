@@ -1,0 +1,59 @@
+{
+  "attack_id": "model_theft",
+  "incident_type": "MODEL THEFT",
+  "description": "Attackers attempt to steal proprietary AI models through extraction attacks, unauthorized downloads, reverse engineering, or API abuse.",
+  "severity": "critical",
+  "framework_references": [
+    {
+      "framework": "Emerging AI Threat",
+      "name": "Emerging AI Threat",
+      "raw_value": "Emerging AI Threat",
+      "reference_id": null
+    }
+  ],
+  "indicators": [
+    "Excessive model queries",
+    "Abnormal API usage",
+    "Large parameter extraction attempts",
+    "Repeated inference requests"
+  ],
+  "containment": [
+    "Restrict API access",
+    "Block suspicious clients",
+    "Rotate credentials"
+  ],
+  "investigation": [
+    "Review API logs",
+    "Identify extraction patterns",
+    "Assess intellectual property exposure"
+  ],
+  "recovery": [
+    "Regenerate API keys",
+    "Implement rate limiting",
+    "Strengthen access controls"
+  ],
+  "prevention": [
+    "Model watermarking",
+    "Query monitoring",
+    "API rate limiting"
+  ],
+  "detection_rules": [
+    "Model extraction behavior",
+    "Excessive inference requests"
+  ],
+  "affected_assets": [
+    "AI models",
+    "Model repositories",
+    "AI APIs"
+  ],
+  "source_filename": "model_theft.txt",
+  "source_sha256": "77490a50b57195475d117a764f4239db512d57690f32cfed370068999f730565",
+  "source_encoding": "utf-8",
+  "references": [
+    "NIST AI RMF"
+  ],
+  "tools": [],
+  "real_world_examples": [],
+  "keywords": [],
+  "schema_version": "1.0"
+}

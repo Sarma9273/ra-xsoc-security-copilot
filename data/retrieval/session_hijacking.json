@@ -1,0 +1,15 @@
+{
+  "attack_id": "session_hijacking",
+  "content_sha256": "5d47dfdad78e9c3aaf9bc0d3c04724a0d9d77366f875c879dc6cc527f5f809d7",
+  "document_id": "retrieval:session_hijacking:1.0",
+  "framework_labels": [
+    "MITRE ATT&CK | T1539 | Steal Web Session Cookie"
+  ],
+  "knowledge_schema_version": "1.0",
+  "retrieval_schema_version": "1.0",
+  "retrieval_text": "INCIDENT TYPE:\nSESSION HIJACKING\n\nDESCRIPTION:\nSession hijacking occurs when attackers steal or manipulate session identifiers to impersonate legitimate users.\n\nTHREAT FRAMEWORK:\n- MITRE ATT&CK | T1539 | Steal Web Session Cookie\n\nINDICATORS:\n- Unexpected session reuse\n- Multiple locations using same session\n- Unauthorized account actions\n\nDETECTION RULES:\n- Session anomalies\n- Cookie theft indicators\n\nAFFECTED ASSETS:\n- Web applications\n- User accounts",
+  "severity": "high",
+  "source_filename": "session_hijacking.txt",
+  "source_record_sha256": "ebe78ba8de96b1b09e37bc596c9b22a8e305ff2541586c0f2e88246f989f43bb",
+  "title": "SESSION HIJACKING"
+}

@@ -1,0 +1,86 @@
+{
+  "attack_id": "phishing",
+  "incident_type": "PHISHING",
+  "description": "Phishing is a social engineering attack in which adversaries impersonate trusted entities such as Microsoft, Google, banks, or internal departments to trick users into revealing credentials, downloading malware, or performing unauthorized actions. Phishing remains one of the most common initial access vectors used by threat actors.",
+  "severity": "high",
+  "framework_references": [
+    {
+      "framework": "MITRE ATT&CK",
+      "name": "Phishing",
+      "raw_value": "T1566 – Phishing",
+      "reference_id": "T1566"
+    }
+  ],
+  "indicators": [
+    "Suspicious sender domains",
+    "Misspelled domain names",
+    "Credential harvesting pages",
+    "Unexpected attachments",
+    "Urgent requests requiring immediate action",
+    "Embedded shortened URLs",
+    "Login prompts requesting credentials"
+  ],
+  "containment": [
+    "Disable affected user accounts.",
+    "Block malicious domains and IP addresses.",
+    "Quarantine phishing emails.",
+    "Remove malicious messages from all mailboxes.",
+    "Revoke active user sessions."
+  ],
+  "investigation": [
+    "Review email headers.",
+    "Analyze URLs and attachments.",
+    "Check authentication logs.",
+    "Identify impacted users.",
+    "Determine whether credentials were entered.",
+    "Search for lateral movement activity."
+  ],
+  "recovery": [
+    "Reset compromised passwords.",
+    "Enforce MFA.",
+    "Restore affected accounts.",
+    "Monitor for suspicious activity.",
+    "Conduct user awareness training."
+  ],
+  "prevention": [
+    "Security awareness training",
+    "SPF implementation",
+    "DKIM implementation",
+    "DMARC enforcement",
+    "Email sandboxing",
+    "URL filtering",
+    "MFA deployment"
+  ],
+  "detection_rules": [
+    "Suspicious email domains",
+    "Credential harvesting URLs",
+    "Email attachments containing macros",
+    "Login events following email delivery"
+  ],
+  "affected_assets": [
+    "Email systems",
+    "User accounts",
+    "Identity platforms",
+    "Endpoints"
+  ],
+  "source_filename": "phishing.txt",
+  "source_sha256": "77fb0461cc7a6fe0e642e14e3aa58fe34efdf8199102ab00d8934850ff0b6f3a",
+  "source_encoding": "utf-8",
+  "references": [
+    "MITRE ATT&CK T1566",
+    "NIST SP 800-61 Incident Handling Guide"
+  ],
+  "tools": [
+    "GoPhish",
+    "Evilginx",
+    "Modlishka",
+    "Social engineering kits"
+  ],
+  "real_world_examples": [
+    "Microsoft 365 phishing campaigns",
+    "Banking credential theft operations",
+    "Business email compromise attacks"
+  ],
+  "keywords": [],
+  "schema_version": "1.0"
+}

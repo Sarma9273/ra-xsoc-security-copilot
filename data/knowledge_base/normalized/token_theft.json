@@ -1,0 +1,63 @@
+{
+  "attack_id": "token_theft",
+  "incident_type": "TOKEN THEFT",
+  "description": "Attackers steal authentication tokens to access cloud services, APIs, and enterprise applications without requiring passwords.",
+  "severity": "critical",
+  "framework_references": [
+    {
+      "framework": "MITRE ATT&CK",
+      "name": "Steal Application Access Token",
+      "raw_value": "T1528 – Steal Application Access Token",
+      "reference_id": "T1528"
+    }
+  ],
+  "indicators": [
+    "Unauthorized API access",
+    "Unexpected token usage",
+    "Cloud access anomalies"
+  ],
+  "containment": [
+    "Revoke compromised tokens.",
+    "Disable affected accounts.",
+    "Restrict API access."
+  ],
+  "investigation": [
+    "Review token activity.",
+    "Identify exposed applications.",
+    "Determine impact."
+  ],
+  "recovery": [
+    "Reissue tokens.",
+    "Rotate credentials.",
+    "Enhance monitoring."
+  ],
+  "prevention": [
+    "Token expiration",
+    "Secure storage",
+    "Conditional access"
+  ],
+  "detection_rules": [
+    "Token reuse anomalies",
+    "Suspicious cloud access"
+  ],
+  "affected_assets": [
+    "Cloud platforms",
+    "APIs",
+    "Enterprise applications"
+  ],
+  "source_filename": "token_theft.txt",
+  "source_sha256": "b7221cc8ae005cc0621d57b877c49c350a25fd3fa0cf17f12aa7933d1581f033",
+  "source_encoding": "utf-8",
+  "references": [
+    "MITRE ATT&CK T1528"
+  ],
+  "tools": [
+    "OAuth abuse frameworks",
+    "Custom token stealers"
+  ],
+  "real_world_examples": [
+    "Cloud identity compromises"
+  ],
+  "keywords": [],
+  "schema_version": "1.0"
+}

@@ -1,0 +1,66 @@
+{
+  "attack_id": "dns_tunneling",
+  "incident_type": "DNS TUNNELING",
+  "description": "DNS tunneling uses DNS traffic to bypass network controls and transfer data or establish command-and-control communication.",
+  "severity": "high",
+  "framework_references": [
+    {
+      "framework": "MITRE ATT&CK",
+      "name": "DNS",
+      "raw_value": "T1071.004 – DNS",
+      "reference_id": "T1071.004"
+    }
+  ],
+  "indicators": [
+    "Excessive DNS queries",
+    "Long encoded domain names",
+    "Unusual DNS traffic volume",
+    "Connections to suspicious domains"
+  ],
+  "containment": [
+    "Block suspicious domains.",
+    "Restrict DNS traffic.",
+    "Isolate affected systems.",
+    "Preserve logs."
+  ],
+  "investigation": [
+    "Analyze DNS logs.",
+    "Identify encoded payloads.",
+    "Review affected hosts.",
+    "Determine exfiltration scope."
+  ],
+  "recovery": [
+    "Remove malware.",
+    "Restore systems.",
+    "Update DNS controls.",
+    "Increase monitoring."
+  ],
+  "prevention": [
+    "DNS filtering",
+    "Network monitoring",
+    "Egress controls"
+  ],
+  "detection_rules": [
+    "High-entropy DNS queries",
+    "Excessive DNS requests"
+  ],
+  "affected_assets": [
+    "Endpoints",
+    "DNS servers"
+  ],
+  "source_filename": "dns_tunneling.txt",
+  "source_sha256": "dd8cfd17f624e6872cd03fde83b4b6a4882bc4e2234fb302796e15f380c3907d",
+  "source_encoding": "utf-8",
+  "references": [
+    "MITRE ATT&CK T1071.004"
+  ],
+  "tools": [
+    "Iodine",
+    "DNScat2"
+  ],
+  "real_world_examples": [
+    "APT command-and-control channels"
+  ],
+  "keywords": [],
+  "schema_version": "1.0"
+}

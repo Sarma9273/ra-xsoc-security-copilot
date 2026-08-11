@@ -1,0 +1,15 @@
+{
+  "attack_id": "dns_tunneling",
+  "content_sha256": "6486b2b66801234e67db84bbaeebab94a84b2d9ed5c1ee43dadf7a30e3f202f0",
+  "document_id": "retrieval:dns_tunneling:1.0",
+  "framework_labels": [
+    "MITRE ATT&CK | T1071.004 | DNS"
+  ],
+  "knowledge_schema_version": "1.0",
+  "retrieval_schema_version": "1.0",
+  "retrieval_text": "INCIDENT TYPE:\nDNS TUNNELING\n\nDESCRIPTION:\nDNS tunneling uses DNS traffic to bypass network controls and transfer data or establish command-and-control communication.\n\nTHREAT FRAMEWORK:\n- MITRE ATT&CK | T1071.004 | DNS\n\nINDICATORS:\n- Excessive DNS queries\n- Long encoded domain names\n- Unusual DNS traffic volume\n- Connections to suspicious domains\n\nDETECTION RULES:\n- High-entropy DNS queries\n- Excessive DNS requests\n\nAFFECTED ASSETS:\n- Endpoints\n- DNS servers",
+  "severity": "high",
+  "source_filename": "dns_tunneling.txt",
+  "source_record_sha256": "dd8cfd17f624e6872cd03fde83b4b6a4882bc4e2234fb302796e15f380c3907d",
+  "title": "DNS TUNNELING"
+}

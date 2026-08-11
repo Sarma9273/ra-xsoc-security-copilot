@@ -1,0 +1,15 @@
+{
+  "attack_id": "bruteforce",
+  "content_sha256": "4689467841605aca6c982cd1c35feb3fa45b4ee48be9d25cc3b996d59725a3d5",
+  "document_id": "retrieval:bruteforce:1.0",
+  "framework_labels": [
+    "MITRE ATT&CK | T1110 | Brute Force"
+  ],
+  "knowledge_schema_version": "1.0",
+  "retrieval_schema_version": "1.0",
+  "retrieval_text": "INCIDENT TYPE:\nBRUTE FORCE ATTACK\n\nDESCRIPTION:\nA brute-force attack involves systematically attempting numerous passwords until valid credentials are discovered.\n\nTHREAT FRAMEWORK:\n- MITRE ATT&CK | T1110 | Brute Force\n\nINDICATORS:\n- Large numbers of failed logins\n- Repeated authentication attempts\n- Account lockouts\n- Login attempts from unusual regions\n\nDETECTION RULES:\n- Excessive failed logins\n- Authentication spikes\n\nAFFECTED ASSETS:\n- User accounts\n- VPN gateways\n- Remote access systems",
+  "severity": "medium",
+  "source_filename": "bruteforce.txt",
+  "source_record_sha256": "cdceb6eefb136c442ae5739ff5f893ca4aaff8be43563e3c4edb96961cac5a48",
+  "title": "BRUTE FORCE ATTACK"
+}

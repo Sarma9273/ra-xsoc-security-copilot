@@ -1,0 +1,15 @@
+{
+  "attack_id": "supply_chain_attack",
+  "content_sha256": "c8d0ec65d5f0673b040c80ea311512603f3ca2a615ae30a9510eb18c0abb5147",
+  "document_id": "retrieval:supply_chain_attack:1.0",
+  "framework_labels": [
+    "MITRE ATT&CK | T1195 | Supply Chain Compromise"
+  ],
+  "knowledge_schema_version": "1.0",
+  "retrieval_schema_version": "1.0",
+  "retrieval_text": "INCIDENT TYPE:\nSUPPLY CHAIN ATTACK\n\nDESCRIPTION:\nA supply chain attack compromises trusted software, hardware, vendors, or service providers to gain access to target organizations. These attacks often affect multiple victims simultaneously and can remain undetected for extended periods.\n\nTHREAT FRAMEWORK:\n- MITRE ATT&CK | T1195 | Supply Chain Compromise\n\nINDICATORS:\n- Unexpected software behavior\n- Suspicious updates\n- Unauthorized code execution\n- Vendor-related anomalies\n- Compromised software packages\n\nDETECTION RULES:\n- Unexpected software modifications\n- Suspicious update behavior\n- Integrity verification failures\n\nAFFECTED ASSETS:\n- Endpoints\n- Servers\n- Software repositories",
+  "severity": "critical",
+  "source_filename": "supply_chain_attack.txt",
+  "source_record_sha256": "c6f67bd9a338287b4ac1001232be725195c0a34fdb93ece5907961d177ce4f8f",
+  "title": "SUPPLY CHAIN ATTACK"
+}

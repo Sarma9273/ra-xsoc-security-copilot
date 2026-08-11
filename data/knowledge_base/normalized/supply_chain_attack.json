@@ -1,0 +1,74 @@
+{
+  "attack_id": "supply_chain_attack",
+  "incident_type": "SUPPLY CHAIN ATTACK",
+  "description": "A supply chain attack compromises trusted software, hardware, vendors, or service providers to gain access to target organizations. These attacks often affect multiple victims simultaneously and can remain undetected for extended periods.",
+  "severity": "critical",
+  "framework_references": [
+    {
+      "framework": "MITRE ATT&CK",
+      "name": "Supply Chain Compromise",
+      "raw_value": "T1195 – Supply Chain Compromise",
+      "reference_id": "T1195"
+    }
+  ],
+  "indicators": [
+    "Unexpected software behavior",
+    "Suspicious updates",
+    "Unauthorized code execution",
+    "Vendor-related anomalies",
+    "Compromised software packages"
+  ],
+  "containment": [
+    "Isolate affected systems.",
+    "Disable compromised software.",
+    "Block malicious updates.",
+    "Verify software integrity."
+  ],
+  "investigation": [
+    "Review software supply chain.",
+    "Analyze update mechanisms.",
+    "Identify affected assets.",
+    "Assess compromise scope."
+  ],
+  "recovery": [
+    "Restore trusted software versions.",
+    "Patch affected systems.",
+    "Rotate credentials.",
+    "Monitor vendor communications."
+  ],
+  "prevention": [
+    "Software integrity verification",
+    "Vendor risk assessments",
+    "Code signing validation",
+    "Supply chain monitoring"
+  ],
+  "detection_rules": [
+    "Unexpected software modifications",
+    "Suspicious update behavior",
+    "Integrity verification failures"
+  ],
+  "affected_assets": [
+    "Endpoints",
+    "Servers",
+    "Software repositories"
+  ],
+  "source_filename": "supply_chain_attack.txt",
+  "source_sha256": "c6f67bd9a338287b4ac1001232be725195c0a34fdb93ece5907961d177ce4f8f",
+  "source_encoding": "utf-8",
+  "references": [
+    "MITRE ATT&CK T1195",
+    "NIST Supply Chain Security Guidance"
+  ],
+  "tools": [
+    "Backdoored software packages",
+    "Malicious update frameworks",
+    "Trojanized installers"
+  ],
+  "real_world_examples": [
+    "SolarWinds compromise",
+    "3CX supply chain attack",
+    "Kaseya incident"
+  ],
+  "keywords": [],
+  "schema_version": "1.0"
+}

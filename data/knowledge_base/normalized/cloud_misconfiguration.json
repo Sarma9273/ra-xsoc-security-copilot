@@ -1,0 +1,73 @@
+{
+  "attack_id": "cloud_misconfiguration",
+  "incident_type": "CLOUD MISCONFIGURATION",
+  "description": "Cloud misconfiguration occurs when cloud resources are deployed with insecure settings, excessive permissions, public exposure, or improper access controls. These weaknesses can expose sensitive data, enable unauthorized access, and facilitate further attacks.",
+  "severity": "high",
+  "framework_references": [
+    {
+      "framework": "MITRE ATT&CK",
+      "name": "Valid Accounts",
+      "raw_value": "T1078 – Valid Accounts",
+      "reference_id": "T1078"
+    }
+  ],
+  "indicators": [
+    "Publicly accessible storage buckets",
+    "Excessive IAM permissions",
+    "Exposed management interfaces",
+    "Unrestricted security groups",
+    "Public database endpoints"
+  ],
+  "containment": [
+    "Restrict public access immediately.",
+    "Review IAM permissions.",
+    "Disable exposed services.",
+    "Rotate exposed credentials."
+  ],
+  "investigation": [
+    "Review cloud audit logs.",
+    "Identify exposed assets.",
+    "Assess data exposure.",
+    "Review permission assignments."
+  ],
+  "recovery": [
+    "Apply secure configurations.",
+    "Enable logging and monitoring.",
+    "Revalidate access controls.",
+    "Notify affected stakeholders."
+  ],
+  "prevention": [
+    "Least privilege IAM",
+    "Cloud security posture management",
+    "Configuration reviews",
+    "Automated compliance checks"
+  ],
+  "detection_rules": [
+    "Public storage buckets",
+    "Excessive permissions",
+    "Unauthorized cloud access"
+  ],
+  "affected_assets": [
+    "Cloud storage",
+    "Virtual machines",
+    "Databases",
+    "Cloud identities"
+  ],
+  "source_filename": "cloud_misconfiguration.txt",
+  "source_sha256": "7ab7c6d1008eeeff76fdf1e3a0bf6b9a11be549896f9256b8bec886d113df55f",
+  "source_encoding": "utf-8",
+  "references": [
+    "MITRE ATT&CK T1078"
+  ],
+  "tools": [
+    "AWS CLI",
+    "Pacu",
+    "ScoutSuite"
+  ],
+  "real_world_examples": [
+    "Public S3 bucket exposures",
+    "Exposed cloud databases"
+  ],
+  "keywords": [],
+  "schema_version": "1.0"
+}

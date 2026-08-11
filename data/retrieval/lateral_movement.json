@@ -1,0 +1,15 @@
+{
+  "attack_id": "lateral_movement",
+  "content_sha256": "383c4c4b97158d72140b948b275ecdc4f1265ef7b29c366111b6f8df43f21eee",
+  "document_id": "retrieval:lateral_movement:1.0",
+  "framework_labels": [
+    "MITRE ATT&CK | T1021 | Remote Services"
+  ],
+  "knowledge_schema_version": "1.0",
+  "retrieval_schema_version": "1.0",
+  "retrieval_text": "INCIDENT TYPE:\nLATERAL MOVEMENT\n\nDESCRIPTION:\nLateral movement occurs when attackers move through a network after initial compromise to access additional systems and sensitive resources.\n\nTHREAT FRAMEWORK:\n- MITRE ATT&CK | T1021 | Remote Services\n\nINDICATORS:\n- Remote administration activity\n- Unexpected SMB connections\n- Credential reuse\n- Cross-host authentication\n\nDETECTION RULES:\n- SMB anomalies\n- Remote execution activity\n- Lateral authentication events\n\nAFFECTED ASSETS:\n- Endpoints\n- Servers\n- Domain Controllers",
+  "severity": "critical",
+  "source_filename": "lateral_movement.txt",
+  "source_record_sha256": "3bbd6895c476d72070d92cc0c2bff899eba57dd3dbda8759b50cc1c6f14f186c",
+  "title": "LATERAL MOVEMENT"
+}

@@ -1,0 +1,62 @@
+{
+  "attack_id": "session_hijacking",
+  "incident_type": "SESSION HIJACKING",
+  "description": "Session hijacking occurs when attackers steal or manipulate session identifiers to impersonate legitimate users.",
+  "severity": "high",
+  "framework_references": [
+    {
+      "framework": "MITRE ATT&CK",
+      "name": "Steal Web Session Cookie",
+      "raw_value": "T1539 – Steal Web Session Cookie",
+      "reference_id": "T1539"
+    }
+  ],
+  "indicators": [
+    "Unexpected session reuse",
+    "Multiple locations using same session",
+    "Unauthorized account actions"
+  ],
+  "containment": [
+    "Invalidate sessions.",
+    "Force reauthentication.",
+    "Review account activity."
+  ],
+  "investigation": [
+    "Analyze session logs.",
+    "Identify stolen cookies.",
+    "Determine attack source."
+  ],
+  "recovery": [
+    "Reset affected credentials.",
+    "Reissue sessions.",
+    "Monitor accounts."
+  ],
+  "prevention": [
+    "Secure cookies",
+    "HTTPS",
+    "MFA"
+  ],
+  "detection_rules": [
+    "Session anomalies",
+    "Cookie theft indicators"
+  ],
+  "affected_assets": [
+    "Web applications",
+    "User accounts"
+  ],
+  "source_filename": "session_hijacking.txt",
+  "source_sha256": "ebe78ba8de96b1b09e37bc596c9b22a8e305ff2541586c0f2e88246f989f43bb",
+  "source_encoding": "utf-8",
+  "references": [
+    "MITRE ATT&CK T1539"
+  ],
+  "tools": [
+    "Burp Suite",
+    "Browser exploitation frameworks"
+  ],
+  "real_world_examples": [
+    "Session theft attacks against portals"
+  ],
+  "keywords": [],
+  "schema_version": "1.0"
+}

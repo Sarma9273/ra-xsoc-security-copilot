@@ -1,0 +1,219 @@
+{
+  "corpus_checksum": "e640a0e0285a922fca95bd3f9e742e9c4a8df64754772550470b34d9fecd6966",
+  "corpus_file": "corpus.jsonl",
+  "document_count": 30,
+  "generated_at": "2026-08-11T15:43:33.193344+00:00",
+  "records": [
+    {
+      "attack_id": "account_takeover",
+      "content_sha256": "14c3ae141e68c403399ded1c47d27dd938c34007ef1832452df40bac36385c52",
+      "document_id": "retrieval:account_takeover:1.0",
+      "normalized_file": "account_takeover.json",
+      "source_record_sha256": "027cd92290ce52f249da53dd2741a9b258c0ae1b2152c9cce9134eba3802e4a6"
+    },
+    {
+      "attack_id": "active_directory_compromise",
+      "content_sha256": "4f5e7eea106bda7b7c3b97daeab5aac3f1461d7acdd6f260972b09a710db9519",
+      "document_id": "retrieval:active_directory_compromise:1.0",
+      "normalized_file": "active_directory_compromise.json",
+      "source_record_sha256": "6c7bae092f947d116f8c48bd01bb13d6790967476799bb18ad98e4c5e467d44e"
+    },
+    {
+      "attack_id": "ai_agent_hijacking",
+      "content_sha256": "0ce4f516bbcdae94f14451483e2b66e6c9298b26a9cfdf36a237e8326d9c3e7c",
+      "document_id": "retrieval:ai_agent_hijacking:1.0",
+      "normalized_file": "ai_agent_hijacking.json",
+      "source_record_sha256": "c2f11010faabd35e024227a419258e2d9aeddf37781cd30ca97ce55e791930d5"
+    },
+    {
+      "attack_id": "ai_prompt_injection",
+      "content_sha256": "818fd4869cf27983453a5cde80a2dd20da9564bceae5233539122d944fe3f276",
+      "document_id": "retrieval:ai_prompt_injection:1.0",
+      "normalized_file": "ai_prompt_injection.json",
+      "source_record_sha256": "49b642a78bf4898cd2013db766f5d263d5220ffcf7ce9bea4de700f3dac0de57"
+    },
+    {
+      "attack_id": "api_abuse",
+      "content_sha256": "f78367b99b563c3afafe508d16ab7e82f0fade6fe1b289d2f2f08e0028ad387a",
+      "document_id": "retrieval:api_abuse:1.0",
+      "normalized_file": "api_abuse.json",
+      "source_record_sha256": "524ce5d2d241c10797c8fb22af70a8960f9e0404f3a1f42a68fd387a44dbec42"
+    },
+    {
+      "attack_id": "bruteforce",
+      "content_sha256": "4689467841605aca6c982cd1c35feb3fa45b4ee48be9d25cc3b996d59725a3d5",
+      "document_id": "retrieval:bruteforce:1.0",
+      "normalized_file": "bruteforce.json",
+      "source_record_sha256": "cdceb6eefb136c442ae5739ff5f893ca4aaff8be43563e3c4edb96961cac5a48"
+    },
+    {
+      "attack_id": "business_email_compromise",
+      "content_sha256": "8934e26209d2f0dfa7daa63215f9a9bffb64cbedd1d649c03126604c34e720ff",
+      "document_id": "retrieval:business_email_compromise:1.0",
+      "normalized_file": "business_email_compromise.json",
+      "source_record_sha256": "999a7a2b16c056869ebaf2d2199ddaeef2e994cd48bdcb6c78564fe0d20e5ab9"
+    },
+    {
+      "attack_id": "cloud_misconfiguration",
+      "content_sha256": "58db32f7970f3861a9aecca0938f24a3da67426f2745aaf145bb7e699d76e972",
+      "document_id": "retrieval:cloud_misconfiguration:1.0",
+      "normalized_file": "cloud_misconfiguration.json",
+      "source_record_sha256": "7ab7c6d1008eeeff76fdf1e3a0bf6b9a11be549896f9256b8bec886d113df55f"
+    },
+    {
+      "attack_id": "credential_stuffing",
+      "content_sha256": "4ab1aadaa8fed05cfbec6bc31bba92221fac448854ac7568ee5238b04428ea90",
+      "document_id": "retrieval:credential_stuffing:1.0",
+      "normalized_file": "credential_stuffing.json",
+      "source_record_sha256": "1ac9c029cf2fdbec2f5133b1e8af5140a50614231ebb5d482a7c97cfb685759f"
+    },
+    {
+      "attack_id": "cryptojacking",
+      "content_sha256": "3126877849c083aa0456755ff660cef1c467b4713917189862f8dc07edd512bb",
+      "document_id": "retrieval:cryptojacking:1.0",
+      "normalized_file": "cryptojacking.json",
+      "source_record_sha256": "d229da061714eb8c90dd3e76bac116b5a68779a54ec94b620ebf2b97ea33a83a"
+    },
+    {
+      "attack_id": "data_exfiltration",
+      "content_sha256": "c389d5307b598300f20e228a609aece1eb8563887261905fa7276cc791debbce",
+      "document_id": "retrieval:data_exfiltration:1.0",
+      "normalized_file": "data_exfiltration.json",
+      "source_record_sha256": "304a7d9df581d5447842ca78d9b95e91849ad7a5191cc32717ea8781d30ed8d0"
+    },
+    {
+      "attack_id": "ddos",
+      "content_sha256": "a5c3a175146b4bdd3819bbe040640135c69b74608ff9ddd3a10c21d7624e0a69",
+      "document_id": "retrieval:ddos:1.0",
+      "normalized_file": "ddos.json",
+      "source_record_sha256": "77f10c8116a1251ba3681773c0bb93183e1fec5409b5a9143d085fc7938779c6"
+    },
+    {
+      "attack_id": "dns_tunneling",
+      "content_sha256": "6486b2b66801234e67db84bbaeebab94a84b2d9ed5c1ee43dadf7a30e3f202f0",
+      "document_id": "retrieval:dns_tunneling:1.0",
+      "normalized_file": "dns_tunneling.json",
+      "source_record_sha256": "dd8cfd17f624e6872cd03fde83b4b6a4882bc4e2234fb302796e15f380c3907d"
+    },
+    {
+      "attack_id": "insider_threat",
+      "content_sha256": "b2544a565353fe70ef6aa0a5e9d9dd85c38c661dd31ca03479abea83bf16c9c3",
+      "document_id": "retrieval:insider_threat:1.0",
+      "normalized_file": "insider_threat.json",
+      "source_record_sha256": "08213b5e396cdd19698424dadb3aedd2f8ccc08b44b2ddccabba1ae173ff64a3"
+    },
+    {
+      "attack_id": "lateral_movement",
+      "content_sha256": "383c4c4b97158d72140b948b275ecdc4f1265ef7b29c366111b6f8df43f21eee",
+      "document_id": "retrieval:lateral_movement:1.0",
+      "normalized_file": "lateral_movement.json",
+      "source_record_sha256": "3bbd6895c476d72070d92cc0c2bff899eba57dd3dbda8759b50cc1c6f14f186c"
+    },
+    {
+      "attack_id": "malware",
+      "content_sha256": "6ac4e573b47928e6198c4db2dfb4e567f36388cf1c94860bb82b00bd61dd05ef",
+      "document_id": "retrieval:malware:1.0",
+      "normalized_file": "malware.json",
+      "source_record_sha256": "eb1585929076c53701f4a5f8f77258791488d3d9e2b35307e2727507f6f22708"
+    },
+    {
+      "attack_id": "model_theft",
+      "content_sha256": "a254720983a2870fed901cf1c6d1f2bd8a1d99f176377a92e5e112e9858e15e4",
+      "document_id": "retrieval:model_theft:1.0",
+      "normalized_file": "model_theft.json",
+      "source_record_sha256": "77490a50b57195475d117a764f4239db512d57690f32cfed370068999f730565"
+    },
+    {
+      "attack_id": "password_spraying",
+      "content_sha256": "63e3878893a4cf0ccb95710d0f7d2fbc77d13694e91ad9460993130bac8be26e",
+      "document_id": "retrieval:password_spraying:1.0",
+      "normalized_file": "password_spraying.json",
+      "source_record_sha256": "ea25e2140b10c8c3b9a57efaa62e90c3acfa47d315b54613e75d7c06a0333df9"
+    },
+    {
+      "attack_id": "phishing",
+      "content_sha256": "91c19bce4c2033474ee8041f94f5e126032cfedba7660eb2f2ca32496a230626",
+      "document_id": "retrieval:phishing:1.0",
+      "normalized_file": "phishing.json",
+      "source_record_sha256": "77fb0461cc7a6fe0e642e14e3aa58fe34efdf8199102ab00d8934850ff0b6f3a"
+    },
+    {
+      "attack_id": "privilege_escalation",
+      "content_sha256": "50a7ed3613bd4ff43aebae32a62631b123440ce63eb520ab1afcb83d1e0d06ab",
+      "document_id": "retrieval:privilege_escalation:1.0",
+      "normalized_file": "privilege_escalation.json",
+      "source_record_sha256": "4040595206d4eb998f0fea0d51d6b2b36beff9b6d9787e50405d672462cc9294"
+    },
+    {
+      "attack_id": "rag_poisoning",
+      "content_sha256": "8707b13b7d066580ff92eaa148a91b36c6f6d7c07cbde367a1cee0d110d43673",
+      "document_id": "retrieval:rag_poisoning:1.0",
+      "normalized_file": "rag_poisoning.json",
+      "source_record_sha256": "bee73c7a6ec1e0352f01869aff9bb42719de5d0d0c9d2ee8e83faf1a52b1378e"
+    },
+    {
+      "attack_id": "ransomware",
+      "content_sha256": "b5878ad82259ce05f52dae8d5192345720edf324377353fbbaa458b548378a37",
+      "document_id": "retrieval:ransomware:1.0",
+      "normalized_file": "ransomware.json",
+      "source_record_sha256": "a3ea5ee63c6eb72d5e8522f7b0bb7da7f430ba5cb65c73ce210d83925851d0ee"
+    },
+    {
+      "attack_id": "session_hijacking",
+      "content_sha256": "5d47dfdad78e9c3aaf9bc0d3c04724a0d9d77366f875c879dc6cc527f5f809d7",
+      "document_id": "retrieval:session_hijacking:1.0",
+      "normalized_file": "session_hijacking.json",
+      "source_record_sha256": "ebe78ba8de96b1b09e37bc596c9b22a8e305ff2541586c0f2e88246f989f43bb"
+    },
+    {
+      "attack_id": "sql_injection",
+      "content_sha256": "0a29b71208b5911ca45ff550dfc868090c0dbd5ed30d4208f38453490f7a1269",
+      "document_id": "retrieval:sql_injection:1.0",
+      "normalized_file": "sql_injection.json",
+      "source_record_sha256": "60a0be27a0d33f3c44daf5dd13f8a9cd142cf137f634daf9f970b2e9b89a5688"
+    },
+    {
+      "attack_id": "supply_chain_attack",
+      "content_sha256": "c8d0ec65d5f0673b040c80ea311512603f3ca2a615ae30a9510eb18c0abb5147",
+      "document_id": "retrieval:supply_chain_attack:1.0",
+      "normalized_file": "supply_chain_attack.json",
+      "source_record_sha256": "c6f67bd9a338287b4ac1001232be725195c0a34fdb93ece5907961d177ce4f8f"
+    },
+    {
+      "attack_id": "token_theft",
+      "content_sha256": "e31004955c45813eb8ac4aa74c60d61f596ae0754234250843475ae7fc6ee86f",
+      "document_id": "retrieval:token_theft:1.0",
+      "normalized_file": "token_theft.json",
+      "source_record_sha256": "b7221cc8ae005cc0621d57b877c49c350a25fd3fa0cf17f12aa7933d1581f033"
+    },
+    {
+      "attack_id": "training_data_poisoning",
+      "content_sha256": "552b5692fcec371d630d4c5f2f8b68c29dcc609661a15f54d32895ac2d0c551c",
+      "document_id": "retrieval:training_data_poisoning:1.0",
+      "normalized_file": "training_data_poisoning.json",
+      "source_record_sha256": "266be1a1c879b46f9c7a06bea67cf0249c199e8d708f55f34a96cd52f4926f60"
+    },
+    {
+      "attack_id": "web_shell",
+      "content_sha256": "873ce8faa4cb51781fe0d240e3a54f6e39b96fe96dc42c9b426f9228f4c53904",
+      "document_id": "retrieval:web_shell:1.0",
+      "normalized_file": "web_shell.json",
+      "source_record_sha256": "50f5e98c53431c7e4ffcb824310c2184f4b52ee8cbf87118016c47d344183760"
+    },
+    {
+      "attack_id": "xss",
+      "content_sha256": "d3c637d4662c68f211c433a1b434bda9240a83619459d8d5e775f448c7cd4931",
+      "document_id": "retrieval:xss:1.0",
+      "normalized_file": "xss.json",
+      "source_record_sha256": "b7a435f30ad87c7870d074859c4df9ff4f339a2339deea5886b9f52cac6ed79a"
+    },
+    {
+      "attack_id": "zero_day_exploit",
+      "content_sha256": "7265432b0a50dcab4bf31d89382ca0cca49d0e810c566e443e0a495193bf6013",
+      "document_id": "retrieval:zero_day_exploit:1.0",
+      "normalized_file": "zero_day_exploit.json",
+      "source_record_sha256": "0b1fe284d0886e749811411d70fe1acd48ee039f4952f34a8c12adad1faafc68"
+    }
+  ],
+  "retrieval_schema_version": "1.0"
+}

@@ -1,0 +1,31 @@
+{
+  "average_text_length": 604.67,
+  "classification_fields": [
+    "incident_type",
+    "description",
+    "framework_references",
+    "indicators",
+    "detection_rules",
+    "affected_assets"
+  ],
+  "corpus_checksum": "e640a0e0285a922fca95bd3f9e742e9c4a8df64754772550470b34d9fecd6966",
+  "corpus_file": "data\\retrieval\\corpus.jsonl",
+  "excluded_playbook_fields": [
+    "containment",
+    "investigation",
+    "recovery",
+    "prevention",
+    "references",
+    "tools",
+    "real_world_examples",
+    "keywords"
+  ],
+  "generated_at": "2026-08-11T15:43:33.194789+00:00",
+  "manifest_file": "data\\retrieval\\manifest.json",
+  "maximum_text_length": 891,
+  "minimum_text_length": 456,
+  "retrieval_document_count": 30,
+  "retrieval_schema_version": "1.0",
+  "source_record_count": 30,
+  "unique_document_ids": 30
+}

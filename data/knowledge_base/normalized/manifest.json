@@ -1,0 +1,247 @@
+{
+  "schema_version": "1.0",
+  "generated_at": "2026-08-11T15:41:20.323746+00:00",
+  "record_count": 30,
+  "records": [
+    {
+      "attack_id": "account_takeover",
+      "incident_type": "ACCOUNT TAKEOVER",
+      "severity": "high",
+      "source_filename": "account_takeover.txt",
+      "source_sha256": "027cd92290ce52f249da53dd2741a9b258c0ae1b2152c9cce9134eba3802e4a6",
+      "normalized_file": "account_takeover.json"
+    },
+    {
+      "attack_id": "active_directory_compromise",
+      "incident_type": "ACTIVE DIRECTORY COMPROMISE",
+      "severity": "critical",
+      "source_filename": "active_directory_compromise.txt",
+      "source_sha256": "6c7bae092f947d116f8c48bd01bb13d6790967476799bb18ad98e4c5e467d44e",
+      "normalized_file": "active_directory_compromise.json"
+    },
+    {
+      "attack_id": "ai_agent_hijacking",
+      "incident_type": "AI AGENT HIJACKING",
+      "severity": "critical",
+      "source_filename": "ai_agent_hijacking.txt",
+      "source_sha256": "c2f11010faabd35e024227a419258e2d9aeddf37781cd30ca97ce55e791930d5",
+      "normalized_file": "ai_agent_hijacking.json"
+    },
+    {
+      "attack_id": "ai_prompt_injection",
+      "incident_type": "AI PROMPT INJECTION",
+      "severity": "high",
+      "source_filename": "ai_prompt_injection.txt",
+      "source_sha256": "49b642a78bf4898cd2013db766f5d263d5220ffcf7ce9bea4de700f3dac0de57",
+      "normalized_file": "ai_prompt_injection.json"
+    },
+    {
+      "attack_id": "api_abuse",
+      "incident_type": "API ABUSE",
+      "severity": "high",
+      "source_filename": "api_abuse.txt",
+      "source_sha256": "524ce5d2d241c10797c8fb22af70a8960f9e0404f3a1f42a68fd387a44dbec42",
+      "normalized_file": "api_abuse.json"
+    },
+    {
+      "attack_id": "bruteforce",
+      "incident_type": "BRUTE FORCE ATTACK",
+      "severity": "medium",
+      "source_filename": "bruteforce.txt",
+      "source_sha256": "cdceb6eefb136c442ae5739ff5f893ca4aaff8be43563e3c4edb96961cac5a48",
+      "normalized_file": "bruteforce.json"
+    },
+    {
+      "attack_id": "business_email_compromise",
+      "incident_type": "BUSINESS EMAIL COMPROMISE",
+      "severity": "high",
+      "source_filename": "business_email_compromise.txt",
+      "source_sha256": "999a7a2b16c056869ebaf2d2199ddaeef2e994cd48bdcb6c78564fe0d20e5ab9",
+      "normalized_file": "business_email_compromise.json"
+    },
+    {
+      "attack_id": "cloud_misconfiguration",
+      "incident_type": "CLOUD MISCONFIGURATION",
+      "severity": "high",
+      "source_filename": "cloud_misconfiguration.txt",
+      "source_sha256": "7ab7c6d1008eeeff76fdf1e3a0bf6b9a11be549896f9256b8bec886d113df55f",
+      "normalized_file": "cloud_misconfiguration.json"
+    },
+    {
+      "attack_id": "credential_stuffing",
+      "incident_type": "CREDENTIAL STUFFING",
+      "severity": "high",
+      "source_filename": "credential_stuffing.txt",
+      "source_sha256": "1ac9c029cf2fdbec2f5133b1e8af5140a50614231ebb5d482a7c97cfb685759f",
+      "normalized_file": "credential_stuffing.json"
+    },
+    {
+      "attack_id": "cryptojacking",
+      "incident_type": "CRYPTOJACKING",
+      "severity": "medium",
+      "source_filename": "cryptojacking.txt",
+      "source_sha256": "d229da061714eb8c90dd3e76bac116b5a68779a54ec94b620ebf2b97ea33a83a",
+      "normalized_file": "cryptojacking.json"
+    },
+    {
+      "attack_id": "data_exfiltration",
+      "incident_type": "DATA EXFILTRATION",
+      "severity": "critical",
+      "source_filename": "data_exfiltration.txt",
+      "source_sha256": "304a7d9df581d5447842ca78d9b95e91849ad7a5191cc32717ea8781d30ed8d0",
+      "normalized_file": "data_exfiltration.json"
+    },
+    {
+      "attack_id": "ddos",
+      "incident_type": "DISTRIBUTED DENIAL OF SERVICE (DDoS)",
+      "severity": "high",
+      "source_filename": "ddos.txt",
+      "source_sha256": "77f10c8116a1251ba3681773c0bb93183e1fec5409b5a9143d085fc7938779c6",
+      "normalized_file": "ddos.json"
+    },
+    {
+      "attack_id": "dns_tunneling",
+      "incident_type": "DNS TUNNELING",
+      "severity": "high",
+      "source_filename": "dns_tunneling.txt",
+      "source_sha256": "dd8cfd17f624e6872cd03fde83b4b6a4882bc4e2234fb302796e15f380c3907d",
+      "normalized_file": "dns_tunneling.json"
+    },
+    {
+      "attack_id": "insider_threat",
+      "incident_type": "INSIDER THREAT",
+      "severity": "high",
+      "source_filename": "insider_threat.txt",
+      "source_sha256": "08213b5e396cdd19698424dadb3aedd2f8ccc08b44b2ddccabba1ae173ff64a3",
+      "normalized_file": "insider_threat.json"
+    },
+    {
+      "attack_id": "lateral_movement",
+      "incident_type": "LATERAL MOVEMENT",
+      "severity": "critical",
+      "source_filename": "lateral_movement.txt",
+      "source_sha256": "3bbd6895c476d72070d92cc0c2bff899eba57dd3dbda8759b50cc1c6f14f186c",
+      "normalized_file": "lateral_movement.json"
+    },
+    {
+      "attack_id": "malware",
+      "incident_type": "MALWARE INFECTION",
+      "severity": "high",
+      "source_filename": "malware.txt",
+      "source_sha256": "eb1585929076c53701f4a5f8f77258791488d3d9e2b35307e2727507f6f22708",
+      "normalized_file": "malware.json"
+    },
+    {
+      "attack_id": "model_theft",
+      "incident_type": "MODEL THEFT",
+      "severity": "critical",
+      "source_filename": "model_theft.txt",
+      "source_sha256": "77490a50b57195475d117a764f4239db512d57690f32cfed370068999f730565",
+      "normalized_file": "model_theft.json"
+    },
+    {
+      "attack_id": "password_spraying",
+      "incident_type": "PASSWORD SPRAYING",
+      "severity": "medium",
+      "source_filename": "password_spraying.txt",
+      "source_sha256": "ea25e2140b10c8c3b9a57efaa62e90c3acfa47d315b54613e75d7c06a0333df9",
+      "normalized_file": "password_spraying.json"
+    },
+    {
+      "attack_id": "phishing",
+      "incident_type": "PHISHING",
+      "severity": "high",
+      "source_filename": "phishing.txt",
+      "source_sha256": "77fb0461cc7a6fe0e642e14e3aa58fe34efdf8199102ab00d8934850ff0b6f3a",
+      "normalized_file": "phishing.json"
+    },
+    {
+      "attack_id": "privilege_escalation",
+      "incident_type": "PRIVILEGE ESCALATION",
+      "severity": "critical",
+      "source_filename": "privilege_escalation.txt",
+      "source_sha256": "4040595206d4eb998f0fea0d51d6b2b36beff9b6d9787e50405d672462cc9294",
+      "normalized_file": "privilege_escalation.json"
+    },
+    {
+      "attack_id": "rag_poisoning",
+      "incident_type": "RAG POISONING",
+      "severity": "high",
+      "source_filename": "rag_poisoning.txt",
+      "source_sha256": "bee73c7a6ec1e0352f01869aff9bb42719de5d0d0c9d2ee8e83faf1a52b1378e",
+      "normalized_file": "rag_poisoning.json"
+    },
+    {
+      "attack_id": "ransomware",
+      "incident_type": "RANSOMWARE",
+      "severity": "critical",
+      "source_filename": "ransomware.txt",
+      "source_sha256": "a3ea5ee63c6eb72d5e8522f7b0bb7da7f430ba5cb65c73ce210d83925851d0ee",
+      "normalized_file": "ransomware.json"
+    },
+    {
+      "attack_id": "session_hijacking",
+      "incident_type": "SESSION HIJACKING",
+      "severity": "high",
+      "source_filename": "session_hijacking.txt",
+      "source_sha256": "ebe78ba8de96b1b09e37bc596c9b22a8e305ff2541586c0f2e88246f989f43bb",
+      "normalized_file": "session_hijacking.json"
+    },
+    {
+      "attack_id": "sql_injection",
+      "incident_type": "SQL INJECTION",
+      "severity": "high",
+      "source_filename": "sql_injection.txt",
+      "source_sha256": "60a0be27a0d33f3c44daf5dd13f8a9cd142cf137f634daf9f970b2e9b89a5688",
+      "normalized_file": "sql_injection.json"
+    },
+    {
+      "attack_id": "supply_chain_attack",
+      "incident_type": "SUPPLY CHAIN ATTACK",
+      "severity": "critical",
+      "source_filename": "supply_chain_attack.txt",
+      "source_sha256": "c6f67bd9a338287b4ac1001232be725195c0a34fdb93ece5907961d177ce4f8f",
+      "normalized_file": "supply_chain_attack.json"
+    },
+    {
+      "attack_id": "token_theft",
+      "incident_type": "TOKEN THEFT",
+      "severity": "critical",
+      "source_filename": "token_theft.txt",
+      "source_sha256": "b7221cc8ae005cc0621d57b877c49c350a25fd3fa0cf17f12aa7933d1581f033",
+      "normalized_file": "token_theft.json"
+    },
+    {
+      "attack_id": "training_data_poisoning",
+      "incident_type": "TRAINING DATA POISONING",
+      "severity": "critical",
+      "source_filename": "training_data_poisoning.txt",
+      "source_sha256": "266be1a1c879b46f9c7a06bea67cf0249c199e8d708f55f34a96cd52f4926f60",
+      "normalized_file": "training_data_poisoning.json"
+    },
+    {
+      "attack_id": "web_shell",
+      "incident_type": "WEB SHELL",
+      "severity": "critical",
+      "source_filename": "web_shell.txt",
+      "source_sha256": "50f5e98c53431c7e4ffcb824310c2184f4b52ee8cbf87118016c47d344183760",
+      "normalized_file": "web_shell.json"
+    },
+    {
+      "attack_id": "xss",
+      "incident_type": "CROSS-SITE SCRIPTING (XSS)",
+      "severity": "medium",
+      "source_filename": "xss.txt",
+      "source_sha256": "b7a435f30ad87c7870d074859c4df9ff4f339a2339deea5886b9f52cac6ed79a",
+      "normalized_file": "xss.json"
+    },
+    {
+      "attack_id": "zero_day_exploit",
+      "incident_type": "ZERO-DAY EXPLOIT",
+      "severity": "critical",
+      "source_filename": "zero_day_exploit.txt",
+      "source_sha256": "0b1fe284d0886e749811411d70fe1acd48ee039f4952f34a8c12adad1faafc68",
+      "normalized_file": "zero_day_exploit.json"
+    }
+  ]
+}

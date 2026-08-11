@@ -1,0 +1,69 @@
+{
+  "attack_id": "bruteforce",
+  "incident_type": "BRUTE FORCE ATTACK",
+  "description": "A brute-force attack involves systematically attempting numerous passwords until valid credentials are discovered.",
+  "severity": "medium",
+  "framework_references": [
+    {
+      "framework": "MITRE ATT&CK",
+      "name": "Brute Force",
+      "raw_value": "T1110 – Brute Force",
+      "reference_id": "T1110"
+    }
+  ],
+  "indicators": [
+    "Large numbers of failed logins",
+    "Repeated authentication attempts",
+    "Account lockouts",
+    "Login attempts from unusual regions"
+  ],
+  "containment": [
+    "Lock targeted accounts.",
+    "Block source IPs.",
+    "Enable MFA.",
+    "Increase monitoring."
+  ],
+  "investigation": [
+    "Review authentication logs.",
+    "Identify targeted users.",
+    "Analyze attack infrastructure.",
+    "Determine successful compromises."
+  ],
+  "recovery": [
+    "Reset passwords.",
+    "Restore access.",
+    "Audit permissions."
+  ],
+  "prevention": [
+    "MFA",
+    "Strong passwords",
+    "Account lockout policies",
+    "Rate limiting"
+  ],
+  "detection_rules": [
+    "Excessive failed logins",
+    "Authentication spikes"
+  ],
+  "affected_assets": [
+    "User accounts",
+    "VPN gateways",
+    "Remote access systems"
+  ],
+  "source_filename": "bruteforce.txt",
+  "source_sha256": "cdceb6eefb136c442ae5739ff5f893ca4aaff8be43563e3c4edb96961cac5a48",
+  "source_encoding": "utf-8",
+  "references": [
+    "MITRE ATT&CK T1110"
+  ],
+  "tools": [
+    "Hydra",
+    "Medusa",
+    "Ncrack"
+  ],
+  "real_world_examples": [
+    "SSH brute-force campaigns",
+    "VPN credential attacks"
+  ],
+  "keywords": [],
+  "schema_version": "1.0"
+}

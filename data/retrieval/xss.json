@@ -1,0 +1,15 @@
+{
+  "attack_id": "xss",
+  "content_sha256": "d3c637d4662c68f211c433a1b434bda9240a83619459d8d5e775f448c7cd4931",
+  "document_id": "retrieval:xss:1.0",
+  "framework_labels": [
+    "MITRE ATT&CK | T1059.007 | JavaScript"
+  ],
+  "knowledge_schema_version": "1.0",
+  "retrieval_schema_version": "1.0",
+  "retrieval_text": "INCIDENT TYPE:\nCROSS-SITE SCRIPTING (XSS)\n\nDESCRIPTION:\nCross-Site Scripting (XSS) is a web application vulnerability that allows attackers to inject malicious JavaScript into web pages viewed by other users. Successful exploitation can lead to session hijacking, credential theft, website defacement, and unauthorized actions performed on behalf of victims.\n\nTHREAT FRAMEWORK:\n- MITRE ATT&CK | T1059.007 | JavaScript\n\nINDICATORS:\n- Unexpected JavaScript execution\n- Suspicious pop-ups\n- Unauthorized redirects\n- Session hijacking activity\n- Modified web page content\n- Stolen session cookies\n\nDETECTION RULES:\n- Suspicious script injection\n- Unexpected JavaScript execution\n- Unauthorized DOM modifications\n\nAFFECTED ASSETS:\n- Web applications\n- User browsers\n- Customer portals",
+  "severity": "medium",
+  "source_filename": "xss.txt",
+  "source_record_sha256": "b7a435f30ad87c7870d074859c4df9ff4f339a2339deea5886b9f52cac6ed79a",
+  "title": "CROSS-SITE SCRIPTING (XSS)"
+}

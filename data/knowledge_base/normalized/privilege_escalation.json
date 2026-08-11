@@ -1,0 +1,72 @@
+{
+  "attack_id": "privilege_escalation",
+  "incident_type": "PRIVILEGE ESCALATION",
+  "description": "Privilege escalation occurs when attackers gain permissions beyond those originally granted, allowing them to obtain administrator, root, or domain-level access. This often enables persistence, lateral movement, and complete system compromise.",
+  "severity": "critical",
+  "framework_references": [
+    {
+      "framework": "MITRE ATT&CK",
+      "name": "Exploitation for Privilege Escalation",
+      "raw_value": "T1068 – Exploitation for Privilege Escalation",
+      "reference_id": "T1068"
+    }
+  ],
+  "indicators": [
+    "Unexpected administrator accounts",
+    "Unauthorized privilege assignments",
+    "Privileged process execution",
+    "Security control bypasses",
+    "Abnormal administrative actions"
+  ],
+  "containment": [
+    "Disable compromised accounts.",
+    "Revoke elevated privileges.",
+    "Isolate affected systems.",
+    "Preserve forensic evidence."
+  ],
+  "investigation": [
+    "Review privilege changes.",
+    "Analyze authentication logs.",
+    "Identify exploitation methods.",
+    "Determine affected systems."
+  ],
+  "recovery": [
+    "Restore proper permissions.",
+    "Patch vulnerabilities.",
+    "Rotate privileged credentials.",
+    "Monitor privileged activities."
+  ],
+  "prevention": [
+    "Least privilege principle",
+    "Privileged Access Management (PAM)",
+    "Patch management",
+    "Regular permission audits"
+  ],
+  "detection_rules": [
+    "Unexpected privilege assignments",
+    "Administrative process execution",
+    "Unauthorized account modifications"
+  ],
+  "affected_assets": [
+    "Servers",
+    "Domain Controllers",
+    "Administrative workstations"
+  ],
+  "source_filename": "privilege_escalation.txt",
+  "source_sha256": "4040595206d4eb998f0fea0d51d6b2b36beff9b6d9787e50405d672462cc9294",
+  "source_encoding": "utf-8",
+  "references": [
+    "MITRE ATT&CK T1068"
+  ],
+  "tools": [
+    "Mimikatz",
+    "PowerSploit",
+    "Juicy Potato"
+  ],
+  "real_world_examples": [
+    "Active Directory compromises",
+    "Ransomware privilege escalation chains"
+  ],
+  "keywords": [],
+  "schema_version": "1.0"
+}

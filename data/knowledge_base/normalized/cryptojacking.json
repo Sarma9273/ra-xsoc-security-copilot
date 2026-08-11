@@ -1,0 +1,73 @@
+{
+  "attack_id": "cryptojacking",
+  "incident_type": "CRYPTOJACKING",
+  "description": "Cryptojacking occurs when attackers secretly use victim computing resources to mine cryptocurrency without authorization. The attack can significantly impact performance and increase operational costs.",
+  "severity": "medium",
+  "framework_references": [
+    {
+      "framework": "MITRE ATT&CK",
+      "name": "Resource Hijacking",
+      "raw_value": "T1496 – Resource Hijacking",
+      "reference_id": "T1496"
+    }
+  ],
+  "indicators": [
+    "High CPU utilization",
+    "High GPU utilization",
+    "Excessive power consumption",
+    "Mining pool connections",
+    "Browser performance degradation",
+    "Persistent mining processes"
+  ],
+  "containment": [
+    "Terminate mining processes.",
+    "Block mining pool traffic.",
+    "Remove malicious software.",
+    "Isolate affected systems."
+  ],
+  "investigation": [
+    "Review system performance metrics.",
+    "Identify mining software.",
+    "Analyze persistence methods.",
+    "Trace infection source."
+  ],
+  "recovery": [
+    "Remove miner software.",
+    "Patch vulnerabilities.",
+    "Restore system performance.",
+    "Monitor for recurrence."
+  ],
+  "prevention": [
+    "Endpoint protection",
+    "Web filtering",
+    "Vulnerability management",
+    "Browser security controls"
+  ],
+  "detection_rules": [
+    "Persistent high CPU usage",
+    "Connections to mining pools",
+    "Unauthorized process execution"
+  ],
+  "affected_assets": [
+    "Endpoints",
+    "Cloud servers",
+    "Containers"
+  ],
+  "source_filename": "cryptojacking.txt",
+  "source_sha256": "d229da061714eb8c90dd3e76bac116b5a68779a54ec94b620ebf2b97ea33a83a",
+  "source_encoding": "utf-8",
+  "references": [
+    "MITRE ATT&CK T1496"
+  ],
+  "tools": [
+    "XMRig",
+    "CoinMiner",
+    "Kinsing"
+  ],
+  "real_world_examples": [
+    "Cloud cryptojacking campaigns",
+    "Kubernetes mining attacks"
+  ],
+  "keywords": [],
+  "schema_version": "1.0"
+}

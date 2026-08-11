@@ -1,0 +1,15 @@
+{
+  "attack_id": "api_abuse",
+  "content_sha256": "f78367b99b563c3afafe508d16ab7e82f0fade6fe1b289d2f2f08e0028ad387a",
+  "document_id": "retrieval:api_abuse:1.0",
+  "framework_labels": [
+    "MITRE ATT&CK | T1190 | Exploit Public-Facing Application"
+  ],
+  "knowledge_schema_version": "1.0",
+  "retrieval_schema_version": "1.0",
+  "retrieval_text": "INCIDENT TYPE:\nAPI ABUSE\n\nDESCRIPTION:\nAPI abuse occurs when attackers exploit legitimate API functionality to perform unauthorized actions, scrape data, bypass business logic, or consume excessive resources.\n\nTHREAT FRAMEWORK:\n- MITRE ATT&CK | T1190 | Exploit Public-Facing Application\n\nINDICATORS:\n- Excessive API requests\n- Abnormal API usage patterns\n- Unauthorized data access\n- Token misuse\n- Rate limit violations\n\nDETECTION RULES:\n- High request volumes\n- Unusual endpoint access\n- Token abuse\n\nAFFECTED ASSETS:\n- APIs\n- Databases\n- Mobile applications",
+  "severity": "high",
+  "source_filename": "api_abuse.txt",
+  "source_record_sha256": "524ce5d2d241c10797c8fb22af70a8960f9e0404f3a1f42a68fd387a44dbec42",
+  "title": "API ABUSE"
+}

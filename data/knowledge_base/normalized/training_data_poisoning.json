@@ -1,0 +1,59 @@
+{
+  "attack_id": "training_data_poisoning",
+  "incident_type": "TRAINING DATA POISONING",
+  "description": "Attackers manipulate datasets used to train AI systems, causing biased, malicious, or inaccurate model behavior.",
+  "severity": "critical",
+  "framework_references": [
+    {
+      "framework": "Emerging AI Threat",
+      "name": "Emerging AI Threat",
+      "raw_value": "Emerging AI Threat",
+      "reference_id": null
+    }
+  ],
+  "indicators": [
+    "Unexpected model outputs",
+    "Dataset integrity violations",
+    "Anomalous training behavior",
+    "Poisoned training records"
+  ],
+  "containment": [
+    "Stop model training",
+    "Isolate training datasets",
+    "Verify data integrity"
+  ],
+  "investigation": [
+    "Review dataset changes",
+    "Identify malicious records",
+    "Assess model impact"
+  ],
+  "recovery": [
+    "Remove poisoned samples",
+    "Retrain model",
+    "Validate performance"
+  ],
+  "prevention": [
+    "Dataset validation",
+    "Data provenance tracking",
+    "Secure training pipeline"
+  ],
+  "detection_rules": [
+    "Dataset anomalies",
+    "Unexpected training metrics"
+  ],
+  "affected_assets": [
+    "Training datasets",
+    "ML pipelines",
+    "AI models"
+  ],
+  "source_filename": "training_data_poisoning.txt",
+  "source_sha256": "266be1a1c879b46f9c7a06bea67cf0249c199e8d708f55f34a96cd52f4926f60",
+  "source_encoding": "utf-8",
+  "references": [
+    "MITRE ATLAS"
+  ],
+  "tools": [],
+  "real_world_examples": [],
+  "keywords": [],
+  "schema_version": "1.0"
+}

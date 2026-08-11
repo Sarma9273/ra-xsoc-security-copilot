@@ -1,0 +1,15 @@
+{
+  "attack_id": "active_directory_compromise",
+  "content_sha256": "4f5e7eea106bda7b7c3b97daeab5aac3f1461d7acdd6f260972b09a710db9519",
+  "document_id": "retrieval:active_directory_compromise:1.0",
+  "framework_labels": [
+    "MITRE ATT&CK | T1484 | Domain Policy Modification"
+  ],
+  "knowledge_schema_version": "1.0",
+  "retrieval_schema_version": "1.0",
+  "retrieval_text": "INCIDENT TYPE:\nACTIVE DIRECTORY COMPROMISE\n\nDESCRIPTION:\nActive Directory compromise occurs when attackers gain control of domain resources, privileged accounts, or domain controllers, enabling widespread access across the enterprise.\n\nTHREAT FRAMEWORK:\n- MITRE ATT&CK | T1484 | Domain Policy Modification\n\nINDICATORS:\n- Unauthorized GPO changes\n- New privileged accounts\n- Kerberos anomalies\n- Domain Controller access\n\nDETECTION RULES:\n- Privileged group changes\n- Kerberos anomalies\n- GPO modifications\n\nAFFECTED ASSETS:\n- Domain Controllers\n- Active Directory\n- Enterprise systems",
+  "severity": "critical",
+  "source_filename": "active_directory_compromise.txt",
+  "source_record_sha256": "6c7bae092f947d116f8c48bd01bb13d6790967476799bb18ad98e4c5e467d44e",
+  "title": "ACTIVE DIRECTORY COMPROMISE"
+}

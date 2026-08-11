@@ -1,0 +1,67 @@
+{
+  "attack_id": "ai_prompt_injection",
+  "incident_type": "AI PROMPT INJECTION",
+  "description": "Attackers manipulate prompts to bypass AI safety controls, extract sensitive information, or influence AI decisions.",
+  "severity": "high",
+  "framework_references": [
+    {
+      "framework": "Emerging AI Threat",
+      "name": "Emerging AI Threat",
+      "raw_value": "Emerging AI Threat",
+      "reference_id": null
+    }
+  ],
+  "indicators": [
+    "Prompt override attempts",
+    "Jailbreak instructions",
+    "Hidden prompt manipulation",
+    "Sensitive information requests",
+    "Instruction conflicts"
+  ],
+  "containment": [
+    "Isolate affected AI system",
+    "Review prompts",
+    "Block malicious users"
+  ],
+  "investigation": [
+    "Analyze prompt history",
+    "Identify data exposure",
+    "Review model responses"
+  ],
+  "recovery": [
+    "Strengthen guardrails",
+    "Update filters",
+    "Retrain safety mechanisms"
+  ],
+  "prevention": [
+    "Prompt filtering",
+    "Context isolation",
+    "Output validation"
+  ],
+  "detection_rules": [
+    "Ignore previous instructions",
+    "Reveal system prompt",
+    "Developer mode requests"
+  ],
+  "affected_assets": [
+    "LLMs",
+    "AI Assistants",
+    "RAG Systems"
+  ],
+  "source_filename": "ai_prompt_injection.txt",
+  "source_sha256": "49b642a78bf4898cd2013db766f5d263d5220ffcf7ce9bea4de700f3dac0de57",
+  "source_encoding": "utf-8",
+  "references": [
+    "OWASP LLM Top 10"
+  ],
+  "tools": [
+    "Prompt injection frameworks",
+    "Custom jailbreak payloads"
+  ],
+  "real_world_examples": [
+    "Chatbot data leakage",
+    "RAG prompt injection attacks"
+  ],
+  "keywords": [],
+  "schema_version": "1.0"
+}

@@ -1,0 +1,73 @@
+{
+  "attack_id": "insider_threat",
+  "incident_type": "INSIDER THREAT",
+  "description": "An insider threat involves authorized users intentionally or unintentionally causing harm to an organization through misuse of access, data theft, sabotage, negligence, or policy violations.",
+  "severity": "high",
+  "framework_references": [
+    {
+      "framework": "MITRE ATT&CK",
+      "name": "Internal Spearphishing (related insider behavior)",
+      "raw_value": "T1534 – Internal Spearphishing (related insider behavior)",
+      "reference_id": "T1534"
+    }
+  ],
+  "indicators": [
+    "Excessive data downloads",
+    "Unauthorized file transfers",
+    "Access outside normal working hours",
+    "Privilege misuse",
+    "Unusual system activity"
+  ],
+  "containment": [
+    "Suspend suspicious accounts.",
+    "Restrict access permissions.",
+    "Preserve evidence.",
+    "Notify management and HR."
+  ],
+  "investigation": [
+    "Review user activity logs.",
+    "Analyze file access records.",
+    "Assess data exposure.",
+    "Identify affected assets."
+  ],
+  "recovery": [
+    "Restore affected systems.",
+    "Revoke unnecessary privileges.",
+    "Update access controls.",
+    "Conduct awareness training."
+  ],
+  "prevention": [
+    "User behavior analytics (UBA)",
+    "Least privilege",
+    "Data Loss Prevention (DLP)",
+    "Access monitoring"
+  ],
+  "detection_rules": [
+    "Large file downloads",
+    "Unusual login behavior",
+    "Sensitive file access anomalies"
+  ],
+  "affected_assets": [
+    "Internal systems",
+    "Sensitive databases",
+    "Corporate repositories"
+  ],
+  "source_filename": "insider_threat.txt",
+  "source_sha256": "08213b5e396cdd19698424dadb3aedd2f8ccc08b44b2ddccabba1ae173ff64a3",
+  "source_encoding": "utf-8",
+  "references": [
+    "CERT Insider Threat Guide",
+    "MITRE ATT&CK Framework"
+  ],
+  "tools": [
+    "PowerShell",
+    "Cloud storage services",
+    "File transfer utilities"
+  ],
+  "real_world_examples": [
+    "Employee data theft incidents",
+    "Insider intellectual property theft"
+  ],
+  "keywords": [],
+  "schema_version": "1.0"
+}

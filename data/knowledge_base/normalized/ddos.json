@@ -1,0 +1,75 @@
+{
+  "attack_id": "ddos",
+  "incident_type": "DISTRIBUTED DENIAL OF SERVICE (DDoS)",
+  "description": "A Distributed Denial of Service attack attempts to overwhelm systems, applications, or networks with traffic from multiple sources, causing service disruption or complete unavailability.",
+  "severity": "high",
+  "framework_references": [
+    {
+      "framework": "MITRE ATT&CK",
+      "name": "Network Denial of Service",
+      "raw_value": "T1498 – Network Denial of Service",
+      "reference_id": "T1498"
+    }
+  ],
+  "indicators": [
+    "Sudden traffic spikes",
+    "Service degradation",
+    "High bandwidth utilization",
+    "Large numbers of requests",
+    "Network congestion"
+  ],
+  "containment": [
+    "Enable DDoS mitigation services.",
+    "Activate rate limiting.",
+    "Filter malicious traffic.",
+    "Redirect traffic through CDN protection."
+  ],
+  "investigation": [
+    "Analyze traffic patterns.",
+    "Identify source networks.",
+    "Determine attack type.",
+    "Assess affected services."
+  ],
+  "recovery": [
+    "Restore normal traffic flow.",
+    "Validate service availability.",
+    "Improve infrastructure resilience.",
+    "Update protection rules."
+  ],
+  "prevention": [
+    "CDN protection",
+    "Web Application Firewall (WAF)",
+    "Rate limiting",
+    "Traffic filtering"
+  ],
+  "detection_rules": [
+    "Traffic spikes",
+    "Connection floods",
+    "Unusual protocol usage"
+  ],
+  "affected_assets": [
+    "Websites",
+    "APIs",
+    "Network infrastructure",
+    "Cloud services"
+  ],
+  "source_filename": "ddos.txt",
+  "source_sha256": "77f10c8116a1251ba3681773c0bb93183e1fec5409b5a9143d085fc7938779c6",
+  "source_encoding": "utf-8",
+  "references": [
+    "MITRE ATT&CK T1498"
+  ],
+  "tools": [
+    "Mirai Botnet",
+    "LOIC",
+    "HOIC",
+    "MHDDoS"
+  ],
+  "real_world_examples": [
+    "Dyn DNS attack",
+    "GitHub DDoS attack",
+    "Cloudflare-protected attacks"
+  ],
+  "keywords": [],
+  "schema_version": "1.0"
+}

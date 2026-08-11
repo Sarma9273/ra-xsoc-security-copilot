@@ -1,0 +1,74 @@
+{
+  "attack_id": "sql_injection",
+  "incident_type": "SQL INJECTION",
+  "description": "SQL Injection occurs when attackers manipulate application inputs to execute unauthorized SQL queries against backend databases. Successful exploitation can lead to data theft, authentication bypass, and full database compromise.",
+  "severity": "high",
+  "framework_references": [
+    {
+      "framework": "MITRE ATT&CK",
+      "name": "Exploit Public-Facing Application",
+      "raw_value": "T1190 – Exploit Public-Facing Application",
+      "reference_id": "T1190"
+    }
+  ],
+  "indicators": [
+    "Database errors",
+    "Unexpected query execution",
+    "Authentication bypass",
+    "Data leakage",
+    "Suspicious SQL patterns"
+  ],
+  "containment": [
+    "Block malicious requests.",
+    "Enable WAF protections.",
+    "Restrict database access.",
+    "Patch vulnerable applications."
+  ],
+  "investigation": [
+    "Review web logs.",
+    "Analyze database activity.",
+    "Identify exploited parameters.",
+    "Determine exposed data."
+  ],
+  "recovery": [
+    "Patch vulnerable code.",
+    "Restore database integrity.",
+    "Rotate credentials.",
+    "Validate application security."
+  ],
+  "prevention": [
+    "Parameterized queries",
+    "Prepared statements",
+    "Input validation",
+    "Secure coding practices",
+    "WAF deployment"
+  ],
+  "detection_rules": [
+    "SQL keywords in user input",
+    "Unusual database queries",
+    "Authentication bypass attempts"
+  ],
+  "affected_assets": [
+    "Web applications",
+    "Databases",
+    "APIs"
+  ],
+  "source_filename": "sql_injection.txt",
+  "source_sha256": "60a0be27a0d33f3c44daf5dd13f8a9cd142cf137f634daf9f970b2e9b89a5688",
+  "source_encoding": "utf-8",
+  "references": [
+    "MITRE ATT&CK T1190",
+    "OWASP Top 10"
+  ],
+  "tools": [
+    "SQLMap",
+    "Havij",
+    "Burp Suite"
+  ],
+  "real_world_examples": [
+    "Equifax breach",
+    "Numerous e-commerce compromises"
+  ],
+  "keywords": [],
+  "schema_version": "1.0"
+}

@@ -1,0 +1,15 @@
+{
+  "attack_id": "ransomware",
+  "content_sha256": "b5878ad82259ce05f52dae8d5192345720edf324377353fbbaa458b548378a37",
+  "document_id": "retrieval:ransomware:1.0",
+  "framework_labels": [
+    "MITRE ATT&CK | T1486 | Data Encrypted for Impact"
+  ],
+  "knowledge_schema_version": "1.0",
+  "retrieval_schema_version": "1.0",
+  "retrieval_text": "INCIDENT TYPE:\nRANSOMWARE\n\nDESCRIPTION:\nRansomware is a type of malware that encrypts files, systems, or entire environments and demands payment in exchange for decryption keys. Modern ransomware groups often perform double extortion by stealing sensitive data before encryption and threatening public release if payment is not made.\n\nTHREAT FRAMEWORK:\n- MITRE ATT&CK | T1486 | Data Encrypted for Impact\n\nINDICATORS:\n- Files suddenly become inaccessible\n- New file extensions appear\n- Ransom notes on systems\n- Security tools disabled\n- Large-scale file modifications\n- Unexpected administrative activity\n- Lateral movement across systems\n\nDETECTION RULES:\n- Mass file modifications\n- Unexpected encryption processes\n- Ransom note creation\n- Security service termination\n\nAFFECTED ASSETS:\n- Endpoints\n- File servers\n- Domain controllers\n- Backup systems",
+  "severity": "critical",
+  "source_filename": "ransomware.txt",
+  "source_record_sha256": "a3ea5ee63c6eb72d5e8522f7b0bb7da7f430ba5cb65c73ce210d83925851d0ee",
+  "title": "RANSOMWARE"
+}

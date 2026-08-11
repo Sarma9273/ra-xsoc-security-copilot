@@ -1,0 +1,15 @@
+{
+  "attack_id": "ai_agent_hijacking",
+  "content_sha256": "0ce4f516bbcdae94f14451483e2b66e6c9298b26a9cfdf36a237e8326d9c3e7c",
+  "document_id": "retrieval:ai_agent_hijacking:1.0",
+  "framework_labels": [
+    "Emerging AI Threat"
+  ],
+  "knowledge_schema_version": "1.0",
+  "retrieval_schema_version": "1.0",
+  "retrieval_text": "INCIDENT TYPE:\nAI AGENT HIJACKING\n\nDESCRIPTION:\nAttackers manipulate autonomous AI agents to perform unauthorized actions, access sensitive resources, or execute malicious workflows.\n\nTHREAT FRAMEWORK:\n- Emerging AI Threat\n\nINDICATORS:\n- Unauthorized tool execution\n- Unexpected agent actions\n- Privilege misuse\n- External command execution\n\nDETECTION RULES:\n- Abnormal tool usage\n- Unexpected workflow execution\n\nAFFECTED ASSETS:\n- AI agents\n- Automation platforms\n- Connected systems",
+  "severity": "critical",
+  "source_filename": "ai_agent_hijacking.txt",
+  "source_record_sha256": "c2f11010faabd35e024227a419258e2d9aeddf37781cd30ca97ce55e791930d5",
+  "title": "AI AGENT HIJACKING"
+}

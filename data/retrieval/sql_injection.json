@@ -1,0 +1,15 @@
+{
+  "attack_id": "sql_injection",
+  "content_sha256": "0a29b71208b5911ca45ff550dfc868090c0dbd5ed30d4208f38453490f7a1269",
+  "document_id": "retrieval:sql_injection:1.0",
+  "framework_labels": [
+    "MITRE ATT&CK | T1190 | Exploit Public-Facing Application"
+  ],
+  "knowledge_schema_version": "1.0",
+  "retrieval_schema_version": "1.0",
+  "retrieval_text": "INCIDENT TYPE:\nSQL INJECTION\n\nDESCRIPTION:\nSQL Injection occurs when attackers manipulate application inputs to execute unauthorized SQL queries against backend databases. Successful exploitation can lead to data theft, authentication bypass, and full database compromise.\n\nTHREAT FRAMEWORK:\n- MITRE ATT&CK | T1190 | Exploit Public-Facing Application\n\nINDICATORS:\n- Database errors\n- Unexpected query execution\n- Authentication bypass\n- Data leakage\n- Suspicious SQL patterns\n\nDETECTION RULES:\n- SQL keywords in user input\n- Unusual database queries\n- Authentication bypass attempts\n\nAFFECTED ASSETS:\n- Web applications\n- Databases\n- APIs",
+  "severity": "high",
+  "source_filename": "sql_injection.txt",
+  "source_record_sha256": "60a0be27a0d33f3c44daf5dd13f8a9cd142cf137f634daf9f970b2e9b89a5688",
+  "title": "SQL INJECTION"
+}

@@ -1,0 +1,72 @@
+{
+  "attack_id": "api_abuse",
+  "incident_type": "API ABUSE",
+  "description": "API abuse occurs when attackers exploit legitimate API functionality to perform unauthorized actions, scrape data, bypass business logic, or consume excessive resources.",
+  "severity": "high",
+  "framework_references": [
+    {
+      "framework": "MITRE ATT&CK",
+      "name": "Exploit Public-Facing Application",
+      "raw_value": "T1190 – Exploit Public-Facing Application",
+      "reference_id": "T1190"
+    }
+  ],
+  "indicators": [
+    "Excessive API requests",
+    "Abnormal API usage patterns",
+    "Unauthorized data access",
+    "Token misuse",
+    "Rate limit violations"
+  ],
+  "containment": [
+    "Block abusive clients.",
+    "Revoke compromised API keys.",
+    "Enable rate limiting.",
+    "Restrict suspicious endpoints."
+  ],
+  "investigation": [
+    "Review API logs.",
+    "Analyze request patterns.",
+    "Identify compromised credentials.",
+    "Assess data exposure."
+  ],
+  "recovery": [
+    "Rotate API keys.",
+    "Patch business logic flaws.",
+    "Strengthen authentication.",
+    "Update API security controls."
+  ],
+  "prevention": [
+    "API gateways",
+    "Rate limiting",
+    "OAuth security",
+    "API monitoring"
+  ],
+  "detection_rules": [
+    "High request volumes",
+    "Unusual endpoint access",
+    "Token abuse"
+  ],
+  "affected_assets": [
+    "APIs",
+    "Databases",
+    "Mobile applications"
+  ],
+  "source_filename": "api_abuse.txt",
+  "source_sha256": "524ce5d2d241c10797c8fb22af70a8960f9e0404f3a1f42a68fd387a44dbec42",
+  "source_encoding": "utf-8",
+  "references": [
+    "OWASP API Security Top 10"
+  ],
+  "tools": [
+    "Postman",
+    "Burp Suite",
+    "Custom scripts"
+  ],
+  "real_world_examples": [
+    "Social media scraping incidents",
+    "Excessive API consumption attacks"
+  ],
+  "keywords": [],
+  "schema_version": "1.0"
+}

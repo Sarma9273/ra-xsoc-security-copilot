@@ -1,0 +1,15 @@
+{
+  "attack_id": "cloud_misconfiguration",
+  "content_sha256": "58db32f7970f3861a9aecca0938f24a3da67426f2745aaf145bb7e699d76e972",
+  "document_id": "retrieval:cloud_misconfiguration:1.0",
+  "framework_labels": [
+    "MITRE ATT&CK | T1078 | Valid Accounts"
+  ],
+  "knowledge_schema_version": "1.0",
+  "retrieval_schema_version": "1.0",
+  "retrieval_text": "INCIDENT TYPE:\nCLOUD MISCONFIGURATION\n\nDESCRIPTION:\nCloud misconfiguration occurs when cloud resources are deployed with insecure settings, excessive permissions, public exposure, or improper access controls. These weaknesses can expose sensitive data, enable unauthorized access, and facilitate further attacks.\n\nTHREAT FRAMEWORK:\n- MITRE ATT&CK | T1078 | Valid Accounts\n\nINDICATORS:\n- Publicly accessible storage buckets\n- Excessive IAM permissions\n- Exposed management interfaces\n- Unrestricted security groups\n- Public database endpoints\n\nDETECTION RULES:\n- Public storage buckets\n- Excessive permissions\n- Unauthorized cloud access\n\nAFFECTED ASSETS:\n- Cloud storage\n- Virtual machines\n- Databases\n- Cloud identities",
+  "severity": "high",
+  "source_filename": "cloud_misconfiguration.txt",
+  "source_record_sha256": "7ab7c6d1008eeeff76fdf1e3a0bf6b9a11be549896f9256b8bec886d113df55f",
+  "title": "CLOUD MISCONFIGURATION"
+}

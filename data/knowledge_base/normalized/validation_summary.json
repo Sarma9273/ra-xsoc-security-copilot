@@ -1,0 +1,14 @@
+{
+  "record_count": 30,
+  "severity_counts": {
+    "high": 14,
+    "critical": 12,
+    "medium": 4
+  },
+  "conventional_mitre_records": 25,
+  "emerging_ai_records": 5,
+  "records_with_tools": 26,
+  "records_with_real_world_examples": 26,
+  "records_with_keywords": 0,
+  "manifest": "data\\knowledge_base\\normalized\\manifest.json"
+}

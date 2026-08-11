@@ -1,0 +1,15 @@
+{
+  "attack_id": "cryptojacking",
+  "content_sha256": "3126877849c083aa0456755ff660cef1c467b4713917189862f8dc07edd512bb",
+  "document_id": "retrieval:cryptojacking:1.0",
+  "framework_labels": [
+    "MITRE ATT&CK | T1496 | Resource Hijacking"
+  ],
+  "knowledge_schema_version": "1.0",
+  "retrieval_schema_version": "1.0",
+  "retrieval_text": "INCIDENT TYPE:\nCRYPTOJACKING\n\nDESCRIPTION:\nCryptojacking occurs when attackers secretly use victim computing resources to mine cryptocurrency without authorization. The attack can significantly impact performance and increase operational costs.\n\nTHREAT FRAMEWORK:\n- MITRE ATT&CK | T1496 | Resource Hijacking\n\nINDICATORS:\n- High CPU utilization\n- High GPU utilization\n- Excessive power consumption\n- Mining pool connections\n- Browser performance degradation\n- Persistent mining processes\n\nDETECTION RULES:\n- Persistent high CPU usage\n- Connections to mining pools\n- Unauthorized process execution\n\nAFFECTED ASSETS:\n- Endpoints\n- Cloud servers\n- Containers",
+  "severity": "medium",
+  "source_filename": "cryptojacking.txt",
+  "source_record_sha256": "d229da061714eb8c90dd3e76bac116b5a68779a54ec94b620ebf2b97ea33a83a",
+  "title": "CRYPTOJACKING"
+}

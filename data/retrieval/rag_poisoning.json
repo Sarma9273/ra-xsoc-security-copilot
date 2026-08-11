@@ -1,0 +1,15 @@
+{
+  "attack_id": "rag_poisoning",
+  "content_sha256": "8707b13b7d066580ff92eaa148a91b36c6f6d7c07cbde367a1cee0d110d43673",
+  "document_id": "retrieval:rag_poisoning:1.0",
+  "framework_labels": [
+    "Emerging AI Threat"
+  ],
+  "knowledge_schema_version": "1.0",
+  "retrieval_schema_version": "1.0",
+  "retrieval_text": "INCIDENT TYPE:\nRAG POISONING\n\nDESCRIPTION:\nAttackers manipulate or inject malicious information into Retrieval Augmented Generation (RAG) knowledge bases, causing AI systems to retrieve and generate inaccurate, malicious, or misleading responses.\n\nTHREAT FRAMEWORK:\n- Emerging AI Threat\n\nINDICATORS:\n- Unexpected AI responses\n- Malicious documents in vector database\n- Knowledge base tampering\n- False information generation\n- Unauthorized document updates\n\nDETECTION RULES:\n- Sudden content changes\n- Unauthorized document ingestion\n\nAFFECTED ASSETS:\n- Vector databases\n- Knowledge repositories\n- RAG applications",
+  "severity": "high",
+  "source_filename": "rag_poisoning.txt",
+  "source_record_sha256": "bee73c7a6ec1e0352f01869aff9bb42719de5d0d0c9d2ee8e83faf1a52b1378e",
+  "title": "RAG POISONING"
+}

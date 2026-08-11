@@ -1,0 +1,41 @@
+{
+  "artifacts": [
+    {
+      "relative_path": "index.faiss",
+      "role": "faiss_index",
+      "sha256": "f5cf4a9698d1e58c6ed1f2fdc2a26520854e083ba3f47638e774afa7eeb8985e",
+      "size_bytes": 46125
+    },
+    {
+      "relative_path": "document_mapping.json",
+      "role": "document_mapping",
+      "sha256": "da36264668249204fe988eeb86552305dcddb3dd1eecb76831bb9bd29849fdf3",
+      "size_bytes": 1244
+    },
+    {
+      "relative_path": "embedding_vectors.npy",
+      "role": "embedding_vectors",
+      "sha256": "ed7dc44bffd0b825fd327d5c38968415e3ddf10e2135f9618de54ef573f059fe",
+      "size_bytes": 46208
+    }
+  ],
+  "configuration": {
+    "batch_size": 32,
+    "device": "cpu",
+    "expected_dimension": 384,
+    "faiss_index_type": "IndexFlatIP",
+    "model_name": "sentence-transformers/all-MiniLM-L6-v2",
+    "model_revision": null,
+    "normalize_embeddings": true,
+    "schema_version": "1.0",
+    "similarity_metric": "cosine",
+    "vector_dtype": "float32"
+  },
+  "corpus_checksum": "e640a0e0285a922fca95bd3f9e742e9c4a8df64754772550470b34d9fecd6966",
+  "created_at_utc": "2026-08-11T16:03:53.685338+00:00",
+  "document_count": 30,
+  "document_ids_checksum": "430de6e994dc4a377838a801248cca4ce6adedb47f690b601bd1b8e9852ecf8b",
+  "embedding_dimension": 384,
+  "retrieval_schema_version": "1.0",
+  "schema_version": "1.0"
+}

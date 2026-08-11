@@ -1,0 +1,15 @@
+{
+  "attack_id": "account_takeover",
+  "content_sha256": "14c3ae141e68c403399ded1c47d27dd938c34007ef1832452df40bac36385c52",
+  "document_id": "retrieval:account_takeover:1.0",
+  "framework_labels": [
+    "MITRE ATT&CK | T1078 | Valid Accounts"
+  ],
+  "knowledge_schema_version": "1.0",
+  "retrieval_schema_version": "1.0",
+  "retrieval_text": "INCIDENT TYPE:\nACCOUNT TAKEOVER\n\nDESCRIPTION:\nAccount Takeover (ATO) occurs when attackers gain unauthorized control of legitimate user accounts through stolen credentials, phishing, malware, or session theft.\n\nTHREAT FRAMEWORK:\n- MITRE ATT&CK | T1078 | Valid Accounts\n\nINDICATORS:\n- Logins from unusual locations\n- Password reset requests\n- MFA changes\n- Suspicious account activity\n\nDETECTION RULES:\n- Impossible travel logins\n- MFA changes\n- New device registrations\n\nAFFECTED ASSETS:\n- User accounts\n- Cloud services\n- Email systems",
+  "severity": "high",
+  "source_filename": "account_takeover.txt",
+  "source_record_sha256": "027cd92290ce52f249da53dd2741a9b258c0ae1b2152c9cce9134eba3802e4a6",
+  "title": "ACCOUNT TAKEOVER"
+}

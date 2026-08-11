@@ -1,0 +1,59 @@
+{
+  "attack_id": "ai_agent_hijacking",
+  "incident_type": "AI AGENT HIJACKING",
+  "description": "Attackers manipulate autonomous AI agents to perform unauthorized actions, access sensitive resources, or execute malicious workflows.",
+  "severity": "critical",
+  "framework_references": [
+    {
+      "framework": "Emerging AI Threat",
+      "name": "Emerging AI Threat",
+      "raw_value": "Emerging AI Threat",
+      "reference_id": null
+    }
+  ],
+  "indicators": [
+    "Unauthorized tool execution",
+    "Unexpected agent actions",
+    "Privilege misuse",
+    "External command execution"
+  ],
+  "containment": [
+    "Disable affected agent",
+    "Revoke tool permissions",
+    "Isolate execution environment"
+  ],
+  "investigation": [
+    "Review agent activity logs",
+    "Analyze executed actions",
+    "Identify malicious instructions"
+  ],
+  "recovery": [
+    "Restore trusted agent configuration",
+    "Revalidate permissions",
+    "Update safeguards"
+  ],
+  "prevention": [
+    "Tool access restrictions",
+    "Human approval workflows",
+    "Agent monitoring"
+  ],
+  "detection_rules": [
+    "Abnormal tool usage",
+    "Unexpected workflow execution"
+  ],
+  "affected_assets": [
+    "AI agents",
+    "Automation platforms",
+    "Connected systems"
+  ],
+  "source_filename": "ai_agent_hijacking.txt",
+  "source_sha256": "c2f11010faabd35e024227a419258e2d9aeddf37781cd30ca97ce55e791930d5",
+  "source_encoding": "utf-8",
+  "references": [
+    "OWASP Agentic AI Security"
+  ],
+  "tools": [],
+  "real_world_examples": [],
+  "keywords": [],
+  "schema_version": "1.0"
+}

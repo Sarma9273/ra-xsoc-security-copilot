@@ -1,0 +1,71 @@
+{
+  "attack_id": "account_takeover",
+  "incident_type": "ACCOUNT TAKEOVER",
+  "description": "Account Takeover (ATO) occurs when attackers gain unauthorized control of legitimate user accounts through stolen credentials, phishing, malware, or session theft.",
+  "severity": "high",
+  "framework_references": [
+    {
+      "framework": "MITRE ATT&CK",
+      "name": "Valid Accounts",
+      "raw_value": "T1078 – Valid Accounts",
+      "reference_id": "T1078"
+    }
+  ],
+  "indicators": [
+    "Logins from unusual locations",
+    "Password reset requests",
+    "MFA changes",
+    "Suspicious account activity"
+  ],
+  "containment": [
+    "Lock compromised accounts.",
+    "Revoke active sessions.",
+    "Reset passwords.",
+    "Enable MFA."
+  ],
+  "investigation": [
+    "Review login history.",
+    "Identify attack vectors.",
+    "Assess unauthorized activity.",
+    "Determine affected resources."
+  ],
+  "recovery": [
+    "Restore account ownership.",
+    "Monitor user activity.",
+    "Review permissions.",
+    "Notify affected users."
+  ],
+  "prevention": [
+    "MFA",
+    "Conditional access",
+    "Risk-based authentication",
+    "User awareness training"
+  ],
+  "detection_rules": [
+    "Impossible travel logins",
+    "MFA changes",
+    "New device registrations"
+  ],
+  "affected_assets": [
+    "User accounts",
+    "Cloud services",
+    "Email systems"
+  ],
+  "source_filename": "account_takeover.txt",
+  "source_sha256": "027cd92290ce52f249da53dd2741a9b258c0ae1b2152c9cce9134eba3802e4a6",
+  "source_encoding": "utf-8",
+  "references": [
+    "MITRE ATT&CK T1078"
+  ],
+  "tools": [
+    "Evilginx",
+    "Credential stuffing tools",
+    "Phishing kits"
+  ],
+  "real_world_examples": [
+    "Microsoft 365 account takeovers",
+    "Banking account compromises"
+  ],
+  "keywords": [],
+  "schema_version": "1.0"
+}

@@ -1,0 +1,15 @@
+{
+  "attack_id": "ddos",
+  "content_sha256": "a5c3a175146b4bdd3819bbe040640135c69b74608ff9ddd3a10c21d7624e0a69",
+  "document_id": "retrieval:ddos:1.0",
+  "framework_labels": [
+    "MITRE ATT&CK | T1498 | Network Denial of Service"
+  ],
+  "knowledge_schema_version": "1.0",
+  "retrieval_schema_version": "1.0",
+  "retrieval_text": "INCIDENT TYPE:\nDISTRIBUTED DENIAL OF SERVICE (DDoS)\n\nDESCRIPTION:\nA Distributed Denial of Service attack attempts to overwhelm systems, applications, or networks with traffic from multiple sources, causing service disruption or complete unavailability.\n\nTHREAT FRAMEWORK:\n- MITRE ATT&CK | T1498 | Network Denial of Service\n\nINDICATORS:\n- Sudden traffic spikes\n- Service degradation\n- High bandwidth utilization\n- Large numbers of requests\n- Network congestion\n\nDETECTION RULES:\n- Traffic spikes\n- Connection floods\n- Unusual protocol usage\n\nAFFECTED ASSETS:\n- Websites\n- APIs\n- Network infrastructure\n- Cloud services",
+  "severity": "high",
+  "source_filename": "ddos.txt",
+  "source_record_sha256": "77f10c8116a1251ba3681773c0bb93183e1fec5409b5a9143d085fc7938779c6",
+  "title": "DISTRIBUTED DENIAL OF SERVICE (DDoS)"
+}

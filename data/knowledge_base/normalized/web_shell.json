@@ -1,0 +1,70 @@
+{
+  "attack_id": "web_shell",
+  "incident_type": "WEB SHELL",
+  "description": "Attackers upload malicious scripts to web servers to obtain persistent remote access and execute commands remotely.",
+  "severity": "critical",
+  "framework_references": [
+    {
+      "framework": "MITRE ATT&CK",
+      "name": "Web Shell",
+      "raw_value": "T1505.003 – Web Shell",
+      "reference_id": "T1505.003"
+    }
+  ],
+  "indicators": [
+    "Unknown PHP files",
+    "Suspicious POST requests",
+    "Base64 encoded payloads",
+    "Unexpected outbound connections",
+    "Web process spawning shells"
+  ],
+  "containment": [
+    "Isolate affected server.",
+    "Remove malicious files.",
+    "Block attacker IPs.",
+    "Preserve evidence."
+  ],
+  "investigation": [
+    "Review web server logs.",
+    "Analyze upload functionality.",
+    "Search for lateral movement.",
+    "Identify persistence mechanisms."
+  ],
+  "recovery": [
+    "Restore clean backups.",
+    "Patch vulnerabilities.",
+    "Rotate credentials.",
+    "Validate server integrity."
+  ],
+  "prevention": [
+    "File upload validation",
+    "WAF",
+    "Secure coding",
+    "Least privilege"
+  ],
+  "detection_rules": [
+    "Web process spawning cmd.exe",
+    "Unexpected file creation",
+    "Suspicious POST requests"
+  ],
+  "affected_assets": [
+    "Web servers",
+    "Application servers"
+  ],
+  "source_filename": "web_shell.txt",
+  "source_sha256": "50f5e98c53431c7e4ffcb824310c2184f4b52ee8cbf87118016c47d344183760",
+  "source_encoding": "utf-8",
+  "references": [
+    "MITRE ATT&CK T1505.003"
+  ],
+  "tools": [
+    "China Chopper",
+    "Weevely",
+    "AntSword"
+  ],
+  "real_world_examples": [
+    "Microsoft Exchange compromises"
+  ],
+  "keywords": [],
+  "schema_version": "1.0"
+}

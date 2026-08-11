@@ -1,0 +1,15 @@
+{
+  "attack_id": "web_shell",
+  "content_sha256": "873ce8faa4cb51781fe0d240e3a54f6e39b96fe96dc42c9b426f9228f4c53904",
+  "document_id": "retrieval:web_shell:1.0",
+  "framework_labels": [
+    "MITRE ATT&CK | T1505.003 | Web Shell"
+  ],
+  "knowledge_schema_version": "1.0",
+  "retrieval_schema_version": "1.0",
+  "retrieval_text": "INCIDENT TYPE:\nWEB SHELL\n\nDESCRIPTION:\nAttackers upload malicious scripts to web servers to obtain persistent remote access and execute commands remotely.\n\nTHREAT FRAMEWORK:\n- MITRE ATT&CK | T1505.003 | Web Shell\n\nINDICATORS:\n- Unknown PHP files\n- Suspicious POST requests\n- Base64 encoded payloads\n- Unexpected outbound connections\n- Web process spawning shells\n\nDETECTION RULES:\n- Web process spawning cmd.exe\n- Unexpected file creation\n- Suspicious POST requests\n\nAFFECTED ASSETS:\n- Web servers\n- Application servers",
+  "severity": "critical",
+  "source_filename": "web_shell.txt",
+  "source_record_sha256": "50f5e98c53431c7e4ffcb824310c2184f4b52ee8cbf87118016c47d344183760",
+  "title": "WEB SHELL"
+}

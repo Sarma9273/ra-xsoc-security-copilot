@@ -1,0 +1,15 @@
+{
+  "attack_id": "training_data_poisoning",
+  "content_sha256": "552b5692fcec371d630d4c5f2f8b68c29dcc609661a15f54d32895ac2d0c551c",
+  "document_id": "retrieval:training_data_poisoning:1.0",
+  "framework_labels": [
+    "Emerging AI Threat"
+  ],
+  "knowledge_schema_version": "1.0",
+  "retrieval_schema_version": "1.0",
+  "retrieval_text": "INCIDENT TYPE:\nTRAINING DATA POISONING\n\nDESCRIPTION:\nAttackers manipulate datasets used to train AI systems, causing biased, malicious, or inaccurate model behavior.\n\nTHREAT FRAMEWORK:\n- Emerging AI Threat\n\nINDICATORS:\n- Unexpected model outputs\n- Dataset integrity violations\n- Anomalous training behavior\n- Poisoned training records\n\nDETECTION RULES:\n- Dataset anomalies\n- Unexpected training metrics\n\nAFFECTED ASSETS:\n- Training datasets\n- ML pipelines\n- AI models",
+  "severity": "critical",
+  "source_filename": "training_data_poisoning.txt",
+  "source_record_sha256": "266be1a1c879b46f9c7a06bea67cf0249c199e8d708f55f34a96cd52f4926f60",
+  "title": "TRAINING DATA POISONING"
+}

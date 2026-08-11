@@ -1,0 +1,15 @@
+{
+  "attack_id": "model_theft",
+  "content_sha256": "a254720983a2870fed901cf1c6d1f2bd8a1d99f176377a92e5e112e9858e15e4",
+  "document_id": "retrieval:model_theft:1.0",
+  "framework_labels": [
+    "Emerging AI Threat"
+  ],
+  "knowledge_schema_version": "1.0",
+  "retrieval_schema_version": "1.0",
+  "retrieval_text": "INCIDENT TYPE:\nMODEL THEFT\n\nDESCRIPTION:\nAttackers attempt to steal proprietary AI models through extraction attacks, unauthorized downloads, reverse engineering, or API abuse.\n\nTHREAT FRAMEWORK:\n- Emerging AI Threat\n\nINDICATORS:\n- Excessive model queries\n- Abnormal API usage\n- Large parameter extraction attempts\n- Repeated inference requests\n\nDETECTION RULES:\n- Model extraction behavior\n- Excessive inference requests\n\nAFFECTED ASSETS:\n- AI models\n- Model repositories\n- AI APIs",
+  "severity": "critical",
+  "source_filename": "model_theft.txt",
+  "source_record_sha256": "77490a50b57195475d117a764f4239db512d57690f32cfed370068999f730565",
+  "title": "MODEL THEFT"
+}

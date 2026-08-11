@@ -1,0 +1,15 @@
+{
+  "attack_id": "phishing",
+  "content_sha256": "91c19bce4c2033474ee8041f94f5e126032cfedba7660eb2f2ca32496a230626",
+  "document_id": "retrieval:phishing:1.0",
+  "framework_labels": [
+    "MITRE ATT&CK | T1566 | Phishing"
+  ],
+  "knowledge_schema_version": "1.0",
+  "retrieval_schema_version": "1.0",
+  "retrieval_text": "INCIDENT TYPE:\nPHISHING\n\nDESCRIPTION:\nPhishing is a social engineering attack in which adversaries impersonate trusted entities such as Microsoft, Google, banks, or internal departments to trick users into revealing credentials, downloading malware, or performing unauthorized actions. Phishing remains one of the most common initial access vectors used by threat actors.\n\nTHREAT FRAMEWORK:\n- MITRE ATT&CK | T1566 | Phishing\n\nINDICATORS:\n- Suspicious sender domains\n- Misspelled domain names\n- Credential harvesting pages\n- Unexpected attachments\n- Urgent requests requiring immediate action\n- Embedded shortened URLs\n- Login prompts requesting credentials\n\nDETECTION RULES:\n- Suspicious email domains\n- Credential harvesting URLs\n- Email attachments containing macros\n- Login events following email delivery\n\nAFFECTED ASSETS:\n- Email systems\n- User accounts\n- Identity platforms\n- Endpoints",
+  "severity": "high",
+  "source_filename": "phishing.txt",
+  "source_record_sha256": "77fb0461cc7a6fe0e642e14e3aa58fe34efdf8199102ab00d8934850ff0b6f3a",
+  "title": "PHISHING"
+}

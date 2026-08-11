@@ -1,0 +1,60 @@
+{
+  "attack_id": "rag_poisoning",
+  "incident_type": "RAG POISONING",
+  "description": "Attackers manipulate or inject malicious information into Retrieval Augmented Generation (RAG) knowledge bases, causing AI systems to retrieve and generate inaccurate, malicious, or misleading responses.",
+  "severity": "high",
+  "framework_references": [
+    {
+      "framework": "Emerging AI Threat",
+      "name": "Emerging AI Threat",
+      "raw_value": "Emerging AI Threat",
+      "reference_id": null
+    }
+  ],
+  "indicators": [
+    "Unexpected AI responses",
+    "Malicious documents in vector database",
+    "Knowledge base tampering",
+    "False information generation",
+    "Unauthorized document updates"
+  ],
+  "containment": [
+    "Disable affected knowledge source",
+    "Isolate vector database",
+    "Verify document integrity"
+  ],
+  "investigation": [
+    "Review document ingestion logs",
+    "Identify poisoned content",
+    "Trace modification source"
+  ],
+  "recovery": [
+    "Restore trusted knowledge base",
+    "Rebuild embeddings",
+    "Validate retrieved content"
+  ],
+  "prevention": [
+    "Document validation",
+    "Access controls",
+    "Knowledge base integrity monitoring"
+  ],
+  "detection_rules": [
+    "Sudden content changes",
+    "Unauthorized document ingestion"
+  ],
+  "affected_assets": [
+    "Vector databases",
+    "Knowledge repositories",
+    "RAG applications"
+  ],
+  "source_filename": "rag_poisoning.txt",
+  "source_sha256": "bee73c7a6ec1e0352f01869aff9bb42719de5d0d0c9d2ee8e83faf1a52b1378e",
+  "source_encoding": "utf-8",
+  "references": [
+    "OWASP LLM Top 10"
+  ],
+  "tools": [],
+  "real_world_examples": [],
+  "keywords": [],
+  "schema_version": "1.0"
+}

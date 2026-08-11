@@ -1,0 +1,15 @@
+{
+  "attack_id": "business_email_compromise",
+  "content_sha256": "8934e26209d2f0dfa7daa63215f9a9bffb64cbedd1d649c03126604c34e720ff",
+  "document_id": "retrieval:business_email_compromise:1.0",
+  "framework_labels": [
+    "MITRE ATT&CK | T1586 | Compromise Accounts"
+  ],
+  "knowledge_schema_version": "1.0",
+  "retrieval_schema_version": "1.0",
+  "retrieval_text": "INCIDENT TYPE:\nBUSINESS EMAIL COMPROMISE\n\nDESCRIPTION:\nBusiness Email Compromise (BEC) is a targeted attack where adversaries impersonate executives, vendors, legal teams, or finance personnel to manipulate victims into transferring money or sensitive information.\n\nTHREAT FRAMEWORK:\n- MITRE ATT&CK | T1586 | Compromise Accounts\n\nINDICATORS:\n- Executive impersonation\n- Fake invoice requests\n- Vendor banking detail changes\n- Urgent payment requests\n- Newly created mailbox forwarding rules\n\nDETECTION RULES:\n- Suspicious forwarding rules\n- Unusual mailbox logins\n- Executive impersonation alerts\n\nAFFECTED ASSETS:\n- Corporate email\n- Finance systems\n- Vendor communication channels",
+  "severity": "high",
+  "source_filename": "business_email_compromise.txt",
+  "source_record_sha256": "999a7a2b16c056869ebaf2d2199ddaeef2e994cd48bdcb6c78564fe0d20e5ab9",
+  "title": "BUSINESS EMAIL COMPROMISE"
+}

@@ -1,0 +1,15 @@
+{
+  "attack_id": "token_theft",
+  "content_sha256": "e31004955c45813eb8ac4aa74c60d61f596ae0754234250843475ae7fc6ee86f",
+  "document_id": "retrieval:token_theft:1.0",
+  "framework_labels": [
+    "MITRE ATT&CK | T1528 | Steal Application Access Token"
+  ],
+  "knowledge_schema_version": "1.0",
+  "retrieval_schema_version": "1.0",
+  "retrieval_text": "INCIDENT TYPE:\nTOKEN THEFT\n\nDESCRIPTION:\nAttackers steal authentication tokens to access cloud services, APIs, and enterprise applications without requiring passwords.\n\nTHREAT FRAMEWORK:\n- MITRE ATT&CK | T1528 | Steal Application Access Token\n\nINDICATORS:\n- Unauthorized API access\n- Unexpected token usage\n- Cloud access anomalies\n\nDETECTION RULES:\n- Token reuse anomalies\n- Suspicious cloud access\n\nAFFECTED ASSETS:\n- Cloud platforms\n- APIs\n- Enterprise applications",
+  "severity": "critical",
+  "source_filename": "token_theft.txt",
+  "source_record_sha256": "b7221cc8ae005cc0621d57b877c49c350a25fd3fa0cf17f12aa7933d1581f033",
+  "title": "TOKEN THEFT"
+}

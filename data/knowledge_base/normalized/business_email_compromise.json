@@ -1,0 +1,75 @@
+{
+  "attack_id": "business_email_compromise",
+  "incident_type": "BUSINESS EMAIL COMPROMISE",
+  "description": "Business Email Compromise (BEC) is a targeted attack where adversaries impersonate executives, vendors, legal teams, or finance personnel to manipulate victims into transferring money or sensitive information.",
+  "severity": "high",
+  "framework_references": [
+    {
+      "framework": "MITRE ATT&CK",
+      "name": "Compromise Accounts",
+      "raw_value": "T1586 – Compromise Accounts",
+      "reference_id": "T1586"
+    }
+  ],
+  "indicators": [
+    "Executive impersonation",
+    "Fake invoice requests",
+    "Vendor banking detail changes",
+    "Urgent payment requests",
+    "Newly created mailbox forwarding rules"
+  ],
+  "containment": [
+    "Suspend compromised mailboxes.",
+    "Block malicious domains.",
+    "Verify pending transactions.",
+    "Disable suspicious forwarding rules.",
+    "Notify finance teams."
+  ],
+  "investigation": [
+    "Review mailbox activity.",
+    "Examine login history.",
+    "Identify financial transactions.",
+    "Analyze email forwarding rules.",
+    "Check for data exposure."
+  ],
+  "recovery": [
+    "Restore mailbox security.",
+    "Reset credentials.",
+    "Revoke sessions.",
+    "Notify affected parties.",
+    "Strengthen payment approval procedures."
+  ],
+  "prevention": [
+    "MFA",
+    "Email authentication",
+    "Executive awareness training",
+    "Payment verification processes"
+  ],
+  "detection_rules": [
+    "Suspicious forwarding rules",
+    "Unusual mailbox logins",
+    "Executive impersonation alerts"
+  ],
+  "affected_assets": [
+    "Corporate email",
+    "Finance systems",
+    "Vendor communication channels"
+  ],
+  "source_filename": "business_email_compromise.txt",
+  "source_sha256": "999a7a2b16c056869ebaf2d2199ddaeef2e994cd48bdcb6c78564fe0d20e5ab9",
+  "source_encoding": "utf-8",
+  "references": [
+    "MITRE ATT&CK T1586"
+  ],
+  "tools": [
+    "Evilginx",
+    "Adversary-in-the-middle frameworks",
+    "Phishing kits"
+  ],
+  "real_world_examples": [
+    "CEO fraud schemes",
+    "Vendor payment diversion attacks"
+  ],
+  "keywords": [],
+  "schema_version": "1.0"
+}

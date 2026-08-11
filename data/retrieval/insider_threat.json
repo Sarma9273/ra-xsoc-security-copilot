@@ -1,0 +1,15 @@
+{
+  "attack_id": "insider_threat",
+  "content_sha256": "b2544a565353fe70ef6aa0a5e9d9dd85c38c661dd31ca03479abea83bf16c9c3",
+  "document_id": "retrieval:insider_threat:1.0",
+  "framework_labels": [
+    "MITRE ATT&CK | T1534 | Internal Spearphishing (related insider behavior)"
+  ],
+  "knowledge_schema_version": "1.0",
+  "retrieval_schema_version": "1.0",
+  "retrieval_text": "INCIDENT TYPE:\nINSIDER THREAT\n\nDESCRIPTION:\nAn insider threat involves authorized users intentionally or unintentionally causing harm to an organization through misuse of access, data theft, sabotage, negligence, or policy violations.\n\nTHREAT FRAMEWORK:\n- MITRE ATT&CK | T1534 | Internal Spearphishing (related insider behavior)\n\nINDICATORS:\n- Excessive data downloads\n- Unauthorized file transfers\n- Access outside normal working hours\n- Privilege misuse\n- Unusual system activity\n\nDETECTION RULES:\n- Large file downloads\n- Unusual login behavior\n- Sensitive file access anomalies\n\nAFFECTED ASSETS:\n- Internal systems\n- Sensitive databases\n- Corporate repositories",
+  "severity": "high",
+  "source_filename": "insider_threat.txt",
+  "source_record_sha256": "08213b5e396cdd19698424dadb3aedd2f8ccc08b44b2ddccabba1ae173ff64a3",
+  "title": "INSIDER THREAT"
+}

@@ -1,0 +1,73 @@
+{
+  "attack_id": "data_exfiltration",
+  "incident_type": "DATA EXFILTRATION",
+  "description": "Data exfiltration is the unauthorized transfer of sensitive information from an organization's environment to external locations. Attackers often exfiltrate data before ransomware deployment or during espionage operations.",
+  "severity": "critical",
+  "framework_references": [
+    {
+      "framework": "MITRE ATT&CK",
+      "name": "Exfiltration Over Command and Control Channel",
+      "raw_value": "T1041 – Exfiltration Over Command and Control Channel",
+      "reference_id": "T1041"
+    }
+  ],
+  "indicators": [
+    "Large outbound transfers",
+    "Unusual cloud uploads",
+    "Encrypted outbound traffic",
+    "Data compression activity",
+    "Transfers outside business hours"
+  ],
+  "containment": [
+    "Block suspicious outbound traffic.",
+    "Isolate affected systems.",
+    "Disable compromised accounts.",
+    "Preserve network evidence."
+  ],
+  "investigation": [
+    "Review network logs.",
+    "Identify stolen data.",
+    "Determine exfiltration methods.",
+    "Assess business impact."
+  ],
+  "recovery": [
+    "Secure affected systems.",
+    "Notify stakeholders.",
+    "Strengthen monitoring.",
+    "Review access controls."
+  ],
+  "prevention": [
+    "Data Loss Prevention (DLP)",
+    "Network monitoring",
+    "Encryption controls",
+    "Least privilege"
+  ],
+  "detection_rules": [
+    "Large outbound transfers",
+    "Unusual destination connections",
+    "Cloud storage uploads"
+  ],
+  "affected_assets": [
+    "Databases",
+    "File servers",
+    "Cloud storage"
+  ],
+  "source_filename": "data_exfiltration.txt",
+  "source_sha256": "304a7d9df581d5447842ca78d9b95e91849ad7a5191cc32717ea8781d30ed8d0",
+  "source_encoding": "utf-8",
+  "references": [
+    "MITRE ATT&CK T1041"
+  ],
+  "tools": [
+    "Rclone",
+    "MegaSync",
+    "FTP clients",
+    "PowerShell"
+  ],
+  "real_world_examples": [
+    "MOVEit data theft campaigns",
+    "Double-extortion ransomware attacks"
+  ],
+  "keywords": [],
+  "schema_version": "1.0"
+}

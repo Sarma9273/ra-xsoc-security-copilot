@@ -1,15 +1,14 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
-from pathlib import Path
 import ast
 import json
 import shutil
 import subprocess
 import sys
 import textwrap
-
+from datetime import UTC, datetime
+from pathlib import Path
 
 V2_ROOT = Path(
     "/content/drive/MyDrive/My_Projects/"
@@ -87,7 +86,7 @@ if "EmbeddingService" not in class_names:
 print("\nExisting EmbeddingService port: VERIFIED")
 
 
-timestamp = datetime.now(timezone.utc).strftime(
+timestamp = datetime.now(UTC).strftime(
     "%Y%m%d_%H%M%S"
 )
 
@@ -455,7 +454,7 @@ def test_checksum_requires_sorted_ids(
         )
 """
 
-DOCUMENTATION_SOURCE = "\n".join(
+DOCUMENTATION_SOURCE = "\n".join(  # noqa: FLY002
     [
         "# Embedding Service and Deterministic Ordering",
         "",
@@ -534,6 +533,7 @@ def run_step(
     process = subprocess.run(
         command,
         cwd=PROJECT_ROOT,
+        check=False,
         text=True,
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT,
@@ -638,7 +638,7 @@ report_path = (
 
 report = {
     "generated_at": datetime.now(
-        timezone.utc
+        UTC
     ).isoformat(),
     "phase": "1.4A.3",
     "embedding_service_port": "verified",

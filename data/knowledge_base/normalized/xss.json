@@ -1,0 +1,75 @@
+{
+  "attack_id": "xss",
+  "incident_type": "CROSS-SITE SCRIPTING (XSS)",
+  "description": "Cross-Site Scripting (XSS) is a web application vulnerability that allows attackers to inject malicious JavaScript into web pages viewed by other users. Successful exploitation can lead to session hijacking, credential theft, website defacement, and unauthorized actions performed on behalf of victims.",
+  "severity": "medium",
+  "framework_references": [
+    {
+      "framework": "MITRE ATT&CK",
+      "name": "JavaScript",
+      "raw_value": "T1059.007 – JavaScript",
+      "reference_id": "T1059.007"
+    }
+  ],
+  "indicators": [
+    "Unexpected JavaScript execution",
+    "Suspicious pop-ups",
+    "Unauthorized redirects",
+    "Session hijacking activity",
+    "Modified web page content",
+    "Stolen session cookies"
+  ],
+  "containment": [
+    "Remove malicious scripts.",
+    "Disable vulnerable functionality.",
+    "Invalidate active sessions.",
+    "Apply WAF protections."
+  ],
+  "investigation": [
+    "Review web application logs.",
+    "Identify injection points.",
+    "Analyze affected pages.",
+    "Determine impacted users.",
+    "Review session activity."
+  ],
+  "recovery": [
+    "Patch vulnerable code.",
+    "Restore website integrity.",
+    "Reset affected user sessions.",
+    "Verify application security."
+  ],
+  "prevention": [
+    "Input validation",
+    "Output encoding",
+    "Content Security Policy (CSP)",
+    "Secure coding practices"
+  ],
+  "detection_rules": [
+    "Suspicious script injection",
+    "Unexpected JavaScript execution",
+    "Unauthorized DOM modifications"
+  ],
+  "affected_assets": [
+    "Web applications",
+    "User browsers",
+    "Customer portals"
+  ],
+  "source_filename": "xss.txt",
+  "source_sha256": "b7a435f30ad87c7870d074859c4df9ff4f339a2339deea5886b9f52cac6ed79a",
+  "source_encoding": "utf-8",
+  "references": [
+    "MITRE ATT&CK T1059.007",
+    "OWASP Top 10"
+  ],
+  "tools": [
+    "Burp Suite",
+    "BeEF",
+    "XSS Hunter"
+  ],
+  "real_world_examples": [
+    "Social media XSS incidents",
+    "Stored XSS in community forums"
+  ],
+  "keywords": [],
+  "schema_version": "1.0"
+}

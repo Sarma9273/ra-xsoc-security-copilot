@@ -1,0 +1,87 @@
+{
+  "attack_id": "ransomware",
+  "incident_type": "RANSOMWARE",
+  "description": "Ransomware is a type of malware that encrypts files, systems, or entire environments and demands payment in exchange for decryption keys. Modern ransomware groups often perform double extortion by stealing sensitive data before encryption and threatening public release if payment is not made.",
+  "severity": "critical",
+  "framework_references": [
+    {
+      "framework": "MITRE ATT&CK",
+      "name": "Data Encrypted for Impact",
+      "raw_value": "T1486 – Data Encrypted for Impact",
+      "reference_id": "T1486"
+    }
+  ],
+  "indicators": [
+    "Files suddenly become inaccessible",
+    "New file extensions appear",
+    "Ransom notes on systems",
+    "Security tools disabled",
+    "Large-scale file modifications",
+    "Unexpected administrative activity",
+    "Lateral movement across systems"
+  ],
+  "containment": [
+    "Immediately isolate affected systems.",
+    "Disconnect infected hosts from the network.",
+    "Disable compromised accounts.",
+    "Block command-and-control communication.",
+    "Preserve forensic evidence.",
+    "Prevent further lateral movement."
+  ],
+  "investigation": [
+    "Identify patient zero.",
+    "Determine initial access vector.",
+    "Analyze ransomware sample.",
+    "Review lateral movement activity.",
+    "Assess data exfiltration.",
+    "Identify affected assets."
+  ],
+  "recovery": [
+    "Restore systems from clean backups.",
+    "Rebuild compromised hosts.",
+    "Rotate credentials.",
+    "Validate system integrity.",
+    "Monitor for reinfection."
+  ],
+  "prevention": [
+    "Regular backups",
+    "Network segmentation",
+    "MFA",
+    "Patch management",
+    "Endpoint Detection and Response (EDR)",
+    "Security awareness training"
+  ],
+  "detection_rules": [
+    "Mass file modifications",
+    "Unexpected encryption processes",
+    "Ransom note creation",
+    "Security service termination"
+  ],
+  "affected_assets": [
+    "Endpoints",
+    "File servers",
+    "Domain controllers",
+    "Backup systems"
+  ],
+  "source_filename": "ransomware.txt",
+  "source_sha256": "a3ea5ee63c6eb72d5e8522f7b0bb7da7f430ba5cb65c73ce210d83925851d0ee",
+  "source_encoding": "utf-8",
+  "references": [
+    "MITRE ATT&CK T1486",
+    "NIST SP 800-61"
+  ],
+  "tools": [
+    "LockBit",
+    "BlackCat (ALPHV)",
+    "Akira",
+    "RansomHub",
+    "Cobalt Strike"
+  ],
+  "real_world_examples": [
+    "Colonial Pipeline",
+    "Change Healthcare",
+    "MGM Resorts"
+  ],
+  "keywords": [],
+  "schema_version": "1.0"
+}

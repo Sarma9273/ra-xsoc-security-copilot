@@ -1,0 +1,15 @@
+{
+  "attack_id": "ai_prompt_injection",
+  "content_sha256": "818fd4869cf27983453a5cde80a2dd20da9564bceae5233539122d944fe3f276",
+  "document_id": "retrieval:ai_prompt_injection:1.0",
+  "framework_labels": [
+    "Emerging AI Threat"
+  ],
+  "knowledge_schema_version": "1.0",
+  "retrieval_schema_version": "1.0",
+  "retrieval_text": "INCIDENT TYPE:\nAI PROMPT INJECTION\n\nDESCRIPTION:\nAttackers manipulate prompts to bypass AI safety controls, extract sensitive information, or influence AI decisions.\n\nTHREAT FRAMEWORK:\n- Emerging AI Threat\n\nINDICATORS:\n- Prompt override attempts\n- Jailbreak instructions\n- Hidden prompt manipulation\n- Sensitive information requests\n- Instruction conflicts\n\nDETECTION RULES:\n- Ignore previous instructions\n- Reveal system prompt\n- Developer mode requests\n\nAFFECTED ASSETS:\n- LLMs\n- AI Assistants\n- RAG Systems",
+  "severity": "high",
+  "source_filename": "ai_prompt_injection.txt",
+  "source_record_sha256": "49b642a78bf4898cd2013db766f5d263d5220ffcf7ce9bea4de700f3dac0de57",
+  "title": "AI PROMPT INJECTION"
+}

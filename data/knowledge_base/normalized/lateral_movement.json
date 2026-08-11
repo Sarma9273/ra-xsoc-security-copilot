@@ -1,0 +1,70 @@
+{
+  "attack_id": "lateral_movement",
+  "incident_type": "LATERAL MOVEMENT",
+  "description": "Lateral movement occurs when attackers move through a network after initial compromise to access additional systems and sensitive resources.",
+  "severity": "critical",
+  "framework_references": [
+    {
+      "framework": "MITRE ATT&CK",
+      "name": "Remote Services",
+      "raw_value": "T1021 – Remote Services",
+      "reference_id": "T1021"
+    }
+  ],
+  "indicators": [
+    "Remote administration activity",
+    "Unexpected SMB connections",
+    "Credential reuse",
+    "Cross-host authentication"
+  ],
+  "containment": [
+    "Segment affected systems.",
+    "Disable compromised accounts.",
+    "Restrict remote access.",
+    "Increase monitoring."
+  ],
+  "investigation": [
+    "Review authentication logs.",
+    "Analyze network traffic.",
+    "Identify compromised systems.",
+    "Determine attacker path."
+  ],
+  "recovery": [
+    "Rotate credentials.",
+    "Rebuild affected systems.",
+    "Validate access controls.",
+    "Restore trust relationships."
+  ],
+  "prevention": [
+    "Network segmentation",
+    "Least privilege",
+    "MFA",
+    "EDR monitoring"
+  ],
+  "detection_rules": [
+    "SMB anomalies",
+    "Remote execution activity",
+    "Lateral authentication events"
+  ],
+  "affected_assets": [
+    "Endpoints",
+    "Servers",
+    "Domain Controllers"
+  ],
+  "source_filename": "lateral_movement.txt",
+  "source_sha256": "3bbd6895c476d72070d92cc0c2bff899eba57dd3dbda8759b50cc1c6f14f186c",
+  "source_encoding": "utf-8",
+  "references": [
+    "MITRE ATT&CK T1021"
+  ],
+  "tools": [
+    "PsExec",
+    "Cobalt Strike",
+    "Impacket"
+  ],
+  "real_world_examples": [
+    "Ransomware attack chains"
+  ],
+  "keywords": [],
+  "schema_version": "1.0"
+}
