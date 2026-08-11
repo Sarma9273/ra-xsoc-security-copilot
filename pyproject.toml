@@ -1,0 +1,46 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ra-xsoc-engine"
+version = "0.1.0"
+description = "Core domain and AI engine for the RA-XSOC security operations copilot."
+requires-python = ">=3.11"
+authors = [
+    { name = "Guru Charan Mavuduru" }
+]
+dependencies = []
+
+[project.optional-dependencies]
+ai = [
+    "numpy>=1.26,<3",
+    "sentence-transformers>=5,<6",
+    "faiss-cpu>=1.12,<2",
+]
+
+dev = [
+    "pytest>=8.0",
+    "pytest-cov>=5.0",
+    "ruff>=0.6",
+    "mypy>=1.10"
+]
+
+[tool.setuptools]
+package-dir = {"" = "packages/ra_xsoc_engine/src"}
+
+[tool.setuptools.packages.find]
+where = ["packages/ra_xsoc_engine/src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["packages/ra_xsoc_engine/src"]
+testpaths = ["tests"]
+addopts = "-ra --strict-markers"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.mypy]
+python_version = "3.11"
+strict = true

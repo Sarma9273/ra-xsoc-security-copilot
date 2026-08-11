@@ -1,0 +1,49 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+dist/
+build/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Models and generated files
+*.faiss
+*.index
+*.npy
+*.npz
+*.pkl
+*.pickle
+*.joblib
+
+# Databases
+*.db
+*.sqlite
+*.sqlite3
+
+# Runtime output
+runtime/
+generated_reports/
+incident_logs/
+pending_review/
+
+# Editors and operating systems
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
