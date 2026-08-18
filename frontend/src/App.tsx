@@ -1,5 +1,14 @@
 import { useState } from "react";
 import "./App.css";
+
+import Header from "./components/Header";
+import IncidentInput from "./components/IncidentInput";
+import AnalysisSummary from "./components/AnalysisSummary";
+import EvidencePanel from "./components/EvidencePanel";
+import Alternatives from "./components/Alternatives";
+import ResponsePlaybook from "./components/ResponsePlaybook";
+import IntelligenceTelemetry from "./components/IntelligenceTelemetry";
+
 import { analyzeIncident, ApiRequestError } from "./services/api";
 import type { AnalyzeResponse } from "./types/api";
 
@@ -45,21 +54,7 @@ function App() {
 
   return (
     <main className="app-shell">
-      <header className="topbar">
-        <div>
-          <div className="brand">
-            <span className="brand-mark">RA</span>
-            <span>RA-XSOC</span>
-          </div>
-
-          <p className="brand-subtitle">Security Copilot</p>
-        </div>
-
-        <div className="system-status">
-          <span className="status-dot" />
-          ENGINE ONLINE
-        </div>
-      </header>
+      <Header modelVersion={analysis?.model_version ?? "ra-xsoc-v2"} />
 
       <section className="hero">
         <div>
@@ -78,201 +73,40 @@ function App() {
         </div>
 
         <div className="version-badge">
-          <span>MODEL</span>
-          <strong>{analysis?.model_version ?? "ra-xsoc-v2"}</strong>
+          <span>ENGINE</span>
+          <strong>RA-XSOC V2</strong>
         </div>
       </section>
 
-      <section className="incident-panel">
-        <div className="section-heading">
-          <div>
-            <span className="section-number">01</span>
-            <h2>Incident Input</h2>
-          </div>
-
-          <span className="input-limit">Natural language incident</span>
-        </div>
-
-        <textarea
-          value={incident}
-          onChange={(event) => setIncident(event.target.value)}
-          aria-label="Security incident description"
-          placeholder="Describe the security incident..."
-          maxLength={20_000}
-          disabled={loading}
-        />
-
-        <div className="action-row">
-          <span className="input-note">
-            Evidence will be analyzed against the security knowledge base.
-          </span>
-
-          <button type="button" onClick={handleAnalyze} disabled={loading}>
-            {loading ? "ANALYZING..." : "ANALYZE INCIDENT"}
-            <span>→</span>
-          </button>
-        </div>
-
-        {error && (
-          <div className="error-message" role="alert">
-            {error}
-          </div>
-        )}
-      </section>
+      <IncidentInput
+        incident={incident}
+        loading={loading}
+        error={error}
+        onChange={setIncident}
+        onAnalyze={handleAnalyze}
+      />
 
       {analysis ? (
         <>
-          <section className="analysis-grid">
-            <article className="classification-card">
-              <div className="card-label">PRIMARY CLASSIFICATION</div>
+          <AnalysisSummary analysis={analysis} />
 
-              <div className="attack-icon">⚠</div>
+          <EvidencePanel analysis={analysis} />
 
-              <h2>{analysis.primary_match.name.toUpperCase()}</h2>
+          <IntelligenceTelemetry analysis={analysis} />
 
-              <p className="attack-id">
-                ATTACK ID / {analysis.primary_match.attack_id}
-              </p>
+          <Alternatives analysis={analysis} />
 
-              {analysis.primary_match.mitre_techniques.map((technique) => (
-                <div className="mitre-chip" key={technique.technique_id}>
-                  MITRE ATT&CK <strong>{technique.technique_id}</strong> ·{" "}
-                  {technique.name}
-                </div>
-              ))}
-            </article>
-
-            <article className="metrics-card">
-              <div className="card-label">ANALYSIS STATUS</div>
-
-              <div className="metrics">
-                <div>
-                  <span>CONFIDENCE</span>
-                  <strong>{(analysis.confidence * 100).toFixed(2)}%</strong>
-                </div>
-
-                <div>
-                  <span>SEVERITY</span>
-                  <strong className="medium">
-                    {analysis.severity.toUpperCase()}
-                  </strong>
-                </div>
-
-                <div>
-                  <span>NOVELTY</span>
-                  <strong>
-                    {analysis.novelty_status.replace(/_/g, " ").toUpperCase()}
-                  </strong>
-                </div>
-
-                <div>
-                  <span>REVIEW</span>
-                  <strong className={analysis.requires_review ? "review" : ""}>
-                    {analysis.requires_review ? "REQUIRED" : "NOT REQUIRED"}
-                  </strong>
-                </div>
-              </div>
-            </article>
-          </section>
-
-          <section className="content-section">
-            <div className="section-heading">
-              <div>
-                <span className="section-number">02</span>
-                <h2>Why RA-XSOC Thinks This</h2>
-              </div>
-            </div>
-
-            <div className="explanation">
-              <div className="evidence-line">
-                <span className="evidence-value">
-                  {analysis.primary_match.semantic_score.toFixed(3)}
-                </span>
-
-                <span>semantic retrieval score</span>
-              </div>
-
-              {analysis.explanation.map((reason) => (
-                <p key={reason}>{reason}</p>
-              ))}
-            </div>
-          </section>
-
-          <section className="content-section">
-            <div className="section-heading">
-              <div>
-                <span className="section-number">03</span>
-                <h2>Alternative Candidates</h2>
-              </div>
-            </div>
-
-            <div className="alternatives">
-              {analysis.alternatives.map((candidate, index) => (
-                <div className="alternative" key={candidate.attack_id}>
-                  <span className="rank">
-                    {String(index + 2).padStart(2, "0")}
-                  </span>
-
-                  <span className="candidate-name">{candidate.name}</span>
-
-                  <span className="candidate-score">
-                    {(candidate.hybrid_score * 100).toFixed(2)}%
-                  </span>
-
-                  <span className="candidate-bar">
-                    <span
-                      style={{
-                        width: `${Math.min(
-                          candidate.hybrid_score * 100,
-                          100,
-                        )}%`,
-                      }}
-                    />
-                  </span>
-                </div>
-              ))}
-            </div>
-          </section>
-
-          <section className="content-section">
-            <div className="section-heading">
-              <div>
-                <span className="section-number">04</span>
-                <h2>Response Playbook</h2>
-              </div>
-
-              {analysis.requires_review && (
-                <span className="review-badge">ANALYST REVIEW REQUIRED</span>
-              )}
-            </div>
-
-            <div className="playbook-grid">
-              <PlaybookCard
-                title="Containment"
-                items={analysis.playbook.containment}
-              />
-
-              <PlaybookCard
-                title="Investigation"
-                items={analysis.playbook.investigation}
-              />
-
-              <PlaybookCard
-                title="Recovery"
-                items={analysis.playbook.recovery}
-              />
-
-              <PlaybookCard
-                title="Prevention"
-                items={analysis.playbook.prevention}
-              />
-            </div>
-          </section>
+          <ResponsePlaybook analysis={analysis} />
         </>
       ) : (
         <section className="empty-state">
-          <span>READY</span>
-          <p>Submit an incident to begin RA-XSOC analysis.</p>
+          <span>{loading ? "ANALYZING" : "READY"}</span>
+
+          <p>
+            {loading
+              ? "RA-XSOC is processing the incident."
+              : "Submit an incident to begin RA-XSOC analysis."}
+          </p>
         </section>
       )}
 
@@ -282,23 +116,6 @@ function App() {
         <span>V2</span>
       </footer>
     </main>
-  );
-}
-
-function PlaybookCard({ title, items }: { title: string; items: string[] }) {
-  return (
-    <article className="playbook-card">
-      <div className="playbook-title">
-        <span />
-        {title}
-      </div>
-
-      <ul>
-        {items.map((item) => (
-          <li key={item}>{item}</li>
-        ))}
-      </ul>
-    </article>
   );
 }
 

@@ -457,7 +457,7 @@ button span {
 }
 
 .playbook-card li::before {
-  content: "›";
+  content: "GǦ";
   margin-right: 8px;
   color: var(--accent);
 }
@@ -551,4 +551,254 @@ button:disabled {
   margin: 10px 0 0;
   color: var(--muted);
   font-size: 13px;
+}
+.mitre-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.candidate-details {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.candidate-id {
+  color: var(--dim);
+  font-family: monospace;
+  font-size: 9px;
+}
+
+.evidence-grid {
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  gap: 18px;
+}
+
+.score-breakdown {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  margin-top: 24px;
+  border: 1px solid var(--border);
+  background: var(--border);
+}
+
+.score-breakdown > div {
+  padding: 14px;
+  background: #090e14;
+}
+
+.score-breakdown span,
+.score-breakdown strong {
+  display: block;
+}
+
+.score-breakdown span {
+  margin-bottom: 5px;
+  color: var(--dim);
+  font-size: 9px;
+  letter-spacing: 0.12em;
+}
+
+.score-breakdown strong {
+  color: var(--text);
+  font-family: monospace;
+  font-size: 15px;
+}
+
+.reason-list {
+  margin-top: 20px;
+}
+
+.evidence-meta {
+  border: 1px solid var(--border);
+  background: #090e14;
+}
+
+.evidence-meta > div {
+  padding: 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.evidence-meta > div:last-child {
+  border-bottom: 0;
+}
+
+.evidence-meta span,
+.evidence-meta strong {
+  display: block;
+}
+
+.evidence-meta span {
+  margin-bottom: 6px;
+  color: var(--dim);
+  font-size: 9px;
+  letter-spacing: 0.12em;
+}
+
+.evidence-meta strong {
+  overflow-wrap: anywhere;
+  color: var(--text);
+  font-family: monospace;
+  font-size: 11px;
+}
+
+.detection-rules {
+  margin-top: 12px;
+  padding: 20px;
+  border: 1px solid var(--border);
+  background: #090e14;
+}
+
+.detection-rules ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.detection-rules li {
+  padding: 9px 0 9px 16px;
+  border-top: 1px solid rgba(32, 42, 53, 0.7);
+  color: var(--muted);
+  font-family: monospace;
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+.detection-rules li::before {
+  content: "›";
+  margin-right: 8px;
+  color: var(--accent);
+}
+
+.playbook-empty {
+  margin: 0;
+  color: var(--dim);
+  font-size: 11px;
+}
+
+@media (max-width: 800px) {
+  .evidence-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .score-breakdown {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* INTELLIGENCE TELEMETRY */
+
+.telemetry-section {
+  overflow: hidden;
+}
+
+.telemetry-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.telemetry-card {
+  padding: 20px;
+  border: 1px solid var(--border);
+  background: #090e14;
+}
+
+.telemetry-label {
+  color: var(--dim);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+}
+
+.telemetry-value {
+  margin-top: 14px;
+  color: var(--accent);
+  font-family: monospace;
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+}
+
+.telemetry-track {
+  height: 5px;
+  margin-top: 14px;
+  overflow: hidden;
+  background: #1a222c;
+}
+
+.telemetry-track span {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+  opacity: 0.7;
+  transition: width 400ms ease;
+}
+
+.telemetry-card p {
+  margin: 14px 0 0;
+  color: var(--dim);
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+.telemetry-meta {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  margin-top: 12px;
+  border: 1px solid var(--border);
+  background: #090e14;
+}
+
+.telemetry-meta > div {
+  min-width: 0;
+  padding: 16px;
+  border-right: 1px solid var(--border);
+}
+
+.telemetry-meta > div:last-child {
+  border-right: 0;
+}
+
+.telemetry-meta span,
+.telemetry-meta strong {
+  display: block;
+}
+
+.telemetry-meta span {
+  margin-bottom: 7px;
+  color: var(--dim);
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+
+.telemetry-meta strong {
+  overflow: hidden;
+  color: var(--text);
+  font-family: monospace;
+  font-size: 11px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (max-width: 800px) {
+  .telemetry-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .telemetry-meta {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .telemetry-meta > div:nth-child(2) {
+    border-right: 0;
+  }
+
+  .telemetry-meta > div:nth-child(-n + 2) {
+    border-bottom: 1px solid var(--border);
+  }
 }
