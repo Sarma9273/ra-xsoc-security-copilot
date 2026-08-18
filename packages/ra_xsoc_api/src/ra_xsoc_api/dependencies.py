@@ -21,7 +21,6 @@ CORPUS_DIRECTORY = (
     PROJECT_ROOT / "data" / "retrieval"
 )
 
-
 @lru_cache(maxsize=1)
 def get_application() -> ApplicationContainer:
     configuration = EmbeddingConfiguration(
