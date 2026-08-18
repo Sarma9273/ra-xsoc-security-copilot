@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: ra-xsoc-api
+    runtime: python
+    plan: free
+    region: singapore
+    branch: master
+    buildCommand: pip install ./packages/ra_xsoc_engine ./packages/ra_xsoc_api
+    startCommand: uvicorn ra_xsoc_api.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.11
