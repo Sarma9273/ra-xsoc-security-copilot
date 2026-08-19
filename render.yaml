@@ -11,3 +11,9 @@ services:
     envVars:
       - key: PYTHON_VERSION
         value: 3.11.11
+      - key: RA_XSOC_ENVIRONMENT
+        value: production
+      - key: RA_XSOC_CORS_ENABLED
+        value: "true"
+      - key: RA_XSOC_CORS_ORIGINS
+        value: https://sarma9273.github.io
