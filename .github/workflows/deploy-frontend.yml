@@ -1,16 +1,23 @@
 name: Deploy RA-XSOC Frontend
+
 on:
   push:
     branches:
       - master
   workflow_dispatch:
+
 permissions:
   contents: read
   pages: write
   id-token: write
+
 concurrency:
   group: pages
   cancel-in-progress: true
+
+env:
+  VITE_API_BASE_URL: https://ra-xsoc-api.onrender.com
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -36,6 +43,7 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: frontend/dist
+
   deploy:
     environment:
       name: github-pages
