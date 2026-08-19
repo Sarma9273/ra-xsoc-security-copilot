@@ -4,8 +4,11 @@ import type {
   ApiErrorResponse,
 } from "../types/api";
 
-const API_BASE_URL =
-  import.meta.env.VITE_API_BASE_URL ?? "http://127.0.0.1:8000";
+const configuredApiBaseUrl = import.meta.env.VITE_API_BASE_URL?.trim();
+
+const API_BASE_URL = configuredApiBaseUrl
+  ? configuredApiBaseUrl.replace(/\/$/, "")
+  : "";
   
 export class ApiRequestError extends Error {
   requestId?: string;
@@ -22,6 +25,13 @@ export class ApiRequestError extends Error {
 export async function analyzeIncident(
   request: AnalyzeRequest,
 ): Promise<AnalyzeResponse> {
+  if (!API_BASE_URL) {
+    throw new ApiRequestError(
+      "RA-XSOC API is not configured for this deployment.",
+      503,
+    );
+  }
+
   const response = await fetch(`${API_BASE_URL}/api/v1/analyze`, {
     method: "POST",
     headers: {
