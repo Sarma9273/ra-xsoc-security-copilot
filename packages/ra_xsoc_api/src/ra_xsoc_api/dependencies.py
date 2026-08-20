@@ -5,8 +5,6 @@ from functools import lru_cache
 from pathlib import Path
 
 from ra_xsoc_engine.analysis.analyzer import IncidentAnalysisService
-from ra_xsoc_engine.application.container import ApplicationContainer
-from ra_xsoc_engine.domain.embedding import EmbeddingConfiguration
 from ra_xsoc_engine.knowledge_base.normalized_repository import NormalizedKnowledgeBaseRepository
 from ra_xsoc_engine.playbooks.repository import KnowledgeBasePlaybookRepository
 from ra_xsoc_engine.retrieval.lexical_retriever import LightweightAttackRetriever
@@ -26,7 +24,7 @@ class LightweightApplication:
 
 
 @lru_cache(maxsize=1)
-def get_application() -> ApplicationContainer | LightweightApplication:
+def get_application():
     """Build the application once, selecting a resource profile from the environment."""
     lightweight = os.getenv("RA_XSOC_LIGHTWEIGHT_RETRIEVAL", "false").lower() == "true"
 
@@ -42,6 +40,10 @@ def get_application() -> ApplicationContainer | LightweightApplication:
             playbook_repository=playbook_repository,
         )
         return LightweightApplication(analyzer)
+
+    # Keep heavyweight ML imports out of the free-tier startup path.
+    from ra_xsoc_engine.application.container import ApplicationContainer
+    from ra_xsoc_engine.domain.embedding import EmbeddingConfiguration
 
     configuration = EmbeddingConfiguration(
         model_name="sentence-transformers/all-MiniLM-L6-v2",
