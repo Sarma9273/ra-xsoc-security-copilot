@@ -1,28 +1,40 @@
 from __future__ import annotations
 
+import os
 from functools import lru_cache
 from pathlib import Path
 
 from ra_xsoc_engine.application.container import ApplicationContainer
+from ra_xsoc_engine.analysis.analyzer import IncidentAnalysisService
 from ra_xsoc_engine.domain.embedding import EmbeddingConfiguration
+from ra_xsoc_engine.knowledge_base.normalized_repository import NormalizedKnowledgeBaseRepository
+from ra_xsoc_engine.playbooks.repository import KnowledgeBasePlaybookRepository
+from ra_xsoc_engine.retrieval.lexical_retriever import LightweightAttackRetriever
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[4]
+KNOWLEDGE_BASE_DIRECTORY = PROJECT_ROOT / "data" / "knowledge_base" / "normalized"
+ARTIFACT_DIRECTORY = PROJECT_ROOT / "data" / "artifacts" / "embeddings"
+CORPUS_DIRECTORY = PROJECT_ROOT / "data" / "retrieval"
 
-KNOWLEDGE_BASE_DIRECTORY = (
-    PROJECT_ROOT / "data" / "knowledge_base" / "normalized"
-)
-
-ARTIFACT_DIRECTORY = (
-    PROJECT_ROOT / "data" / "artifacts" / "embeddings"
-)
-
-CORPUS_DIRECTORY = (
-    PROJECT_ROOT / "data" / "retrieval"
-)
 
 @lru_cache(maxsize=1)
-def get_application() -> ApplicationContainer:
+def get_application() -> ApplicationContainer | object:
+    """Build the application once, selecting a resource profile from the environment."""
+    lightweight = os.getenv("RA_XSOC_LIGHTWEIGHT_RETRIEVAL", "false").lower() == "true"
+
+    if lightweight:
+        knowledge_base_repository = NormalizedKnowledgeBaseRepository(
+            KNOWLEDGE_BASE_DIRECTORY
+        )
+        playbook_repository = KnowledgeBasePlaybookRepository(
+            knowledge_base_repository.load_all()
+        )
+        return IncidentAnalysisService(
+            retriever=LightweightAttackRetriever(corpus_directory=CORPUS_DIRECTORY),
+            playbook_repository=playbook_repository,
+        )
+
     configuration = EmbeddingConfiguration(
         model_name="sentence-transformers/all-MiniLM-L6-v2",
         model_revision=None,
