@@ -1,0 +1,46 @@
+name: RA-XSOC Backend Smoke Test
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+jobs:
+  smoke-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check API health
+        run: |
+          curl --fail --show-error --silent \
+            --retry 6 \
+            --retry-delay 10 \
+            --retry-all-errors \
+            --max-time 180 \
+            https://ra-xsoc-api.onrender.com/health
+
+      - name: Check CORS preflight
+        run: |
+          curl --fail --show-error --silent \
+            --retry 3 \
+            --retry-delay 5 \
+            --max-time 60 \
+            -X OPTIONS \
+            -H 'Origin: https://sarma9273.github.io' \
+            -H 'Access-Control-Request-Method: POST' \
+            -H 'Access-Control-Request-Headers: content-type' \
+            -D - \
+            -o /dev/null \
+            https://ra-xsoc-api.onrender.com/api/v1/analyze
+
+      - name: Run real analysis smoke test
+        run: |
+          curl --fail --show-error --silent \
+            --retry 2 \
+            --retry-delay 10 \
+            --max-time 240 \
+            -X POST \
+            -H 'Origin: https://sarma9273.github.io' \
+            -H 'Content-Type: application/json' \
+            --data '{"description":"An employee received a suspicious phishing email containing a malicious login link requesting credentials."}' \
+            https://ra-xsoc-api.onrender.com/api/v1/analyze
