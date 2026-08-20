@@ -5,7 +5,7 @@ services:
     plan: free
     region: singapore
     branch: master
-    buildCommand: pip install ./packages/ra_xsoc_engine ./packages/ra_xsoc_api && python scripts/generate_embeddings.py
+    buildCommand: pip install ./packages/ra_xsoc_engine ./packages/ra_xsoc_api
     startCommand: uvicorn ra_xsoc_api.main:app --host 0.0.0.0 --port $PORT
     healthCheckPath: /health
     envVars:
@@ -13,6 +13,8 @@ services:
         value: 3.11.11
       - key: RA_XSOC_ENVIRONMENT
         value: production
+      - key: RA_XSOC_LIGHTWEIGHT_RETRIEVAL
+        value: "true"
       - key: RA_XSOC_CORS_ENABLED
         value: "true"
       - key: RA_XSOC_CORS_ORIGINS
