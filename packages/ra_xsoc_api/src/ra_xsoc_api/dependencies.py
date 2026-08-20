@@ -4,8 +4,8 @@ import os
 from functools import lru_cache
 from pathlib import Path
 
-from ra_xsoc_engine.application.container import ApplicationContainer
 from ra_xsoc_engine.analysis.analyzer import IncidentAnalysisService
+from ra_xsoc_engine.application.container import ApplicationContainer
 from ra_xsoc_engine.domain.embedding import EmbeddingConfiguration
 from ra_xsoc_engine.knowledge_base.normalized_repository import NormalizedKnowledgeBaseRepository
 from ra_xsoc_engine.playbooks.repository import KnowledgeBasePlaybookRepository
@@ -18,8 +18,15 @@ ARTIFACT_DIRECTORY = PROJECT_ROOT / "data" / "artifacts" / "embeddings"
 CORPUS_DIRECTORY = PROJECT_ROOT / "data" / "retrieval"
 
 
+class LightweightApplication:
+    """Small application facade used when the deployment cannot afford the ML model."""
+
+    def __init__(self, analyzer: IncidentAnalysisService) -> None:
+        self.analyzer = analyzer
+
+
 @lru_cache(maxsize=1)
-def get_application() -> ApplicationContainer | object:
+def get_application() -> ApplicationContainer | LightweightApplication:
     """Build the application once, selecting a resource profile from the environment."""
     lightweight = os.getenv("RA_XSOC_LIGHTWEIGHT_RETRIEVAL", "false").lower() == "true"
 
@@ -30,10 +37,11 @@ def get_application() -> ApplicationContainer | object:
         playbook_repository = KnowledgeBasePlaybookRepository(
             knowledge_base_repository.load_all()
         )
-        return IncidentAnalysisService(
+        analyzer = IncidentAnalysisService(
             retriever=LightweightAttackRetriever(corpus_directory=CORPUS_DIRECTORY),
             playbook_repository=playbook_repository,
         )
+        return LightweightApplication(analyzer)
 
     configuration = EmbeddingConfiguration(
         model_name="sentence-transformers/all-MiniLM-L6-v2",
