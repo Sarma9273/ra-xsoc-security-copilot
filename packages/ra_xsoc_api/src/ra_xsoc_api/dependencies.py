@@ -23,19 +23,22 @@ class LightweightApplication:
         self.analyzer = analyzer
 
 
+def _heavy_ml_explicitly_enabled() -> bool:
+    """Require an explicit opt-in before the heavyweight ML stack can load.
+
+    This prevents stale Render environment variables such as an older
+    ``RA_XSOC_DEPLOYMENT_PROFILE=full`` from accidentally re-enabling the
+    SentenceTransformer/FAISS path on the free instance.
+    """
+
+    return os.getenv("RA_XSOC_ALLOW_HEAVY_ML", "false").lower() == "true"
+
+
 @lru_cache(maxsize=1)
 def get_application():
-    """Build the application once using the configured deployment profile.
+    """Build the API application with lightweight retrieval by default."""
 
-    Lightweight retrieval is the safe default so a missing Render environment
-    variable can never accidentally activate the heavyweight ML stack.
-    """
-    profile = os.getenv("RA_XSOC_DEPLOYMENT_PROFILE", "lightweight").lower()
-    lightweight = profile != "full" and os.getenv(
-        "RA_XSOC_LIGHTWEIGHT_RETRIEVAL", "true"
-    ).lower() == "true"
-
-    if lightweight:
+    if not _heavy_ml_explicitly_enabled():
         knowledge_base_repository = NormalizedKnowledgeBaseRepository(
             KNOWLEDGE_BASE_DIRECTORY
         )
@@ -48,7 +51,7 @@ def get_application():
         )
         return LightweightApplication(analyzer)
 
-    # Full profile only: heavyweight ML imports are deliberately isolated here.
+    # Heavy ML is an explicit opt-in for deployments with sufficient memory.
     from ra_xsoc_engine.application.container import ApplicationContainer
     from ra_xsoc_engine.domain.embedding import EmbeddingConfiguration
 
