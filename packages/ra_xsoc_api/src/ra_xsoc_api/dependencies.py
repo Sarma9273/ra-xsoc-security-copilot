@@ -25,8 +25,15 @@ class LightweightApplication:
 
 @lru_cache(maxsize=1)
 def get_application():
-    """Build the application once, selecting a resource profile from the environment."""
-    lightweight = os.getenv("RA_XSOC_LIGHTWEIGHT_RETRIEVAL", "false").lower() == "true"
+    """Build the application once using the configured deployment profile.
+
+    Lightweight retrieval is the safe default so a missing Render environment
+    variable can never accidentally activate the heavyweight ML stack.
+    """
+    profile = os.getenv("RA_XSOC_DEPLOYMENT_PROFILE", "lightweight").lower()
+    lightweight = profile != "full" and os.getenv(
+        "RA_XSOC_LIGHTWEIGHT_RETRIEVAL", "true"
+    ).lower() == "true"
 
     if lightweight:
         knowledge_base_repository = NormalizedKnowledgeBaseRepository(
@@ -41,7 +48,7 @@ def get_application():
         )
         return LightweightApplication(analyzer)
 
-    # Keep heavyweight ML imports out of the free-tier startup path.
+    # Full profile only: heavyweight ML imports are deliberately isolated here.
     from ra_xsoc_engine.application.container import ApplicationContainer
     from ra_xsoc_engine.domain.embedding import EmbeddingConfiguration
 
