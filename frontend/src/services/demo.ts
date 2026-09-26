@@ -29,6 +29,8 @@ const technique = (id: string, name: string, tactic: string): MitreTechniqueResp
 })
 
 const CANDIDATES: Candidate[] = [
+  { id:"unknown_activity", name:"Unclassified / Insufficient Evidence", category:"Unknown", keywords:[], techniques:[], playbook:{investigation:["Collect the original event and surrounding telemetry.","Identify the user, asset, source and destination.","Determine whether the activity is authorized or anomalous.","Compare the observed behavior against the complete hypothesis set."],containment:[],recovery:["No recovery action until a security state is established."],prevention:["Do not suppress or label the activity until its cause is understood."],detection_rules:["Create a detection only after the behavior is characterized and validated."]}, beginner:["Preserve the original evidence.","Identify who, what, when and where.","Check authorization and baseline.","Collect correlated telemetry before naming an attack."] },
+
   { id:"phishing", name:"Phishing", category:"Initial Access", keywords:["phishing","phish","spoofed email","credential link","login link","malicious link","spearphishing"], techniques:[technique("T1566","Phishing","Initial Access"),technique("T1566.002","Phishing: Spearphishing Link","Initial Access")], playbook:{investigation:["Inspect original headers and sender infrastructure.","Extract every URL and follow redirects in a safe analysis environment.","Correlate the recipient's authentication and mailbox activity."],containment:["Quarantine the message and preserve the original.","Protect or challenge affected accounts if compromise is supported."],recovery:["Reset confirmed exposed credentials and revoke active sessions."],prevention:["Strengthen mail filtering and phishing-resistant MFA."],detection_rules:["Correlate suspicious messages with subsequent anomalous authentication."]}, beginner:["Check the original email, not a screenshot.","Inspect sender, Reply-To, URLs and redirects.","Check whether the user entered credentials.","Correlate the timestamp with sign-in logs."] },
   { id:"brute_force", name:"Brute-Force Authentication Attack", category:"Credential Access", keywords:["brute force","brute-force","multiple login attempts","repeated login attempts","repeated failed login","failed login attempts","many failed logins","password guessing","credential guessing","login attempts","unknown ip","unknown ip address","authentication attempts","authentication failures"], techniques:[technique("T1110","Brute Force","Credential Access"),technique("T1110.001","Password Guessing","Credential Access")], playbook:{investigation:["Count failed and successful authentication attempts over time.","Identify source IPs, targeted accounts, geography, device and MFA outcomes.","Determine whether one account, many accounts, or one source was targeted.","Correlate successful authentication with activity immediately afterward."],containment:["Apply approved authentication protections such as rate limiting or account protection.","Protect confirmed affected accounts and preserve authentication telemetry."],recovery:["Reset confirmed compromised credentials and revoke suspicious sessions."],prevention:["Use phishing-resistant MFA, rate limiting and password protection controls."],detection_rules:["Detect repeated authentication failures followed by a successful login from the same or related source."]}, beginner:["Count the failed login attempts and time window.","Identify the source IP and targeted account(s).","Check whether a login eventually succeeded.","Review MFA and post-login activity."] },
   { id:"valid_accounts", name:"Valid Accounts / Account Compromise", category:"Credential Access", keywords:["stolen credential","compromised account","valid account","password spray","credential reuse","impossible travel","unusual login","login from","successful login"], techniques:[technique("T1078","Valid Accounts","Defense Evasion / Persistence / Privilege Escalation / Initial Access")], playbook:{investigation:["Review sign-in history, source IP, device, MFA and geography.","Compare the activity with the user's normal baseline.","Trace actions performed after authentication."],containment:["Protect the affected identity using approved account controls.","Revoke suspicious sessions and tokens when compromise is confirmed."],recovery:["Reset credentials and review MFA registrations."],prevention:["Use phishing-resistant MFA and conditional access."],detection_rules:["Detect anomalous authentication and impossible-travel sequences."]}, beginner:["Identify the account and source IP.","Check whether the device and location are normal.","Check MFA result.","Review activity immediately after login."] },
@@ -131,9 +133,11 @@ export async function analyzeInBrowser(request: AnalyzeRequest): Promise<Analyze
   const scored=await rankCandidates(text);
   const nonzero=scored.filter(x=>x.score>0);
   const top=(nonzero.length?nonzero:scored.slice(0,6)).slice(0,8);
-  const primary=top[0];
-  const alternatives=top.slice(1).map(x=>toMatch(x.c,x.score,x.semantic,x.lexical));
-  const hypotheses=top.map(x=>buildHypothesis(x.c,x.score,text));
+  const semanticTop=scored[0];
+  const sufficientlyMatched=semanticTop && semanticTop.score>=0.42 && (semanticTop.semantic>=0.38 || semanticTop.lexical>=0.35);
+  const primary=sufficientlyMatched ? semanticTop : {c:CANDIDATES.find(c=>c.id==="unknown_activity")!,score:0.12,semantic:semanticTop?.semantic ?? 0,lexical:semanticTop?.lexical ?? 0};
+  const alternatives=(sufficientlyMatched ? top.filter(x=>x.c.id!=="unknown_activity") : top.slice(0,7)).map(x=>toMatch(x.c,x.score,x.semantic,x.lexical));
+  const hypotheses=(sufficientlyMatched ? top : [{c:CANDIDATES.find(c=>c.id==="unknown_activity")!,score:0.12,semantic:semanticTop?.semantic ?? 0,lexical:semanticTop?.lexical ?? 0},...top]).map(x=>buildHypothesis(x.c,x.score,text));
   const attackSignals = [
     "multiple login attempts","repeated login attempts","failed login attempts","password guessing",
     "credential guessing","brute force","brute-force","authentication failures","successful login",
@@ -142,13 +146,13 @@ export async function analyzeInBrowser(request: AnalyzeRequest): Promise<Analyze
   const matchedSignals=attackSignals.filter(s=>text.includes(s));
   const unmatchedFeatures = text.split(/[^a-z0-9.-]+/).filter(x=>x.length>4 && !CANDIDATES.some(c=>c.keywords.includes(x))).slice(0,12);
   const primaryScore=Math.max(primary.score,0.01);
-  const knownSimilarity=Math.min(primaryScore,0.97);
+  const knownSimilarity=Math.min(Math.max(semanticTop?.semantic ?? 0,0),0.97);
   const behaviorCoverage=Math.min(matchedSignals.length/4,1);
   const unseenSignalRatio=matchedSignals.length ? Math.min(unmatchedFeatures.length/Math.max(matchedSignals.length,1),1) : 0;
   const combinationNovelty = top.length>=3 && matchedSignals.length>=3 ? Math.min(0.25 + matchedSignals.length*0.08,0.8) : 0;
   const noveltyScore=Math.min(1,Math.max(0,(1-knownSimilarity)*0.55 + unseenSignalRatio*0.25 + combinationNovelty*0.20));
   const noveltyStatus: "KNOWN_PATTERN"|"NOVEL_BEHAVIOR"|"NOVEL_COMBINATION"|"INSUFFICIENT_EVIDENCE" =
-    matchedSignals.length===0 ? "INSUFFICIENT_EVIDENCE" :
+    !sufficientlyMatched || matchedSignals.length===0 ? "INSUFFICIENT_EVIDENCE" :
     noveltyScore>=0.72 ? "NOVEL_BEHAVIOR" :
     combinationNovelty>=0.45 ? "NOVEL_COMBINATION" :
     knownSimilarity>=0.70 ? "KNOWN_PATTERN" : "INSUFFICIENT_EVIDENCE";
@@ -185,20 +189,20 @@ export async function analyzeInBrowser(request: AnalyzeRequest): Promise<Analyze
   const verification=await verifyMitre(top.map(x=>x.c));
   const alertPresent=/alert|alerted|detection|siem|edr|ids|wazuh|splunk|sentinel|rule fired|blocked/.test(text);
   const benignScore=top.find(x=>x.c.id==="benign_admin")?.score ?? 0;
-  const maliciousScore=Math.max(...top.filter(x=>x.c.id!=="benign_admin").map(x=>x.score),0);
-  const securityState: "malicious"|"benign"|"undetermined" = maliciousScore>=0.72 && maliciousScore>benignScore+0.12 ? "malicious" : benignScore>=0.72 && benignScore>maliciousScore+0.12 ? "benign" : "undetermined";
+  const maliciousScore=sufficientlyMatched ? Math.max(...top.filter(x=>x.c.id!=="benign_admin").map(x=>x.score),0) : 0;
+  const securityState: "malicious"|"benign"|"undetermined" = !sufficientlyMatched ? "undetermined" : maliciousScore>=0.72 && maliciousScore>benignScore+0.12 ? "malicious" : benignScore>=0.72 && benignScore>maliciousScore+0.12 ? "benign" : "undetermined";
   const detectionState=alertPresent?"alert-present":"no-alert-supplied";
   let verdict: "TRUE POSITIVE"|"FALSE POSITIVE"|"TRUE NEGATIVE"|"FALSE NEGATIVE"|"UNDETERMINED"="UNDETERMINED";
   if(securityState==="malicious") verdict=alertPresent?"TRUE POSITIVE":"FALSE NEGATIVE";
   else if(securityState==="benign") verdict=alertPresent?"FALSE POSITIVE":"TRUE NEGATIVE";
   const severity=securityState==="malicious"?(maliciousScore>=0.85?"critical":"high"):"medium";
   const steps=buildSteps();
-  const candidateList=top.map(x=>x.c.name).join(", ");
+  const candidateList=(sufficientlyMatched ? top : [semanticTop]).filter(Boolean).map(x=>x.c.name).join(", ");
   const explanation=[
     `The engine evaluated ${CANDIDATES.length} behavior hypotheses instead of selecting one attack type up front.`,
     `Leading candidates: ${candidateList}.`,
     `MITRE verification: ${verification[0]?.status ?? "unavailable"}. The verifier is independent of the keyword ranking.`,
-    securityState==="undetermined" ? "The supplied activity is insufficient to establish the real security state; collect the next evidence before assigning TP/FP/TN/FN." : `Evidence currently supports a ${securityState} security state.`
+    securityState==="undetermined" ? "The supplied activity is insufficient to establish a defensible security state or attack identity; collect the next evidence before assigning TP/FP/TN/FN." : `Evidence currently supports a ${securityState} security state.`
   ];
   const nextEvidence=["Original alert/rule context","Identity + source/destination IP/device","Authentication and MFA events","Endpoint process tree or application logs","Authorization/change-ticket context"];
   const primaryMatch=toMatch(primary.c,Math.max(primary.score,0.01),primary.semantic,primary.lexical);
