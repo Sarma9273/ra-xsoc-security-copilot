@@ -53,3 +53,15 @@ The public demo is read-only and uses synthetic/demo scenarios. It does not perf
 ## Citation
 
 See `CITATION.cff`.
+
+## Reproducible research evaluation
+
+A fixed 30-case benchmark is stored at `research/benchmarks/ra_xsoc_x_v1.json`. Run the local research evaluator after generating the FAISS artifacts:
+
+```powershell
+python .\scripts\generate_retrieval_corpus.py
+python .\scripts\generate_embeddings.py
+python .\research\evaluate_retrieval.py
+```
+
+The evaluator records Top-1 accuracy, Recall@3, Recall@5, MRR, mean confidence, and per-case predictions under `research/results/`. The benchmark is versioned and must not be modified when reporting a completed experiment; create a new benchmark version for new experiments.
