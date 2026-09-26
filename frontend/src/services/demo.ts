@@ -28,6 +28,7 @@ const technique = (id: string, name: string, tactic: string): MitreTechniqueResp
 
 const CANDIDATES: Candidate[] = [
   { id:"phishing", name:"Phishing", category:"Initial Access", keywords:["phishing","phish","spoofed email","credential link","login link","malicious link","spearphishing"], techniques:[technique("T1566","Phishing","Initial Access"),technique("T1566.002","Phishing: Spearphishing Link","Initial Access")], playbook:{investigation:["Inspect original headers and sender infrastructure.","Extract every URL and follow redirects in a safe analysis environment.","Correlate the recipient's authentication and mailbox activity."],containment:["Quarantine the message and preserve the original.","Protect or challenge affected accounts if compromise is supported."],recovery:["Reset confirmed exposed credentials and revoke active sessions."],prevention:["Strengthen mail filtering and phishing-resistant MFA."],detection_rules:["Correlate suspicious messages with subsequent anomalous authentication."]}, beginner:["Check the original email, not a screenshot.","Inspect sender, Reply-To, URLs and redirects.","Check whether the user entered credentials.","Correlate the timestamp with sign-in logs."] },
+  { id:"brute_force", name:"Brute-Force Authentication Attack", category:"Credential Access", keywords:["brute force","brute-force","multiple login attempts","repeated login attempts","repeated failed login","failed login attempts","many failed logins","password guessing","credential guessing","login attempts","unknown ip","unknown ip address","authentication attempts","authentication failures"], techniques:[technique("T1110","Brute Force","Credential Access"),technique("T1110.001","Password Guessing","Credential Access")], playbook:{investigation:["Count failed and successful authentication attempts over time.","Identify source IPs, targeted accounts, geography, device and MFA outcomes.","Determine whether one account, many accounts, or one source was targeted.","Correlate successful authentication with activity immediately afterward."],containment:["Apply approved authentication protections such as rate limiting or account protection.","Protect confirmed affected accounts and preserve authentication telemetry."],recovery:["Reset confirmed compromised credentials and revoke suspicious sessions."],prevention:["Use phishing-resistant MFA, rate limiting and password protection controls."],detection_rules:["Detect repeated authentication failures followed by a successful login from the same or related source."]}, beginner:["Count the failed login attempts and time window.","Identify the source IP and targeted account(s).","Check whether a login eventually succeeded.","Review MFA and post-login activity."] },
   { id:"valid_accounts", name:"Valid Accounts / Account Compromise", category:"Credential Access", keywords:["stolen credential","compromised account","valid account","password spray","credential reuse","impossible travel","unusual login","login from","successful login"], techniques:[technique("T1078","Valid Accounts","Defense Evasion / Persistence / Privilege Escalation / Initial Access")], playbook:{investigation:["Review sign-in history, source IP, device, MFA and geography.","Compare the activity with the user's normal baseline.","Trace actions performed after authentication."],containment:["Protect the affected identity using approved account controls.","Revoke suspicious sessions and tokens when compromise is confirmed."],recovery:["Reset credentials and review MFA registrations."],prevention:["Use phishing-resistant MFA and conditional access."],detection_rules:["Detect anomalous authentication and impossible-travel sequences."]}, beginner:["Identify the account and source IP.","Check whether the device and location are normal.","Check MFA result.","Review activity immediately after login."] },
   { id:"execution", name:"Command and Script Execution", category:"Execution", keywords:["powershell","cmd.exe","command prompt","wscript","cscript","bash","script","encoded command","execution"], techniques:[technique("T1059","Command and Scripting Interpreter","Execution"),technique("T1059.001","PowerShell","Execution")], playbook:{investigation:["Capture the exact command line and parent process.","Inspect script contents, downloaded files and destinations.","Check persistence and follow-on process activity."],containment:["Isolate an affected endpoint only under approved IR procedure."],recovery:["Remove confirmed malicious artifacts and restore from trusted state."],prevention:["Constrain unnecessary scripting and administrative execution."],detection_rules:["Alert on suspicious parent-child process chains and encoded commands."]}, beginner:["Copy the exact command line.","Find the parent process.","Determine what the command downloaded or changed.","Check the same user and host for follow-on events."] },
   { id:"malware", name:"Malware / Malicious File", category:"Execution", keywords:["malware","trojan","payload","malicious file","exe","dll","ransomware","backdoor","dropper","virus"], techniques:[technique("T1204.002","User Execution: Malicious File","Execution"),technique("T1105","Ingress Tool Transfer","Command and Control")], playbook:{investigation:["Hash and safely identify the file.","Inspect process tree, persistence and network destinations.","Search for the same hash or behavior across hosts."],containment:["Isolate affected hosts through approved EDR workflow."],recovery:["Remove confirmed malware and restore affected systems as required."],prevention:["Harden application control and endpoint protection."],detection_rules:["Correlate new executable creation with unusual outbound traffic."]}, beginner:["Record the file hash.","Find the process that launched it.","Check network connections.","Search whether other hosts have the same indicator."] },
@@ -50,8 +51,8 @@ function scoreCandidate(c:Candidate, text:string): number {
   const hits = c.keywords.filter(k => text.includes(k)).length;
   if (!hits) return 0;
   const unique = new Set(c.keywords.filter(k => text.includes(k)));
-  const density = Math.min(unique.size / 4, 1);
-  return Math.min(0.22 + hits * 0.11 + density * 0.35, 0.97);
+  const density = Math.min(unique.size / 5, 1);
+  return Math.min(0.18 + hits * 0.095 + density * 0.42, 0.97);
 }
 
 function evidenceFor(c:Candidate, text:string): EvidenceItem[] {
@@ -116,6 +117,54 @@ export async function analyzeInBrowser(request: AnalyzeRequest): Promise<Analyze
   const primary=top[0];
   const alternatives=top.slice(1).map(x=>toMatch(x.c,x.score));
   const hypotheses=top.map(x=>buildHypothesis(x.c,x.score,text));
+  const attackSignals = [
+    "multiple login attempts","repeated login attempts","failed login attempts","password guessing",
+    "credential guessing","brute force","brute-force","authentication failures","successful login",
+    "phishing","malicious link","powershell","ransomware","lateral movement","rdp","psexec"
+  ];
+  const matchedSignals=attackSignals.filter(s=>text.includes(s));
+  const unmatchedFeatures = text.split(/[^a-z0-9.-]+/).filter(x=>x.length>4 && !CANDIDATES.some(c=>c.keywords.includes(x))).slice(0,12);
+  const primaryScore=Math.max(primary.score,0.01);
+  const knownSimilarity=Math.min(primaryScore,0.97);
+  const behaviorCoverage=Math.min(matchedSignals.length/4,1);
+  const unseenSignalRatio=matchedSignals.length ? Math.min(unmatchedFeatures.length/Math.max(matchedSignals.length,1),1) : 0;
+  const combinationNovelty = top.length>=3 && matchedSignals.length>=3 ? Math.min(0.25 + matchedSignals.length*0.08,0.8) : 0;
+  const noveltyScore=Math.min(1,Math.max(0,(1-knownSimilarity)*0.55 + unseenSignalRatio*0.25 + combinationNovelty*0.20));
+  const noveltyStatus: "KNOWN_PATTERN"|"NOVEL_BEHAVIOR"|"NOVEL_COMBINATION"|"INSUFFICIENT_EVIDENCE" =
+    matchedSignals.length===0 ? "INSUFFICIENT_EVIDENCE" :
+    noveltyScore>=0.72 ? "NOVEL_BEHAVIOR" :
+    combinationNovelty>=0.45 ? "NOVEL_COMBINATION" :
+    knownSimilarity>=0.70 ? "KNOWN_PATTERN" : "INSUFFICIENT_EVIDENCE";
+  const incident = {
+    name: primary.c.name,
+    attack_family: primary.c.category,
+    stage: primary.c.techniques[0]?.tactic ?? primary.c.category,
+    confidence: primaryScore,
+    description: `${primary.c.name} suspected from observed behavior: ${request.description.trim()}`
+  };
+  const novelty = {
+    score: noveltyScore,
+    status: noveltyStatus,
+    known_similarity: knownSimilarity,
+    behavior_coverage: behaviorCoverage,
+    unseen_signal_ratio: unseenSignalRatio,
+    combination_novelty: combinationNovelty,
+    reasons: [
+      `Known-pattern similarity: ${(knownSimilarity*100).toFixed(0)}%.`,
+      `Recognized behavior signals: ${matchedSignals.length}.`,
+      unseenSignalRatio>0 ? `${unmatchedFeatures.length} input features were not directly represented by the local attack vocabulary.` : "Observed features map to existing attack vocabulary.",
+      combinationNovelty>0 ? "Multiple behavior signals form a combined pattern that should be evaluated against prior incidents." : "No strong novel combination signal was detected."
+    ]
+  };
+  const research = {
+    feature_vector: matchedSignals,
+    matched_pattern_ids: top.map(x=>x.c.id),
+    unmatched_features: unmatchedFeatures,
+    hypothesis_count: hypotheses.length,
+    technique_count: new Set(top.flatMap(x=>x.c.techniques.map(t=>t.technique_id))).size,
+    reproducible: true,
+    evaluation_version: "RA-XSOC-X-EVAL-1.0"
+  };
   const verification=(await verifyMitre(top.map(x=>x.c)))[0];
   const alertPresent=/alert|alerted|detection|siem|edr|ids|wazuh|splunk|sentinel|rule fired|blocked/.test(text);
   const benignScore=top.find(x=>x.c.id==="benign_admin")?.score ?? 0;
@@ -139,7 +188,7 @@ export async function analyzeInBrowser(request: AnalyzeRequest): Promise<Analyze
   const now=new Date().toISOString();
   return {
     analysis_id:`rx-x-${Date.now()}`,incident_id:request.incident_id??`incident-${Date.now()}`,
-    primary_match:primaryMatch,alternatives,severity,novelty_status:"multi-hypothesis",confidence:Math.max(0.35,Math.min(primary.score,0.97)),
+    primary_match:primaryMatch,incident,novelty,research,alternatives,severity,novelty_status:novelty.status,confidence:Math.max(0.35,Math.min(primary.score,0.97)),
     playbook:playbookFor(primary.c,top.map(x=>x.c)),explanation,requires_review:true,model_version:"ra-xsoc-x-investigation-engine-1.0",
     review_status:"PENDING_HUMAN_REVIEW",created_at:now,evidence:evidenceFor(primary.c,text),hypotheses,verification,investigation:steps,
     assessment:{detectionState,securityState,verdict,rationale:verdict==="UNDETERMINED"?"Do not force a verdict until the missing evidence is collected.":`Current evidence supports ${verdict}.`},
