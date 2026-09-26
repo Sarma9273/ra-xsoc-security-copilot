@@ -1,0 +1,187 @@
+{
+  "version": "1.0",
+  "dataset_id": "ra-xsoc-x-retrieval-benchmark-v1",
+  "description": "Fixed, versioned benchmark of 30 representative incident narratives mapped to the 30-record RA-XSOC curated corpus. Evaluation fixtures only.",
+  "cases": [
+    {
+      "case_id": "RX001",
+      "description": "A user account shows impossible-travel sign-ins from two distant locations, an unexpected MFA change, and a new device registration.",
+      "expected_attack_id": "account_takeover",
+      "expected_rank": 1
+    },
+    {
+      "case_id": "RX002",
+      "description": "A domain controller shows an unauthorized privileged group change, unexpected GPO modification, and abnormal Kerberos activity.",
+      "expected_attack_id": "active_directory_compromise",
+      "expected_rank": 1
+    },
+    {
+      "case_id": "RX003",
+      "description": "An AI agent unexpectedly executes an external tool, accesses a privileged resource, and performs an action that was not requested.",
+      "expected_attack_id": "ai_agent_hijacking",
+      "expected_rank": 1
+    },
+    {
+      "case_id": "RX004",
+      "description": "An AI assistant receives instructions to ignore previous rules, reveal its system prompt, and disclose sensitive information.",
+      "expected_attack_id": "ai_prompt_injection",
+      "expected_rank": 1
+    },
+    {
+      "case_id": "RX005",
+      "description": "One API token generates an unusually high request volume, accesses endpoints outside its normal pattern, and retrieves unauthorized records.",
+      "expected_attack_id": "api_abuse",
+      "expected_rank": 1
+    },
+    {
+      "case_id": "RX006",
+      "description": "A VPN account receives hundreds of failed authentication attempts from one unfamiliar IP within a short period, followed by one successful login.",
+      "expected_attack_id": "bruteforce",
+      "expected_rank": 1
+    },
+    {
+      "case_id": "RX007",
+      "description": "An executive mailbox sends an urgent vendor payment request and a new forwarding rule appears without authorization.",
+      "expected_attack_id": "business_email_compromise",
+      "expected_rank": 1
+    },
+    {
+      "case_id": "RX008",
+      "description": "A cloud storage bucket is publicly accessible and an IAM role has excessive permissions exposing sensitive data.",
+      "expected_attack_id": "cloud_misconfiguration",
+      "expected_rank": 1
+    },
+    {
+      "case_id": "RX009",
+      "description": "Hundreds of accounts receive login attempts from the same external IP using credentials associated with previous breaches.",
+      "expected_attack_id": "credential_stuffing",
+      "expected_rank": 1
+    },
+    {
+      "case_id": "RX010",
+      "description": "A cloud server has persistent near-100 percent CPU usage and repeated connections to a cryptocurrency mining pool.",
+      "expected_attack_id": "cryptojacking",
+      "expected_rank": 1
+    },
+    {
+      "case_id": "RX011",
+      "description": "A workstation compresses sensitive files and uploads a large volume of data to an unfamiliar external cloud destination outside business hours.",
+      "expected_attack_id": "data_exfiltration",
+      "expected_rank": 1
+    },
+    {
+      "case_id": "RX012",
+      "description": "A public API experiences a sudden traffic flood from many sources, exhausting bandwidth and causing service degradation.",
+      "expected_attack_id": "ddos",
+      "expected_rank": 1
+    },
+    {
+      "case_id": "RX013",
+      "description": "An endpoint sends frequent DNS queries containing unusually long high-entropy subdomains to one suspicious domain.",
+      "expected_attack_id": "dns_tunneling",
+      "expected_rank": 1
+    },
+    {
+      "case_id": "RX014",
+      "description": "An employee downloads an unusually large set of sensitive files and transfers them externally outside normal working hours.",
+      "expected_attack_id": "insider_threat",
+      "expected_rank": 1
+    },
+    {
+      "case_id": "RX015",
+      "description": "A compromised workstation authenticates to several internal servers over SMB using an account that normally accesses only one host.",
+      "expected_attack_id": "lateral_movement",
+      "expected_rank": 1
+    },
+    {
+      "case_id": "RX016",
+      "description": "A workstation creates an unknown executable, launches an unexpected process, and begins making outbound connections to an unfamiliar host.",
+      "expected_attack_id": "malware",
+      "expected_rank": 1
+    },
+    {
+      "case_id": "RX017",
+      "description": "An AI API receives an abnormal volume of inference requests apparently designed to extract model behavior or parameters.",
+      "expected_attack_id": "model_theft",
+      "expected_rank": 1
+    },
+    {
+      "case_id": "RX018",
+      "description": "One common password is attempted against dozens of employee accounts, producing authentication failures across many users.",
+      "expected_attack_id": "password_spraying",
+      "expected_rank": 1
+    },
+    {
+      "case_id": "RX019",
+      "description": "Employees receive an urgent message from a lookalike domain containing a credential-harvesting login link.",
+      "expected_attack_id": "phishing",
+      "expected_rank": 1
+    },
+    {
+      "case_id": "RX020",
+      "description": "A standard user unexpectedly obtains administrator privileges and then launches a privileged process.",
+      "expected_attack_id": "privilege_escalation",
+      "expected_rank": 1
+    },
+    {
+      "case_id": "RX021",
+      "description": "Unauthorized documents are inserted into an AI vector database and subsequent answers contain malicious false information.",
+      "expected_attack_id": "rag_poisoning",
+      "expected_rank": 1
+    },
+    {
+      "case_id": "RX022",
+      "description": "Hundreds of files are rapidly encrypted, ransom notes appear, and security services are unexpectedly stopped across several hosts.",
+      "expected_attack_id": "ransomware",
+      "expected_rank": 1
+    },
+    {
+      "case_id": "RX023",
+      "description": "The same authenticated web session is suddenly used from two distant locations and performs actions the legitimate user did not initiate.",
+      "expected_attack_id": "session_hijacking",
+      "expected_rank": 1
+    },
+    {
+      "case_id": "RX024",
+      "description": "A public web application receives suspicious SQL syntax in input fields followed by database errors and unauthorized query results.",
+      "expected_attack_id": "sql_injection",
+      "expected_rank": 1
+    },
+    {
+      "case_id": "RX025",
+      "description": "A trusted software update introduces unexpected code execution and integrity verification fails on multiple customer systems.",
+      "expected_attack_id": "supply_chain_attack",
+      "expected_rank": 1
+    },
+    {
+      "case_id": "RX026",
+      "description": "A cloud application token is used from an unfamiliar location to access resources the legitimate user did not request.",
+      "expected_attack_id": "token_theft",
+      "expected_rank": 1
+    },
+    {
+      "case_id": "RX027",
+      "description": "An ML training dataset contains unauthorized records and model behavior changes after the altered data is incorporated.",
+      "expected_attack_id": "training_data_poisoning",
+      "expected_rank": 1
+    },
+    {
+      "case_id": "RX028",
+      "description": "A web server creates an unknown PHP file and the web process subsequently spawns a command shell after a suspicious POST request.",
+      "expected_attack_id": "web_shell",
+      "expected_rank": 1
+    },
+    {
+      "case_id": "RX029",
+      "description": "A web page begins executing injected JavaScript and redirects users unexpectedly, followed by stolen session-cookie activity.",
+      "expected_attack_id": "xss",
+      "expected_rank": 1
+    },
+    {
+      "case_id": "RX030",
+      "description": "A server shows crashes and abnormal process execution from an attack pattern with no matching known signature or previously documented exploit.",
+      "expected_attack_id": "zero_day_exploit",
+      "expected_rank": 1
+    }
+  ]
+}
