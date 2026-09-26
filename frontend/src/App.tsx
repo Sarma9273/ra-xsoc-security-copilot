@@ -8,6 +8,7 @@ import ResponsePlaybook from "./components/ResponsePlaybook";
 import IntelligenceTelemetry from "./components/IntelligenceTelemetry";
 import type { AnalyzeResponse } from "./types/api";
 import { analyzeIncident, ApiRequestError } from "./services/api";
+import { recordFeedback } from "./services/experienceMemory";
 
 const defaultIncident = "An employee received a suspicious phishing email containing a malicious login link requesting credentials.";
 
@@ -141,6 +142,38 @@ function App() {
           <section className="content-section">
             <div className="section-heading"><div><span className="section-number">07</span><h2>Beginner Interpretation</h2></div></div>
             <div className="reason-list">{analysis.beginner_summary.map((x,i)=><p key={i}>{x}</p>)}</div>
+          </section>
+
+          <section className="content-section">
+            <div className="section-heading"><div><span className="section-number">08</span><h2>Investigation Planner</h2></div><span className="input-limit">Information gain</span></div>
+            <div className="playbook-grid">
+              {analysis.research.planner.map((p) => (
+                <article className="playbook-card" key={p.id}>
+                  <div className="playbook-title"><span />{p.evidenceType.toUpperCase()} · IG {(p.informationGain*100).toFixed(0)}%</div>
+                  <p><strong>QUESTION:</strong> {p.question}</p>
+                  <p><strong>DISTINGUISHES:</strong> {p.distinguishes.join(", ") || "General baseline verification"}</p>
+                </article>
+              ))}
+            </div>
+          </section>
+
+          <section className="content-section">
+            <div className="section-heading"><div><span className="section-number">09</span><h2>Analyst Feedback</h2></div><span className="input-limit">Adaptive experience memory</span></div>
+            <div className="analysis-grid">
+              <article className="metrics-card">
+                <div className="card-label">CURRENT DECISION</div>
+                <p>Accept, reject, or correct the leading incident. Feedback is stored locally and affects future ranking; it does not retrain the embedding model.</p>
+                <div className="feedback-actions">
+                  <button onClick={() => recordFeedback({analysis_id:analysis.analysis_id,predicted_attack_id:analysis.primary_match.attack_id,action:"ACCEPTED",timestamp:new Date().toISOString()})}>ACCEPT</button>
+                  <button onClick={() => recordFeedback({analysis_id:analysis.analysis_id,predicted_attack_id:analysis.primary_match.attack_id,action:"REJECTED",timestamp:new Date().toISOString()})}>REJECT</button>
+                  {analysis.alternatives.slice(0,3).map(a => <button key={a.attack_id} onClick={() => recordFeedback({analysis_id:analysis.analysis_id,predicted_attack_id:analysis.primary_match.attack_id,action:"CORRECTED",corrected_attack_id:a.attack_id,timestamp:new Date().toISOString()})}>CORRECT → {a.name}</button>)}
+                </div>
+              </article>
+              <article className="metrics-card">
+                <div className="card-label">ADAPTIVE SIGNAL</div>
+                <div className="metrics"><div><span>EXPERIENCE ADJUSTMENT</span><strong>{analysis.research.experience_adjustment >= 0 ? "+" : ""}{(analysis.research.experience_adjustment*100).toFixed(0)}%</strong></div><div><span>MEMORY MODEL</span><strong>NON-TRAINING</strong></div></div>
+              </article>
+            </div>
           </section>
 
           <IntelligenceTelemetry analysis={analysis} />
