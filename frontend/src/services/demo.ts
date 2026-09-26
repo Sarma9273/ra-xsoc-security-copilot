@@ -88,8 +88,9 @@ function buildHypothesis(c:Candidate, score:number, text:string): Hypothesis {
   const support=ev.filter(x=>x.type==="supporting").map(x=>x.text);
   const missing:string[]=[];
   if(c.id!=="benign_admin") missing.push("Authorization/baseline evidence", "Correlated endpoint or network telemetry");
+  if(score<0.45 && c.id!=="unknown_activity") missing.push("Direct behavior evidence for this hypothesis");
   if(c.id==="benign_admin") missing.push("Change ticket or administrator confirmation");
-  const status = score>=0.7 ? "supported" : score>=0.45 ? "possible" : score>=0.2 ? "weak" : "contradicted";
+  const status = c.id==="unknown_activity" ? "possible" : score>=0.7 ? "supported" : score>=0.45 ? "possible" : score>=0.2 ? "weak" : "contradicted";
   return {id:c.id,name:c.name,category:c.category,score,status,supporting:support,contradicting:[],missing,techniques:c.techniques};
 }
 
