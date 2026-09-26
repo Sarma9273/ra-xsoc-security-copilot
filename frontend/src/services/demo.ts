@@ -1,3 +1,5 @@
+import { semanticRank, semanticModel } from "./semantic";
+import { RETRIEVAL_CORPUS } from "../data/retrievalCorpus";
 import type {
   AnalyzeRequest, AnalyzeResponse, AttackMatchResponse, EvidenceItem,
   Hypothesis, InvestigationStep, MitreTechniqueResponse, SourceVerification
@@ -47,12 +49,27 @@ const CANDIDATES: Candidate[] = [
 ];
 
 const lower = (s:string) => s.toLowerCase();
-function scoreCandidate(c:Candidate, text:string): number {
+function lexicalScoreCandidate(c:Candidate, text:string): number {
   const hits = c.keywords.filter(k => text.includes(k)).length;
   if (!hits) return 0;
   const unique = new Set(c.keywords.filter(k => text.includes(k)));
   const density = Math.min(unique.size / 5, 1);
   return Math.min(0.18 + hits * 0.095 + density * 0.42, 0.97);
+}
+
+function candidateText(c: Candidate): string {
+  const d = RETRIEVAL_CORPUS.find(x => String(x.id).toLowerCase().includes(c.id.toLowerCase()) || String(x.text).toLowerCase().includes(c.name.toLowerCase()));
+  return d?.text ?? `${c.name} ${c.category} ${c.keywords.join(" ")} ${c.playbook.investigation.join(" ")}`;
+}
+
+async function rankCandidates(text: string): Promise<Array<{c:Candidate; score:number; semantic:number; lexical:number}>> {
+  const semantic = await semanticRank(text, CANDIDATES.map(c => ({id:c.id,text:candidateText(c)})));
+  return CANDIDATES.map(c => {
+    const lexical=lexicalScoreCandidate(c,text);
+    const semanticScore=Math.max(0,semantic.get(c.id) ?? 0);
+    const score=Math.min(0.97, semanticScore*0.62 + lexical*0.38);
+    return {c,score,semantic:semanticScore,lexical};
+  }).sort((a,b)=>b.score-a.score);
 }
 
 function evidenceFor(c:Candidate, text:string): EvidenceItem[] {
@@ -111,11 +128,11 @@ async function verifyMitre(candidates:Candidate[]): Promise<SourceVerification[]
 
 export async function analyzeInBrowser(request: AnalyzeRequest): Promise<AnalyzeResponse> {
   const text=lower(request.description);
-  const scored=CANDIDATES.map(c=>({c,score:scoreCandidate(c,text)})).sort((a,b)=>b.score-a.score);
+  const scored=await rankCandidates(text);
   const nonzero=scored.filter(x=>x.score>0);
   const top=(nonzero.length?nonzero:scored.slice(0,6)).slice(0,8);
   const primary=top[0];
-  const alternatives=top.slice(1).map(x=>toMatch(x.c,x.score));
+  const alternatives=top.slice(1).map(x=>toMatch(x.c,x.score,x.semantic,x.lexical));
   const hypotheses=top.map(x=>buildHypothesis(x.c,x.score,text));
   const attackSignals = [
     "multiple login attempts","repeated login attempts","failed login attempts","password guessing",
@@ -184,12 +201,12 @@ export async function analyzeInBrowser(request: AnalyzeRequest): Promise<Analyze
     securityState==="undetermined" ? "The supplied activity is insufficient to establish the real security state; collect the next evidence before assigning TP/FP/TN/FN." : `Evidence currently supports a ${securityState} security state.`
   ];
   const nextEvidence=["Original alert/rule context","Identity + source/destination IP/device","Authentication and MFA events","Endpoint process tree or application logs","Authorization/change-ticket context"];
-  const primaryMatch=toMatch(primary.c,Math.max(primary.score,0.01));
+  const primaryMatch=toMatch(primary.c,Math.max(primary.score,0.01),primary.semantic,primary.lexical);
   const now=new Date().toISOString();
   return {
     analysis_id:`rx-x-${Date.now()}`,incident_id:request.incident_id??`incident-${Date.now()}`,
     primary_match:primaryMatch,incident,novelty,research,alternatives,severity,novelty_status:novelty.status,confidence:Math.max(0.35,Math.min(primary.score,0.97)),
-    playbook:playbookFor(primary.c,top.map(x=>x.c)),explanation,requires_review:true,model_version:"ra-xsoc-x-investigation-engine-1.0",
+    playbook:playbookFor(primary.c,top.map(x=>x.c)),explanation,requires_review:true,model_version:`ra-xsoc-x-investigation-engine-1.1-browser-${semanticModel}`,
     review_status:"PENDING_HUMAN_REVIEW",created_at:now,evidence:evidenceFor(primary.c,text),hypotheses,verification,investigation:steps,
     assessment:{detectionState,securityState,verdict,rationale:verdict==="UNDETERMINED"?"Do not force a verdict until the missing evidence is collected.":`Current evidence supports ${verdict}.`},
     next_evidence:nextEvidence,beginner_summary:primary.c.beginner
