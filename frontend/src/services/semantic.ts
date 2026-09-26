@@ -2,12 +2,13 @@ import { pipeline } from "@huggingface/transformers";
 
 type Extractor = (input:string|string[], options?:Record<string,unknown>) => Promise<{tolist:()=>unknown}>;
 
-const MODEL = "Xenova/all-MiniLM-L6-v2";
+const MODEL = "onnx-community/all-MiniLM-L6-v2-ONNX";
 let extractorPromise: Promise<Extractor> | null = null;
 
 async function getExtractor(): Promise<FeatureExtractionPipeline> {
   if (!extractorPromise) {
-    extractorPromise = pipeline("feature-extraction", MODEL) as unknown as Promise<Extractor>;
+    const device = typeof navigator !== "undefined" && "gpu" in navigator ? "webgpu" : "wasm";
+    extractorPromise = pipeline("feature-extraction", MODEL, { device, dtype: "q8" }) as unknown as Promise<Extractor>;
   }
   return extractorPromise;
 }
