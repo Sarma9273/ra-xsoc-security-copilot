@@ -1,5 +1,7 @@
 import { semanticRank, semanticModel } from "./semantic";
 import { RETRIEVAL_CORPUS } from "../data/retrievalCorpus";
+import { planInvestigation } from "./investigationPlanner";
+import { experienceAdjustment } from "./experienceMemory";
 import type {
   AnalyzeRequest, AnalyzeResponse, AttackMatchResponse, EvidenceItem,
   Hypothesis, InvestigationStep, MitreTechniqueResponse, SourceVerification
@@ -69,7 +71,7 @@ async function rankCandidates(text: string): Promise<Array<{c:Candidate; score:n
   return CANDIDATES.map(c => {
     const lexical=lexicalScoreCandidate(c,text);
     const semanticScore=Math.max(0,semantic.get(c.id) ?? 0);
-    const score=Math.min(0.97, semanticScore*0.62 + lexical*0.38);
+    const score=Math.min(0.97, semanticScore*0.55 + lexical*0.33 + experienceAdjustment(c.id));
     return {c,score,semantic:semanticScore,lexical};
   }).sort((a,b)=>b.score-a.score);
 }
@@ -178,6 +180,8 @@ export async function analyzeInBrowser(request: AnalyzeRequest): Promise<Analyze
       combinationNovelty>0 ? "Multiple behavior signals form a combined pattern that should be evaluated against prior incidents." : "No strong novel combination signal was detected."
     ]
   };
+  const planner=planInvestigation(top.map(x=>({id:x.c.id,name:x.c.name,keywords:x.c.keywords})),top.map(x=>x.c.id));
+  const experience_adjustment=experienceAdjustment(primary.c.id);
   const research = {
     feature_vector: matchedSignals,
     matched_pattern_ids: top.map(x=>x.c.id),
@@ -185,7 +189,9 @@ export async function analyzeInBrowser(request: AnalyzeRequest): Promise<Analyze
     hypothesis_count: hypotheses.length,
     technique_count: new Set(top.flatMap(x=>x.c.techniques.map(t=>t.technique_id))).size,
     reproducible: true,
-    evaluation_version: "RA-XSOC-X-EVAL-1.0"
+    evaluation_version: "RA-XSOC-X-EVAL-1.1",
+    planner,
+    experience_adjustment
   };
   const verification=await verifyMitre(top.map(x=>x.c));
   const alertPresent=/alert|alerted|detection|siem|edr|ids|wazuh|splunk|sentinel|rule fired|blocked/.test(text);
