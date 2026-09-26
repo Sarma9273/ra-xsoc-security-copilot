@@ -50,17 +50,39 @@ function App() {
               <article className="classification-card">
                 <div className="card-label">CURRENT VERDICT</div>
                 <div className="attack-icon">⚑</div>
-                <h2>{analysis.assessment.verdict}</h2>
+                <h2>{analysis.incident.name}</h2>
+                <p className="attack-id">{analysis.incident.attack_family} · {analysis.incident.stage}</p>
+                <h3>{analysis.assessment.verdict}</h3>
                 <p>{analysis.assessment.rationale}</p>
                 <p className="attack-id">SECURITY STATE / {analysis.assessment.securityState.toUpperCase()} · DETECTION / {analysis.assessment.detectionState.toUpperCase()}</p>
               </article>
               <article className="metrics-card">
                 <div className="card-label">LEADING HYPOTHESIS</div>
                 <div className="metrics">
-                  <div><span>PRIMARY</span><strong>{analysis.primary_match.name}</strong></div>
+                  <div><span>INCIDENT</span><strong>{analysis.incident.name}</strong></div>
                   <div><span>CONFIDENCE</span><strong>{(analysis.confidence * 100).toFixed(0)}%</strong></div>
                   <div><span>SEVERITY</span><strong>{analysis.severity.toUpperCase()}</strong></div>
-                  <div><span>REVIEW</span><strong className="review">REQUIRED</strong></div>
+                  <div><span>NOVELTY</span><strong className="review">{analysis.novelty.status.replaceAll("_"," ")}</strong></div><div><span>REVIEW</span><strong className="review">REQUIRED</strong></div>
+                </div>
+              </article>
+            </div>
+          </section>
+
+          <section className="content-section">
+            <div className="section-heading"><div><span className="section-number">02</span><h2>Novelty Assessment</h2></div><span className="input-limit">Research signal</span></div>
+            <div className="analysis-grid">
+              <article className="classification-card">
+                <div className="card-label">NOVELTY STATUS</div>
+                <h2>{analysis.novelty.status.replaceAll("_"," ")}</h2>
+                <p>{analysis.novelty.reasons.join(" ")}</p>
+              </article>
+              <article className="metrics-card">
+                <div className="card-label">NOVELTY FEATURES</div>
+                <div className="metrics">
+                  <div><span>NOVELTY SCORE</span><strong>{(analysis.novelty.score*100).toFixed(0)}%</strong></div>
+                  <div><span>KNOWN SIMILARITY</span><strong>{(analysis.novelty.known_similarity*100).toFixed(0)}%</strong></div>
+                  <div><span>BEHAVIOR COVERAGE</span><strong>{(analysis.novelty.behavior_coverage*100).toFixed(0)}%</strong></div>
+                  <div><span>COMBINATION NOVELTY</span><strong>{(analysis.novelty.combination_novelty*100).toFixed(0)}%</strong></div>
                 </div>
               </article>
             </div>
