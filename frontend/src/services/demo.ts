@@ -165,7 +165,7 @@ export async function analyzeInBrowser(request: AnalyzeRequest): Promise<Analyze
     reproducible: true,
     evaluation_version: "RA-XSOC-X-EVAL-1.0"
   };
-  const verification=(await verifyMitre(top.map(x=>x.c)))[0];
+  const verification=await verifyMitre(top.map(x=>x.c));
   const alertPresent=/alert|alerted|detection|siem|edr|ids|wazuh|splunk|sentinel|rule fired|blocked/.test(text);
   const benignScore=top.find(x=>x.c.id==="benign_admin")?.score ?? 0;
   const maliciousScore=Math.max(...top.filter(x=>x.c.id!=="benign_admin").map(x=>x.score),0);
@@ -180,7 +180,7 @@ export async function analyzeInBrowser(request: AnalyzeRequest): Promise<Analyze
   const explanation=[
     `The engine evaluated ${CANDIDATES.length} behavior hypotheses instead of selecting one attack type up front.`,
     `Leading candidates: ${candidateList}.`,
-    `MITRE verification: ${verification.status}. The verifier is independent of the keyword ranking.`,
+    `MITRE verification: ${verification[0]?.status ?? "unavailable"}. The verifier is independent of the keyword ranking.`,
     securityState==="undetermined" ? "The supplied activity is insufficient to establish the real security state; collect the next evidence before assigning TP/FP/TN/FN." : `Evidence currently supports a ${securityState} security state.`
   ];
   const nextEvidence=["Original alert/rule context","Identity + source/destination IP/device","Authentication and MFA events","Endpoint process tree or application logs","Authorization/change-ticket context"];
