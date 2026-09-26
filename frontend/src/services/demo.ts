@@ -1,118 +1,152 @@
-import type { AnalyzeRequest, AnalyzeResponse, AttackMatchResponse } from "../types/api";
+import type {
+  AnalyzeRequest, AnalyzeResponse, AttackMatchResponse, EvidenceItem,
+  Hypothesis, InvestigationStep, MitreTechniqueResponse, SourceVerification
+} from "../types/api";
 
-const mitre = {
-  phishing: [
-    { technique_id: "T1566.002", name: "Phishing: Spearphishing Link", tactic: "Initial Access", url: "https://attack.mitre.org/techniques/T1566/002/" },
-    { technique_id: "T1078", name: "Valid Accounts", tactic: "Initial Access / Persistence", url: "https://attack.mitre.org/techniques/T1078/" },
-  ],
-  malware: [
-    { technique_id: "T1204.002", name: "User Execution: Malicious File", tactic: "Execution", url: "https://attack.mitre.org/techniques/T1204/002/" },
-    { technique_id: "T1059.001", name: "PowerShell", tactic: "Execution", url: "https://attack.mitre.org/techniques/T1059/001/" },
-  ],
-  lateral: [
-    { technique_id: "T1021", name: "Remote Services", tactic: "Lateral Movement", url: "https://attack.mitre.org/techniques/T1021/" },
-    { technique_id: "T1078", name: "Valid Accounts", tactic: "Initial Access / Persistence", url: "https://attack.mitre.org/techniques/T1078/" },
-  ],
-};
+type Candidate = {
+  id: string
+  name: string
+  category: string
+  keywords: string[]
+  techniques: MitreTechniqueResponse[]
+  playbook: {
+    investigation: string[]
+    containment: string[]
+    recovery: string[]
+    prevention: string[]
+    detection_rules: string[]
+  }
+  beginner: string[]
+}
 
-function match(id: string, name: string, score: number, techniques: AttackMatchResponse["mitre_techniques"]): AttackMatchResponse {
+const technique = (id: string, name: string, tactic: string): MitreTechniqueResponse => ({
+  technique_id: id,
+  name,
+  tactic,
+  url: `https://attack.mitre.org/techniques/${id.replace(".", "/")}/`
+})
+
+const CANDIDATES: Candidate[] = [
+  { id:"phishing", name:"Phishing", category:"Initial Access", keywords:["phishing","phish","spoofed email","credential link","login link","malicious link","spearphishing"], techniques:[technique("T1566","Phishing","Initial Access"),technique("T1566.002","Phishing: Spearphishing Link","Initial Access")], playbook:{investigation:["Inspect original headers and sender infrastructure.","Extract every URL and follow redirects in a safe analysis environment.","Correlate the recipient's authentication and mailbox activity."],containment:["Quarantine the message and preserve the original.","Protect or challenge affected accounts if compromise is supported."],recovery:["Reset confirmed exposed credentials and revoke active sessions."],prevention:["Strengthen mail filtering and phishing-resistant MFA."],detection_rules:["Correlate suspicious messages with subsequent anomalous authentication."]}, beginner:["Check the original email, not a screenshot.","Inspect sender, Reply-To, URLs and redirects.","Check whether the user entered credentials.","Correlate the timestamp with sign-in logs."] },
+  { id:"valid_accounts", name:"Valid Accounts / Account Compromise", category:"Credential Access", keywords:["stolen credential","compromised account","valid account","password spray","credential reuse","impossible travel","unusual login","login from","successful login"], techniques:[technique("T1078","Valid Accounts","Defense Evasion / Persistence / Privilege Escalation / Initial Access")], playbook:{investigation:["Review sign-in history, source IP, device, MFA and geography.","Compare the activity with the user's normal baseline.","Trace actions performed after authentication."],containment:["Protect the affected identity using approved account controls.","Revoke suspicious sessions and tokens when compromise is confirmed."],recovery:["Reset credentials and review MFA registrations."],prevention:["Use phishing-resistant MFA and conditional access."],detection_rules:["Detect anomalous authentication and impossible-travel sequences."]}, beginner:["Identify the account and source IP.","Check whether the device and location are normal.","Check MFA result.","Review activity immediately after login."] },
+  { id:"execution", name:"Command and Script Execution", category:"Execution", keywords:["powershell","cmd.exe","command prompt","wscript","cscript","bash","script","encoded command","execution"], techniques:[technique("T1059","Command and Scripting Interpreter","Execution"),technique("T1059.001","PowerShell","Execution")], playbook:{investigation:["Capture the exact command line and parent process.","Inspect script contents, downloaded files and destinations.","Check persistence and follow-on process activity."],containment:["Isolate an affected endpoint only under approved IR procedure."],recovery:["Remove confirmed malicious artifacts and restore from trusted state."],prevention:["Constrain unnecessary scripting and administrative execution."],detection_rules:["Alert on suspicious parent-child process chains and encoded commands."]}, beginner:["Copy the exact command line.","Find the parent process.","Determine what the command downloaded or changed.","Check the same user and host for follow-on events."] },
+  { id:"malware", name:"Malware / Malicious File", category:"Execution", keywords:["malware","trojan","payload","malicious file","exe","dll","ransomware","backdoor","dropper","virus"], techniques:[technique("T1204.002","User Execution: Malicious File","Execution"),technique("T1105","Ingress Tool Transfer","Command and Control")], playbook:{investigation:["Hash and safely identify the file.","Inspect process tree, persistence and network destinations.","Search for the same hash or behavior across hosts."],containment:["Isolate affected hosts through approved EDR workflow."],recovery:["Remove confirmed malware and restore affected systems as required."],prevention:["Harden application control and endpoint protection."],detection_rules:["Correlate new executable creation with unusual outbound traffic."]}, beginner:["Record the file hash.","Find the process that launched it.","Check network connections.","Search whether other hosts have the same indicator."] },
+  { id:"persistence", name:"Persistence", category:"Persistence", keywords:["scheduled task","startup","run key","registry run","service created","persistence","cron","autorun"], techniques:[technique("T1053","Scheduled Task/Job","Persistence"),technique("T1547","Boot or Logon Autostart Execution","Persistence")], playbook:{investigation:["Enumerate the persistence mechanism and creator.","Identify the account, parent process and creation time.","Trace the payload launched by the persistence mechanism."],containment:["Disable only confirmed malicious persistence using approved procedure."],recovery:["Remove persistence and verify it does not recreate."],prevention:["Monitor new services, scheduled tasks and autostart locations."],detection_rules:["Alert on unusual persistence creation by non-administrative processes."]}, beginner:["Identify exactly what starts automatically.","Find who created it and when.","Inspect the program or command it launches.","Check whether it recreates after removal."] },
+  { id:"privilege_escalation", name:"Privilege Escalation", category:"Privilege Escalation", keywords:["privilege escalation","admin rights","elevated","uac bypass","sudo","root","administrator","system account"], techniques:[technique("T1548","Abuse Elevation Control Mechanism","Privilege Escalation")], playbook:{investigation:["Determine the privilege transition and initiating process.","Review token, group membership and elevation events.","Identify the resource accessed after elevation."],containment:["Protect affected privileged identities and systems."],recovery:["Remove unauthorized privilege changes and rotate compromised credentials."],prevention:["Apply least privilege and monitor elevation events."],detection_rules:["Correlate elevation events with unusual process creation."]}, beginner:["Identify the original user.","Determine when privileges changed.","Find the process that requested elevation.","Check what happened immediately after elevation."] },
+  { id:"defense_evasion", name:"Defense Evasion", category:"Defense Evasion", keywords:["disable defender","disable antivirus","tamper","clear logs","delete logs","obfuscated","encoded","bypass detection","security tool disabled"], techniques:[technique("T1562.001","Impair Defenses: Disable or Modify Tools","Defense Evasion"),technique("T1070","Indicator Removal","Defense Evasion")], playbook:{investigation:["Determine what security control changed and by which process.","Preserve available telemetry before further destructive changes.","Trace the activity before and after the evasion event."],containment:["Protect affected security controls and endpoints."],recovery:["Restore security tooling and investigate preceding activity."],prevention:["Restrict security-control modification privileges."],detection_rules:["Alert on security-tool tampering and unexpected log clearing."]}, beginner:["Record exactly which control changed.","Find who or what changed it.","Check events immediately before the change.","Look for payload execution or persistence after it."] },
+  { id:"discovery", name:"Discovery", category:"Discovery", keywords:["network scan","nmap","whoami","ipconfig","systeminfo","net user","net group","discovery","enumeration","directory listing"], techniques:[technique("T1046","Network Service Scanning","Discovery"),technique("T1087","Account Discovery","Discovery")], playbook:{investigation:["Identify the command, source host and target range.","Determine whether the activity matches an approved administrative scan.","Correlate discovery with subsequent access attempts."],containment:["Restrict suspicious scanning where approved."],recovery:["Review exposed services and credentials if compromise is established."],prevention:["Limit unnecessary network exposure and monitor reconnaissance."],detection_rules:["Correlate discovery commands with later authentication or exploitation."]}, beginner:["Find who ran the scan.","Identify the source and targets.","Check whether it is approved.","Look for what happened after discovery."] },
+  { id:"lateral_movement", name:"Lateral Movement", category:"Lateral Movement", keywords:["lateral movement","rdp","remote desktop","smb","psexec","winrm","ssh","remote service","internal host","east-west"], techniques:[technique("T1021","Remote Services","Lateral Movement"),technique("T1021.001","Remote Services: RDP","Lateral Movement")], playbook:{investigation:["Map source host, destination host and identity.","Review authentication and remote-service telemetry.","Trace the path across hosts and privileged accounts."],containment:["Restrict confirmed suspicious remote sessions under approved controls."],recovery:["Rotate compromised credentials and remove unauthorized persistence."],prevention:["Reduce remote-service exposure and enforce strong authentication."],detection_rules:["Correlate unusual east-west authentication with process activity."]}, beginner:["Write down source and destination.","Identify the account used.","Check whether the connection was expected.","Follow the same account across other hosts."] },
+  { id:"command_control", name:"Command and Control", category:"Command and Control", keywords:["c2","command and control","beacon","beaconing","callback","dns tunnel","reverse shell","cobalt","external connection","periodic connection"], techniques:[technique("T1071","Application Layer Protocol","Command and Control"),technique("T1105","Ingress Tool Transfer","Command and Control")], playbook:{investigation:["Analyze destination, timing, protocol and process ownership.","Look for periodic or unusual outbound communication.","Correlate network activity with endpoint execution."],containment:["Restrict confirmed malicious destinations using approved controls."],recovery:["Remove the communicating payload after evidence preservation."],prevention:["Improve egress controls and network analytics."],detection_rules:["Detect periodic outbound connections correlated with suspicious processes."]}, beginner:["Identify the process making the connection.","Record destination and port.","Check whether the traffic repeats.","Look for the process that created the connection."] },
+  { id:"collection", name:"Collection", category:"Collection", keywords:["collect files","archive","zip","screenshot","clipboard","keylogging","staging","sensitive files","data collection"], techniques:[technique("T1114","Email Collection","Collection"),technique("T1113","Screen Capture","Collection")], playbook:{investigation:["Identify what data was accessed or staged.","Determine the account, host and collection mechanism.","Look for subsequent transfer or exfiltration."],containment:["Protect affected data stores and identities."],recovery:["Assess accessed data and required recovery actions."],prevention:["Apply least privilege and monitor sensitive-data access."],detection_rules:["Correlate bulk access or staging with unusual outbound activity."]}, beginner:["Identify what data was accessed.","Find the user and host.","Check whether files were staged or archived.","Look for transfer activity afterward."] },
+  { id:"exfiltration", name:"Exfiltration", category:"Exfiltration", keywords:["exfiltration","data theft","upload","uploaded data","large outbound","cloud storage","stolen data","transfer data"], techniques:[technique("T1041","Exfiltration Over C2 Channel","Exfiltration"),technique("T1567","Exfiltration Over Web Service","Exfiltration")], playbook:{investigation:["Quantify the data transferred and destination.","Identify the source process and account.","Determine whether the transfer was authorized."],containment:["Restrict confirmed malicious transfer paths using approved controls."],recovery:["Assess exposed information and affected identities."],prevention:["Strengthen egress controls and sensitive-data monitoring."],detection_rules:["Detect unusual outbound volume and sensitive-data staging."]}, beginner:["Find the destination.","Measure the amount of data.","Identify the process and account.","Check whether the transfer was authorized."] },
+  { id:"impact", name:"Impact / Ransomware", category:"Impact", keywords:["ransomware","encrypted files","file encryption","data destruction","wiper","service stopped","impact","denial of service"], techniques:[technique("T1486","Data Encrypted for Impact","Impact"),technique("T1490","Inhibit System Recovery","Impact")], playbook:{investigation:["Determine affected systems and scope.","Preserve evidence and identify the initiating account/process.","Check backup and recovery integrity."],containment:["Follow approved incident containment and isolation procedures."],recovery:["Recover from trusted backups after root cause and persistence are addressed."],prevention:["Protect backups and restrict high-impact administrative actions."],detection_rules:["Correlate mass file changes with suspicious process execution."]}, beginner:["Determine what is affected.","Find the first affected host.","Identify the process and account responsible.","Protect evidence and escalate immediately."] },
+  { id:"web_attack", name:"Web Application Attack", category:"Initial Access / Execution", keywords:["sql injection","sqli","xss","web shell","command injection","path traversal","web application","http exploit","upload shell"], techniques:[technique("T1190","Exploit Public-Facing Application","Initial Access")], playbook:{investigation:["Inspect HTTP requests, response codes and application logs.","Identify the vulnerable endpoint and payload.","Check for shell execution, persistence and follow-on access."],containment:["Protect the affected application through approved controls."],recovery:["Patch or mitigate the exploited condition after evidence preservation."],prevention:["Harden input validation, authentication and exposed services."],detection_rules:["Correlate exploit-like requests with process or file creation."]}, beginner:["Find the request that triggered the alert.","Check the application response.","Inspect server-side process/file changes.","Look for a follow-on shell or outbound connection."] },
+  { id:"credential_access", name:"Credential Access", category:"Credential Access", keywords:["credential dumping","lsass","mimikatz","password dump","hash dump","token theft","credential access","ntds"], techniques:[technique("T1003","OS Credential Dumping","Credential Access"),technique("T1555","Credentials from Password Stores","Credential Access")], playbook:{investigation:["Identify the credential source and process.","Check access to credential stores and privileged processes.","Trace use of recovered credentials."],containment:["Protect affected accounts and hosts."],recovery:["Rotate potentially exposed credentials and revoke tokens."],prevention:["Protect credential stores and enforce privileged-access controls."],detection_rules:["Monitor access to credential stores by unusual processes."]}, beginner:["Identify what credential store was accessed.","Find the process and account.","Check whether credentials were actually obtained.","Trace subsequent authentication using them."] },
+  { id:"benign_admin", name:"Authorized / Benign Administrative Activity", category:"Benign", keywords:["approved change","maintenance","administrator","scheduled maintenance","backup job","patching","monitoring","deployment","automation"], techniques:[], playbook:{investigation:["Verify the change ticket, owner, time window and expected host scope.","Correlate process and authentication activity with the approved task.","Look for unexplained actions outside the change."],containment:[],recovery:["No recovery action if activity is verified as authorized."],prevention:["Document approved administrative baselines where appropriate."],detection_rules:["Tune detections using validated benign context rather than simply suppressing alerts."]}, beginner:["Find the change ticket or approval.","Verify user, host and time window.","Check that the observed commands match the approved work.","Look for anything outside the approved scope."] }
+];
+
+const lower = (s:string) => s.toLowerCase();
+function scoreCandidate(c:Candidate, text:string): number {
+  const hits = c.keywords.filter(k => text.includes(k)).length;
+  if (!hits) return 0;
+  const unique = new Set(c.keywords.filter(k => text.includes(k)));
+  const density = Math.min(unique.size / 4, 1);
+  return Math.min(0.22 + hits * 0.11 + density * 0.35, 0.97);
+}
+
+function evidenceFor(c:Candidate, text:string): EvidenceItem[] {
+  const items:EvidenceItem[] = [];
+  c.keywords.filter(k=>text.includes(k)).slice(0,5).forEach((k,i)=>items.push({
+    id:`${c.id}-support-${i}`, text:`Observed indicator: "${k}"`, type:"supporting", source:"user-supplied activity", strength:0.55+i*0.06
+  }));
+  if (!items.length) items.push({id:`${c.id}-missing`,text:"No direct indicator for this hypothesis was supplied.",type:"missing",source:"user-supplied activity",strength:0});
+  return items;
+}
+
+function buildHypothesis(c:Candidate, score:number, text:string): Hypothesis {
+  const ev=evidenceFor(c,text);
+  const support=ev.filter(x=>x.type==="supporting").map(x=>x.text);
+  const missing:string[]=[];
+  if(c.id!=="benign_admin") missing.push("Authorization/baseline evidence", "Correlated endpoint or network telemetry");
+  if(c.id==="benign_admin") missing.push("Change ticket or administrator confirmation");
+  const status = score>=0.7 ? "supported" : score>=0.45 ? "possible" : score>=0.2 ? "weak" : "contradicted";
+  return {id:c.id,name:c.name,category:c.category,score,status,supporting:support,contradicting:[],missing,techniques:c.techniques};
+}
+
+function playbookFor(c:Candidate, top:Candidate[]) {
+  const investigation=[...c.playbook.investigation];
+  top.slice(1,3).forEach(x=>investigation.push(`Differentiate from ${x.name} using identity, endpoint and network evidence.`));
+  return {...c.playbook,investigation};
+}
+
+function buildSteps(h:Hypothesis[]): InvestigationStep[] {
+  const steps:InvestigationStep[]=[
+    {order:1,title:"Preserve the original activity",action:"Record the exact alert/log/email/command and timestamp before changing anything.",whatToLookFor:"Original event, user, host, source/destination, timestamp and alert context.",supports:["A reproducible event exists."],contradicts:["The alert cannot be reproduced or source data is invalid."]},
+    {order:2,title:"Identify the identity and asset",action:"Determine who performed the activity and which host, application or account was involved.",whatToLookFor:"Username, device, IP, process, application and asset owner.",supports:["Known affected identity/asset."],contradicts:["Identity or asset attribution is inconsistent."]},
+    {order:3,title:"Check authorization and baseline",action:"Determine whether the activity was expected, approved or normal for this user/host.",whatToLookFor:"Change ticket, maintenance window, known automation, normal source and device.",supports:["Approved and expected activity supports benign hypothesis."],contradicts:["No authorization or clear deviation from baseline."]},
+    {order:4,title:"Correlate surrounding telemetry",action:"Review events immediately before and after the activity.",whatToLookFor:"Authentication, process tree, network connections, mailbox, file and privilege events.",supports:["Coherent malicious sequence supports a security hypothesis."],contradicts:["Independent benign explanation with no suspicious follow-on activity."]},
+    {order:5,title:"Verify the leading hypotheses",action:"Test the strongest and competing hypotheses against supporting and contradicting evidence.",whatToLookFor:"Evidence that distinguishes phishing, malware, credential abuse, lateral movement, benign administration and other candidates.",supports:["One hypothesis explains the evidence with few contradictions."],contradicts:["A competing hypothesis explains the evidence better."]},
+    {order:6,title:"Determine impact and scope",action:"Identify affected accounts, hosts, data and follow-on actions.",whatToLookFor:"Additional victims, persistence, privilege changes, data access or transfer.",supports:["Broader correlated impact increases incident confidence."],contradicts:["No impact and verified benign scope."]},
+    {order:7,title:"Record verdict and next action",action:"Assign TP/FP/TN/FN only when alert state and investigated security state are supported by evidence.",whatToLookFor:"Alert presence plus verified malicious/benign outcome.",supports:["Evidence supports a defensible verdict."],contradicts:["Evidence is insufficient; keep UNDETERMINED and escalate."]}
+  ];
+  return steps;
+}
+
+async function verifyMitre(candidates:Candidate[]): Promise<SourceVerification> {
+  const url="https://raw.githubusercontent.com/mitre-attack/attack-stix-data/master/enterprise-attack/enterprise-attack.json";
+  try {
+    const cached=sessionStorage.getItem("ra-xsoc-mitre-enterprise");
+    const raw=cached ? JSON.parse(cached) : await (await fetch(url,{cache:"force-cache"})).json();
+    if(!cached) sessionStorage.setItem("ra-xsoc-mitre-enterprise",JSON.stringify(raw));
+    const ids=new Set<string>();
+    for(const o of raw.objects ?? []) if(o.type==="attack-pattern" && !o.revoked && !o.x_mitre_deprecated) ids.add(o.external_references?.find((r:any)=>r.source_name==="mitre-attack")?.external_id);
+    const wanted=candidates.flatMap(c=>c.techniques.map(t=>t.technique_id));
+    const verified=wanted.filter(id=>ids.has(id));
+    return {source:"MITRE ATT&CK Enterprise STIX",status:verified.length?"verified":"partial",version:"current Enterprise STIX release",details:`${verified.length}/${wanted.length || 1} candidate technique mappings verified against the machine-readable ATT&CK dataset.`,url:"https://attack.mitre.org/"};
+  } catch {
+    return {source:"MITRE ATT&CK Enterprise STIX",status:"unavailable",details:"Live verification was unavailable in this browser session; local technique mappings are retained and human review is required.",url:"https://attack.mitre.org/"};
+  }
+}
+
+export async function analyzeInBrowser(request: AnalyzeRequest): Promise<AnalyzeResponse> {
+  const text=lower(request.description);
+  const scored=CANDIDATES.map(c=>({c,score:scoreCandidate(c,text)})).sort((a,b)=>b.score-a.score);
+  const nonzero=scored.filter(x=>x.score>0);
+  const top=(nonzero.length?nonzero:scored.slice(0,6)).slice(0,8);
+  const primary=top[0];
+  const alternatives=top.slice(1).map(x=>toMatch(x.c,x.score));
+  const hypotheses=top.map(x=>buildHypothesis(x.c,x.score,text));
+  const verification=await verifyMitre(top.map(x=>x.c));
+  const alertPresent=/alert|alerted|detection|siem|edr|ids|wazuh|splunk|sentinel|rule fired|blocked/.test(text);
+  const benignScore=top.find(x=>x.c.id==="benign_admin")?.score ?? 0;
+  const maliciousScore=Math.max(...top.filter(x=>x.c.id!=="benign_admin").map(x=>x.score),0);
+  const securityState: "malicious"|"benign"|"undetermined" = maliciousScore>=0.72 && maliciousScore>benignScore+0.12 ? "malicious" : benignScore>=0.72 && benignScore>maliciousScore+0.12 ? "benign" : "undetermined";
+  const detectionState=alertPresent?"alert-present":"no-alert-supplied";
+  let verdict: "TRUE POSITIVE"|"FALSE POSITIVE"|"TRUE NEGATIVE"|"FALSE NEGATIVE"|"UNDETERMINED"="UNDETERMINED";
+  if(securityState==="malicious") verdict=alertPresent?"TRUE POSITIVE":"FALSE NEGATIVE";
+  else if(securityState==="benign") verdict=alertPresent?"FALSE POSITIVE":"TRUE NEGATIVE";
+  const severity=securityState==="malicious"?(maliciousScore>=0.85?"critical":"high"):"medium";
+  const steps=buildSteps(hypotheses);
+  const candidateList=top.map(x=>x.c.name).join(", ");
+  const explanation=[
+    `The engine evaluated ${CANDIDATES.length} behavior hypotheses instead of selecting one attack type up front.`,
+    `Leading candidates: ${candidateList}.`,
+    `MITRE verification: ${verification.status}. The verifier is independent of the keyword ranking.`,
+    securityState==="undetermined" ? "The supplied activity is insufficient to establish the real security state; collect the next evidence before assigning TP/FP/TN/FN." : `Evidence currently supports a ${securityState} security state.`
+  ];
+  const nextEvidence=["Original alert/rule context","Identity + source/destination IP/device","Authentication and MFA events","Endpoint process tree or application logs","Authorization/change-ticket context"];
+  const primaryMatch=toMatch(primary.c,Math.max(primary.score,0.01));
+  const now=new Date().toISOString();
   return {
-    attack_id: id,
-    name,
-    semantic_score: Math.max(0, score - 0.04),
-    keyword_score: Math.max(0, score - 0.01),
-    hybrid_score: score,
-    mitre_techniques: techniques,
+    analysis_id:`rx-x-${Date.now()}`,incident_id:request.incident_id??`incident-${Date.now()}`,
+    primary_match:primaryMatch,alternatives,severity,novelty_status:"multi-hypothesis",confidence:Math.max(0.35,Math.min(primary.score,0.97)),
+    playbook:playbookFor(primary.c,top.map(x=>x.c)),explanation,requires_review:true,model_version:"ra-xsoc-x-investigation-engine-1.0",
+    review_status:"PENDING_HUMAN_REVIEW",created_at:now,evidence:evidenceFor(primary.c,text),hypotheses,verification,investigation:steps,
+    assessment:{detectionState,securityState,verdict,rationale:verdict==="UNDETERMINED"?"Do not force a verdict until the missing evidence is collected.":`Current evidence supports ${verdict}.`},
+    next_evidence:nextEvidence,beginner_summary:primary.c.beginner
   };
 }
 
-export function analyzeInBrowser(request: AnalyzeRequest): AnalyzeResponse {
-  const text = request.description.toLowerCase();
-  const now = new Date().toISOString();
-  let primary: AttackMatchResponse;
-  let alternatives: AttackMatchResponse[];
-  let severity = "medium";
-  let explanation: string[];
-  let playbook: AnalyzeResponse["playbook"];
-
-  if (/phish|credential|login link|spoof|email/.test(text)) {
-    primary = match("phishing", "Phishing", 0.91, mitre.phishing);
-    alternatives = [match("account_takeover", "Account Takeover", 0.63, mitre.phishing.slice(1)), match("business_email_compromise", "Business Email Compromise", 0.48, mitre.phishing)];
-    severity = "high";
-    explanation = [
-      "Suspicious email and credential-request indicators were identified.",
-      "The incident is consistent with a phishing-led credential compromise path.",
-      "ATT&CK mappings are attached to the evidence-supported hypothesis.",
-    ];
-    playbook = {
-      containment: ["Disable or challenge the affected account if compromise is confirmed.", "Invalidate active sessions and tokens."],
-      investigation: ["Inspect the original email headers and URL destination.", "Review authentication events around the reported timestamp.", "Check endpoint and mailbox activity for follow-on access."],
-      recovery: ["Reset exposed credentials and require MFA reauthentication.", "Remove malicious messages from affected mailboxes."],
-      prevention: ["Strengthen phishing-resistant MFA and mail filtering.", "Add confirmed indicators to approved detection controls."],
-      detection_rules: ["Alert on suspicious login geography or impossible-travel patterns.", "Correlate credential submission with subsequent authentication anomalies."],
-    };
-  } else if (/powershell|malware|ransomware|payload|executable|trojan/.test(text)) {
-    primary = match("malware", "Malware", 0.88, mitre.malware);
-    alternatives = [match("ransomware", "Ransomware", 0.57, mitre.malware), match("web_shell", "Web Shell", 0.41, mitre.malware)];
-    severity = "critical";
-    explanation = [
-      "Execution-oriented indicators were identified in the supplied incident description.",
-      "The evidence is consistent with malicious code execution and possible follow-on activity.",
-      "Endpoint telemetry should be acquired before treating the hypothesis as confirmed.",
-    ];
-    playbook = {
-      containment: ["Isolate the affected endpoint using an approved EDR workflow.", "Preserve volatile and relevant endpoint evidence."],
-      investigation: ["Collect process creation and PowerShell telemetry.", "Inspect parent-child process relationships and network destinations.", "Search for persistence and lateral movement indicators."],
-      recovery: ["Remove confirmed malicious artifacts through approved response procedures.", "Restore affected systems from trusted recovery points where required."],
-      prevention: ["Constrain unnecessary scripting and execution paths.", "Harden endpoint application controls."],
-      detection_rules: ["Monitor suspicious PowerShell execution chains.", "Correlate unsigned binaries with unusual outbound connections."],
-    };
-  } else if (/lateral|remote desktop|rdp|smb|internal host|remote service/.test(text)) {
-    primary = match("lateral_movement", "Lateral Movement", 0.86, mitre.lateral);
-    alternatives = [match("active_directory_compromise", "Active Directory Compromise", 0.61, mitre.lateral), match("account_takeover", "Account Takeover", 0.45, mitre.lateral)];
-    severity = "high";
-    explanation = [
-      "Internal remote-access indicators suggest possible movement between hosts.",
-      "Valid-account or remote-service abuse should be investigated as competing hypotheses.",
-      "Authentication and endpoint evidence are required to confirm the attack path.",
-    ];
-    playbook = {
-      containment: ["Restrict suspicious remote sessions using approved controls.", "Protect affected privileged accounts."],
-      investigation: ["Correlate source and destination authentication events.", "Inspect remote-service activity and endpoint process telemetry.", "Map the observed path between hosts and identities."],
-      recovery: ["Rotate compromised credentials and review privileged access.", "Remove unauthorized persistence identified during investigation."],
-      prevention: ["Reduce unnecessary remote-service exposure.", "Apply least privilege and stronger authentication controls."],
-      detection_rules: ["Alert on unusual east-west authentication patterns.", "Correlate new remote sessions with privilege changes."],
-    };
-  } else {
-    primary = match("incident_analysis", "Security Incident", 0.55, []);
-    alternatives = [match("phishing", "Phishing", 0.39, mitre.phishing), match("malware", "Malware", 0.36, mitre.malware)];
-    explanation = [
-      "The supplied description does not contain enough evidence for a high-confidence classification.",
-      "The browser demo keeps multiple hypotheses rather than forcing a single conclusion.",
-      "Add concrete email, authentication, endpoint, network, or IOC evidence for a stronger result.",
-    ];
-    playbook = {
-      containment: ["Preserve evidence before making disruptive changes.", "Apply only approved containment actions supported by confirmed evidence."],
-      investigation: ["Collect the earliest known event and relevant surrounding telemetry.", "Identify affected identities, hosts, indicators, and timestamps."],
-      recovery: ["Recover only after the root cause and scope are established."],
-      prevention: ["Document confirmed control gaps after investigation."],
-      detection_rules: ["Create detections only from validated indicators and behavior."],
-    };
-  }
-
-  return {
-    analysis_id: `demo-${Date.now()}`,
-    incident_id: request.incident_id ?? `demo-incident-${Date.now()}`,
-    primary_match: primary,
-    alternatives,
-    severity,
-    novelty_status: "known-pattern",
-    confidence: primary.hybrid_score,
-    playbook,
-    explanation,
-    requires_review: true,
-    model_version: "ra-xsoc-x-browser-demo-1.0",
-    review_status: "PENDING_HUMAN_REVIEW",
-    created_at: now,
-  };
+function toMatch(c:Candidate,score:number):AttackMatchResponse {
+  return {attack_id:c.id,name:c.name,semantic_score:Math.max(0,score-0.05),keyword_score:Math.max(0,score-0.01),hybrid_score:score,mitre_techniques:c.techniques};
 }
