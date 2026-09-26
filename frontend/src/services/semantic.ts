@@ -5,7 +5,7 @@ type Extractor = (input:string|string[], options?:Record<string,unknown>) => Pro
 const MODEL = "onnx-community/all-MiniLM-L6-v2-ONNX";
 let extractorPromise: Promise<Extractor> | null = null;
 
-async function getExtractor(): Promise<FeatureExtractionPipeline> {
+async function getExtractor(): Promise<Extractor> {
   if (!extractorPromise) {
     const device = typeof navigator !== "undefined" && "gpu" in navigator ? "webgpu" : "wasm";
     extractorPromise = pipeline("feature-extraction", MODEL, { device, dtype: "q8" }) as unknown as Promise<Extractor>;
