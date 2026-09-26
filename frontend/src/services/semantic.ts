@@ -1,22 +1,45 @@
 import { pipeline } from "@huggingface/transformers";
 
 type Extractor = (input:string|string[], options?:Record<string,unknown>) => Promise<{tolist:()=>unknown}>;
-
 const MODEL = "onnx-community/all-MiniLM-L6-v2-ONNX";
 let extractorPromise: Promise<Extractor> | null = null;
+let runtime: "webgpu"|"wasm"|"unknown" = "unknown";
 
 async function getExtractor(): Promise<Extractor> {
-  if (!extractorPromise) {
-    const device = typeof navigator !== "undefined" && "gpu" in navigator ? "webgpu" : "wasm";
-    extractorPromise = pipeline("feature-extraction", MODEL, { device, dtype: "q8" }) as unknown as Promise<Extractor>;
-  }
+  if (extractorPromise) return extractorPromise;
+
+  extractorPromise = (async () => {
+    // WebGPU supports the smaller q4 ONNX variant reliably; fall back to WASM q8.
+    if (typeof navigator !== "undefined" && "gpu" in navigator) {
+      try {
+        runtime = "webgpu";
+        return await pipeline("feature-extraction", MODEL, {
+          device: "webgpu",
+          dtype: "q4",
+        }) as unknown as Extractor;
+      } catch {
+        // Browser WebGPU support/model compatibility can vary by device.
+      }
+    }
+
+    runtime = "wasm";
+    return await pipeline("feature-extraction", MODEL, {
+      device: "wasm",
+      dtype: "q8",
+    }) as unknown as Extractor;
+  })().catch(error => {
+    extractorPromise = null;
+    throw new Error(
+      "Browser semantic model could not be loaded. Check the network connection and allow the model download from Hugging Face, then retry.",
+      { cause: error }
+    );
+  });
+
   return extractorPromise;
 }
 
 function cosine(a: Float32Array, b: Float32Array): number {
-  let dot = 0;
-  let na = 0;
-  let nb = 0;
+  let dot = 0, na = 0, nb = 0;
   const n = Math.min(a.length, b.length);
   for (let i = 0; i < n; i++) {
     dot += a[i] * b[i];
@@ -27,16 +50,14 @@ function cosine(a: Float32Array, b: Float32Array): number {
 }
 
 type EmbeddingCache = Record<string, number[]>;
-
-const CACHE_KEY = "ra-xsoc-x-semantic-v1";
+const CACHE_KEY = "ra-xsoc-x-semantic-v2";
 
 function readCache(): EmbeddingCache {
   try { return JSON.parse(localStorage.getItem(CACHE_KEY) || "{}") as EmbeddingCache; }
   catch { return {}; }
 }
-
 function writeCache(cache: EmbeddingCache): void {
-  try { localStorage.setItem(CACHE_KEY, JSON.stringify(cache)); } catch { /* cache is optional */ }
+  try { localStorage.setItem(CACHE_KEY, JSON.stringify(cache)); } catch { /* optional cache */ }
 }
 
 export async function semanticRank(
@@ -46,17 +67,22 @@ export async function semanticRank(
   const extractor = await getExtractor();
   const cache = readCache();
   const missing = documents.filter(d => !cache[d.id]);
+
   if (missing.length) {
     const output = await extractor(missing.map(d => d.text), { pooling: "mean", normalize: true });
     const rows = output.tolist() as number[][];
     missing.forEach((d, i) => { cache[d.id] = rows[i]; });
     writeCache(cache);
   }
+
   const q = await extractor(query, { pooling: "mean", normalize: true });
   const qv = Float32Array.from(q.tolist() as number[]);
   const result = new Map<string, number>();
-  for (const d of documents) result.set(d.id, cosine(qv, Float32Array.from(cache[d.id])));
+  for (const d of documents) {
+    result.set(d.id, cosine(qv, Float32Array.from(cache[d.id])));
+  }
   return result;
 }
 
 export const semanticModel = MODEL;
+export function semanticRuntime(): string { return runtime; }
