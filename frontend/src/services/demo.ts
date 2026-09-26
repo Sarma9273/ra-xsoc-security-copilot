@@ -224,6 +224,6 @@ export async function analyzeInBrowser(request: AnalyzeRequest): Promise<Analyze
   };
 }
 
-function toMatch(c:Candidate,score:number):AttackMatchResponse {
-  return {attack_id:c.id,name:c.name,semantic_score:Math.max(0,score-0.05),keyword_score:Math.max(0,score-0.01),hybrid_score:score,mitre_techniques:c.techniques};
+function toMatch(c:Candidate,score:number,semantic=score,lexical=score):AttackMatchResponse {
+  return {attack_id:c.id,name:c.name,semantic_score:semantic,keyword_score:lexical,hybrid_score:score,mitre_techniques:c.techniques};
 }
