@@ -126,7 +126,7 @@ export async function analyzeInBrowser(request: AnalyzeRequest): Promise<Analyze
   if(securityState==="malicious") verdict=alertPresent?"TRUE POSITIVE":"FALSE NEGATIVE";
   else if(securityState==="benign") verdict=alertPresent?"FALSE POSITIVE":"TRUE NEGATIVE";
   const severity=securityState==="malicious"?(maliciousScore>=0.85?"critical":"high"):"medium";
-  const steps=buildSteps(hypotheses);
+  const steps=buildSteps();
   const candidateList=top.map(x=>x.c.name).join(", ");
   const explanation=[
     `The engine evaluated ${CANDIDATES.length} behavior hypotheses instead of selecting one attack type up front.`,
