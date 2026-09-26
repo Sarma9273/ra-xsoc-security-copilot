@@ -96,7 +96,7 @@ async function verifyMitre(candidates:Candidate[]): Promise<SourceVerification> 
   const url="https://raw.githubusercontent.com/mitre-attack/attack-stix-data/master/enterprise-attack/enterprise-attack.json";
   try {
     const cached=sessionStorage.getItem("ra-xsoc-mitre-enterprise");
-    const raw=cached ? JSON.parse(cached) : await (await fetch(url,{cache:"force-cache"})).json();
+    const raw: { objects?: Array<{ type?: string; revoked?: boolean; x_mitre_deprecated?: boolean; external_references?: Array<{ source_name?: string; external_id?: string }> }> = cached ? JSON.parse(cached) : await (await fetch(url,{cache:"force-cache"})).json();
     if(!cached) sessionStorage.setItem("ra-xsoc-mitre-enterprise",JSON.stringify(raw));
     const ids=new Set<string>();
     for(const o of raw.objects ?? []) if(o.type==="attack-pattern" && !o.revoked && !o.x_mitre_deprecated) ids.add(o.external_references?.find((r:any)=>r.source_name==="mitre-attack")?.external_id);
