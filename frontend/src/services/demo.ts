@@ -79,7 +79,7 @@ function playbookFor(c:Candidate, top:Candidate[]) {
   return {...c.playbook,investigation};
 }
 
-function buildSteps(_h:Hypothesis[]): InvestigationStep[] {
+function buildSteps(): InvestigationStep[] {
   const steps:InvestigationStep[]=[
     {order:1,title:"Preserve the original activity",action:"Record the exact alert/log/email/command and timestamp before changing anything.",whatToLookFor:"Original event, user, host, source/destination, timestamp and alert context.",supports:["A reproducible event exists."],contradicts:["The alert cannot be reproduced or source data is invalid."]},
     {order:2,title:"Identify the identity and asset",action:"Determine who performed the activity and which host, application or account was involved.",whatToLookFor:"Username, device, IP, process, application and asset owner.",supports:["Known affected identity/asset."],contradicts:["Identity or asset attribution is inconsistent."]},
