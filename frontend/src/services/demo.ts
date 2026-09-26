@@ -92,7 +92,7 @@ function buildSteps(): InvestigationStep[] {
   return steps;
 }
 
-async function verifyMitre(candidates:Candidate[]): Promise<SourceVerification> {
+async function verifyMitre(candidates:Candidate[]): Promise<SourceVerification[]> {
   const url="https://raw.githubusercontent.com/mitre-attack/attack-stix-data/master/enterprise-attack/enterprise-attack.json";
   try {
     const cached=sessionStorage.getItem("ra-xsoc-mitre-enterprise");
@@ -102,9 +102,9 @@ async function verifyMitre(candidates:Candidate[]): Promise<SourceVerification> 
     for(const o of raw.objects ?? []) if(o.type==="attack-pattern" && !o.revoked && !o.x_mitre_deprecated) { const id=o.external_references?.find(r=>r.source_name==="mitre-attack")?.external_id; if(id) ids.add(id); }
     const wanted=candidates.flatMap(c=>c.techniques.map(t=>t.technique_id));
     const verified=wanted.filter(id=>ids.has(id));
-    return {source:"MITRE ATT&CK Enterprise STIX",status:verified.length?"verified":"partial",version:"current Enterprise STIX release",details:`${verified.length}/${wanted.length || 1} candidate technique mappings verified against the machine-readable ATT&CK dataset.`,url:"https://attack.mitre.org/"};
+    return [{source:"MITRE ATT&CK Enterprise STIX",status:verified.length?"verified":"partial",version:"current Enterprise STIX release",details:`${verified.length}/${wanted.length || 1} candidate technique mappings verified against the machine-readable ATT&CK dataset.`,url:"https://attack.mitre.org/"}];
   } catch {
-    return {source:"MITRE ATT&CK Enterprise STIX",status:"unavailable",details:"Live verification was unavailable in this browser session; local technique mappings are retained and human review is required.",url:"https://attack.mitre.org/"};
+    return [{source:"MITRE ATT&CK Enterprise STIX",status:"unavailable",details:"Live verification was unavailable in this browser session; local technique mappings are retained and human review is required.",url:"https://attack.mitre.org/"}];
   }
 }
 
@@ -116,7 +116,7 @@ export async function analyzeInBrowser(request: AnalyzeRequest): Promise<Analyze
   const primary=top[0];
   const alternatives=top.slice(1).map(x=>toMatch(x.c,x.score));
   const hypotheses=top.map(x=>buildHypothesis(x.c,x.score,text));
-  const verification=await verifyMitre(top.map(x=>x.c));
+  const verification=(await verifyMitre(top.map(x=>x.c)))[0];
   const alertPresent=/alert|alerted|detection|siem|edr|ids|wazuh|splunk|sentinel|rule fired|blocked/.test(text);
   const benignScore=top.find(x=>x.c.id==="benign_admin")?.score ?? 0;
   const maliciousScore=Math.max(...top.filter(x=>x.c.id!=="benign_admin").map(x=>x.score),0);
