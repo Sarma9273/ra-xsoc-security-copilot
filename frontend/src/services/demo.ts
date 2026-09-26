@@ -96,10 +96,10 @@ async function verifyMitre(candidates:Candidate[]): Promise<SourceVerification> 
   const url="https://raw.githubusercontent.com/mitre-attack/attack-stix-data/master/enterprise-attack/enterprise-attack.json";
   try {
     const cached=sessionStorage.getItem("ra-xsoc-mitre-enterprise");
-    const raw: { objects?: Array<{ type?: string; revoked?: boolean; x_mitre_deprecated?: boolean; external_references?: Array<{ source_name?: string; external_id?: string }> }> = cached ? JSON.parse(cached) : await (await fetch(url,{cache:"force-cache"})).json();
+    const raw: { objects?: Array<{ type?: string; revoked?: boolean; x_mitre_deprecated?: boolean; external_references?: Array<{ source_name?: string; external_id?: string }> }> } = cached ? JSON.parse(cached) : await (await fetch(url,{cache:"force-cache"})).json();
     if(!cached) sessionStorage.setItem("ra-xsoc-mitre-enterprise",JSON.stringify(raw));
     const ids=new Set<string>();
-    for(const o of raw.objects ?? []) if(o.type==="attack-pattern" && !o.revoked && !o.x_mitre_deprecated) ids.add(o.external_references?.find(r=>r.source_name==="mitre-attack")?.external_id);
+    for(const o of raw.objects ?? []) if(o.type==="attack-pattern" && !o.revoked && !o.x_mitre_deprecated) { const id=o.external_references?.find(r=>r.source_name==="mitre-attack")?.external_id; if(id) ids.add(id); }
     const wanted=candidates.flatMap(c=>c.techniques.map(t=>t.technique_id));
     const verified=wanted.filter(id=>ids.has(id));
     return {source:"MITRE ATT&CK Enterprise STIX",status:verified.length?"verified":"partial",version:"current Enterprise STIX release",details:`${verified.length}/${wanted.length || 1} candidate technique mappings verified against the machine-readable ATT&CK dataset.`,url:"https://attack.mitre.org/"};
