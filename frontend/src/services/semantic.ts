@@ -1,11 +1,13 @@
-import { pipeline, type FeatureExtractionPipeline } from "@huggingface/transformers";
+import { pipeline } from "@huggingface/transformers";
+
+type Extractor = (input:string|string[], options?:Record<string,unknown>) => Promise<{tolist:()=>unknown}>;
 
 const MODEL = "Xenova/all-MiniLM-L6-v2";
-let extractorPromise: Promise<FeatureExtractionPipeline> | null = null;
+let extractorPromise: Promise<Extractor> | null = null;
 
 async function getExtractor(): Promise<FeatureExtractionPipeline> {
   if (!extractorPromise) {
-    extractorPromise = pipeline("feature-extraction", MODEL) as Promise<FeatureExtractionPipeline>;
+    extractorPromise = pipeline("feature-extraction", MODEL) as unknown as Promise<Extractor>;
   }
   return extractorPromise;
 }
