@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+title: "RA-XSOC-X: Evidence-Driven Adaptive Investigation Intelligence"
+type: software
+message: "If you use RA-XSOC-X in academic work, please cite this repository and the associated research paper when available."
+repository-code: "https://github.com/Sarma9273/ra-xsoc-security-copilot"
+license: MIT
+version: "1.0.0"
+authors:
+  - family-names: Mavuduru
+    given-names: Charan
