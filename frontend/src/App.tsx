@@ -4,7 +4,6 @@ import Header from "./components/Header";
 import IncidentInput from "./components/IncidentInput";
 import AnalysisSummary from "./components/AnalysisSummary";
 import EvidencePanel from "./components/EvidencePanel";
-import Alternatives from "./components/Alternatives";
 import ResponsePlaybook from "./components/ResponsePlaybook";
 import IntelligenceTelemetry from "./components/IntelligenceTelemetry";
 import type { AnalyzeResponse } from "./types/api";
