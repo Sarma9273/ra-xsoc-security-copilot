@@ -77,6 +77,8 @@ export interface NoveltyAssessment {
 }
 
 export interface ResearchEvaluation {
+  planner: { id:string; question:string; evidenceType:string; informationGain:number; distinguishes:string[] }[]
+  experience_adjustment: number
   feature_vector: string[]
   matched_pattern_ids: string[]
   unmatched_features: string[]
