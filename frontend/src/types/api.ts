@@ -58,6 +58,34 @@ export interface InvestigationStep {
   contradicts: string[]
 }
 
+export interface IncidentIdentity {
+  name: string
+  attack_family: string
+  stage: string
+  confidence: number
+  description: string
+}
+
+export interface NoveltyAssessment {
+  score: number
+  status: "KNOWN_PATTERN" | "NOVEL_BEHAVIOR" | "NOVEL_COMBINATION" | "INSUFFICIENT_EVIDENCE"
+  known_similarity: number
+  behavior_coverage: number
+  unseen_signal_ratio: number
+  combination_novelty: number
+  reasons: string[]
+}
+
+export interface ResearchEvaluation {
+  feature_vector: string[]
+  matched_pattern_ids: string[]
+  unmatched_features: string[]
+  hypothesis_count: number
+  technique_count: number
+  reproducible: boolean
+  evaluation_version: string
+}
+
 export interface InvestigationAssessment {
   detectionState: "alert-present" | "no-alert-supplied" | "unknown"
   securityState: "malicious" | "benign" | "undetermined"
@@ -69,6 +97,9 @@ export interface AnalyzeResponse {
   analysis_id: string
   incident_id: string
   primary_match: AttackMatchResponse
+  incident: IncidentIdentity
+  novelty: NoveltyAssessment
+  research: ResearchEvaluation
   alternatives: AttackMatchResponse[]
   severity: string
   novelty_status: string
