@@ -15,7 +15,7 @@ async function getExtractor(): Promise<Extractor> {
         runtime = "webgpu";
         return await pipeline("feature-extraction", MODEL, {
           device: "webgpu",
-          dtype: "q4",
+          dtype: "fp16",
         }) as unknown as Extractor;
       } catch {
         // Browser WebGPU support/model compatibility can vary by device.
