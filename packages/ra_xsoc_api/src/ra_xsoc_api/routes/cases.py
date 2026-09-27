@@ -51,7 +51,7 @@ def submit_feedback(
         comments=request.comments,
         corrected_attack_id=request.corrected_attack_id,
     )
-    updated = store.update_review_status(analysis_id, feedback.status.value)
+    store.update_review_status(analysis_id, feedback.status.value)
     store.save_feedback({
         "feedback_id": feedback.feedback_id,
         "analysis_id": feedback.analysis_id,
