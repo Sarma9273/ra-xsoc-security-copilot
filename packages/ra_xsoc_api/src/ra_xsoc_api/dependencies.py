@@ -6,6 +6,8 @@ from pathlib import Path
 
 from ra_xsoc_api.persistence import CaseStore
 
+from ra_xsoc_api.postgres import PostgresCaseStore
+
 from ra_xsoc_engine.analysis.analyzer import IncidentAnalysisService
 from ra_xsoc_engine.knowledge_base.normalized_repository import NormalizedKnowledgeBaseRepository
 from ra_xsoc_engine.playbooks.repository import KnowledgeBasePlaybookRepository
@@ -79,5 +81,7 @@ def get_application():
 
 
 @lru_cache(maxsize=1)
-def get_case_store() -> CaseStore:
+def get_case_store():
+    if os.getenv("RA_XSOC_DATABASE_URL"):
+        return PostgresCaseStore()
     return CaseStore()
