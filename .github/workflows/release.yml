@@ -24,11 +24,16 @@ jobs:
           python -m pip install --upgrade pip
           pip install -e "./packages/ra_xsoc_engine[ai]"
           pip install -e "./packages/ra_xsoc_api"
-          pip install pytest httpx psycopg[binary] sqlalchemy
+          pip install pytest httpx psycopg[binary] sqlalchemy reportlab
           python ./scripts/generate_retrieval_corpus.py
           python ./scripts/generate_embeddings.py
           python -m pytest -q
           python ./research/evaluate_retrieval.py
+      - name: Upload benchmark evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: ra-xsoc-x-benchmark-${{ inputs.version }}
+          path: research/results/ra_xsoc_x_v1_results.json
       - name: Create release tag
         env:
           VERSION: ${{ inputs.version }}
