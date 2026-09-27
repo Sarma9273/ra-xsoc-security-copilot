@@ -9,6 +9,8 @@ from ra_xsoc_engine.domain.exceptions import (
 from ra_xsoc_engine.domain.models import IncidentInput
 
 from ra_xsoc_api.dependencies import get_application, get_case_store
+from ra_xsoc_api.auth import AuthenticatedUser, require_roles
+from ra_xsoc_engine.domain.enums import UserRole
 from ra_xsoc_api.schemas import (
     AnalyzeRequest,
     AnalyzeResponse,
@@ -55,6 +57,7 @@ def analyze_incident(
     request: AnalyzeRequest,
     application=Depends(get_application),
     store=Depends(get_case_store),
+    user: AuthenticatedUser = Depends(require_roles(UserRole.ADMIN, UserRole.ANALYST, UserRole.REVIEWER)),
 ) -> AnalyzeResponse:
     try:
         incident_kwargs = {
