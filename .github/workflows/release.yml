@@ -4,9 +4,9 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: "Release version, e.g. 1.0.0"
+        description: "Release version, e.g. 2.0.0"
         required: true
-        default: "1.0.0"
+        default: "2.0.0"
 
 permissions:
   contents: write
@@ -34,11 +34,37 @@ jobs:
         with:
           name: ra-xsoc-x-benchmark-${{ inputs.version }}
           path: research/results/ra_xsoc_x_v1_results.json
-      - name: Create release tag
+      - name: Verify release metadata
         env:
           VERSION: ${{ inputs.version }}
         run: |
+          python - <<'PY'
+          import pathlib
+          version = "${{ inputs.version }}"
+          expected = f'version = "{version}"'
+          for path in ("pyproject.toml", "packages/ra_xsoc_engine/pyproject.toml", "packages/ra_xsoc_api/pyproject.toml"):
+              if expected not in pathlib.Path(path).read_text():
+                  raise SystemExit(f"{path} does not declare {version}")
+          if f'version: "{version}"' not in pathlib.Path("CITATION.cff").read_text():
+              raise SystemExit("CITATION.cff version does not match release version")
+          PY
+      - name: Upload benchmark evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: ra-xsoc-x-benchmark-${{ inputs.version }}
+          path: research/results/ra_xsoc_x_v1_results.json
+      - name: Create release tag and GitHub release
+        env:
+          VERSION: ${{ inputs.version }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git fetch --tags --force
+          if git rev-parse "refs/tags/v${VERSION}" >/dev/null 2>&1; then
+            echo "Tag v${VERSION} already exists."
+            exit 1
+          fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git tag -a "v${VERSION}" -m "RA-XSOC-X ${VERSION}"
           git push origin "v${VERSION}"
+          gh release create "v${VERSION}" --title "RA-XSOC-X v${VERSION}" --generate-notes --verify-tag
