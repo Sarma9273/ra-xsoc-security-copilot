@@ -31,3 +31,36 @@ def save_html(case: dict[str, Any], output: Path) -> Path:
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(render_html(case), encoding="utf-8")
     return output
+
+
+def render_pdf(case: dict[str, Any], output: Path) -> Path:
+    from reportlab.lib.pagesizes import A4
+    from reportlab.lib.styles import getSampleStyleSheet
+    from reportlab.platypus import Paragraph, SimpleDocTemplate, Spacer
+
+    output.parent.mkdir(parents=True, exist_ok=True)
+    styles = getSampleStyleSheet()
+    doc = SimpleDocTemplate(str(output), pagesize=A4)
+    primary = case["primary_match"]
+    story = [
+        Paragraph("RA-XSOC-X Investigation Report", styles["Title"]),
+        Spacer(1, 12),
+        Paragraph(f"Analysis: {html.escape(str(case['analysis_id']))}", styles["BodyText"]),
+        Paragraph(f"Incident: {html.escape(str(case['incident_id']))}", styles["BodyText"]),
+        Paragraph(f"Primary classification: {html.escape(str(primary['name']))}", styles["BodyText"]),
+        Paragraph(f"Confidence: {html.escape(str(case['confidence']))}", styles["BodyText"]),
+        Paragraph(f"Review status: {html.escape(str(case['review_status']))}", styles["BodyText"]),
+        Spacer(1, 12),
+        Paragraph("Explanation", styles["Heading2"]),
+    ]
+    for item in case.get("explanation", []):
+        story.append(Paragraph("• " + html.escape(str(item)), styles["BodyText"]))
+    story.extend([Spacer(1, 12), Paragraph("Evidence", styles["Heading2"])])
+    for item in case.get("evidence", []):
+        story.append(Paragraph("• " + html.escape(str(item["text"])), styles["BodyText"]))
+    story.extend([
+        Spacer(1, 12),
+        Paragraph("Human review is required before operational response.", styles["BodyText"]),
+    ])
+    doc.build(story)
+    return output
