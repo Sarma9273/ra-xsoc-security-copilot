@@ -154,3 +154,13 @@ class ErrorDetail(BaseModel):
 class ErrorResponse(BaseModel):
     error: ErrorDetail
     request_id: str
+
+
+class CaseSummaryResponse(BaseModel):
+    analysis_id: UUID
+    incident_id: UUID
+    review_status: str
+    created_at: str
+    primary_attack_id: str
+    primary_attack_name: str
+    confidence: float
