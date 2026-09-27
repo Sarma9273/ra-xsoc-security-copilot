@@ -118,7 +118,7 @@ class FAISSAttackRetriever:
                     semantic_score=semantic_score,
                     keyword_score=self._keyword_scorer.score(
                         incident.description,
-                        str(document.get("retrieval_text", "")),
+                        str(document.get("retrieval_text") or f"{document.get('title', '')} {document.get('attack_id', '')}"),
                     ),
                     hybrid_score=semantic_score,
                     mitre_techniques=self._extract_mitre_techniques(
