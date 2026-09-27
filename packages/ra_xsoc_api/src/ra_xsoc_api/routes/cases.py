@@ -6,7 +6,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 
 from ra_xsoc_api.dependencies import get_case_store
 from ra_xsoc_api.auth import AuthenticatedUser, require_roles
-from ra_xsoc_engine.domain.enums import UserRole
+from ra_xsoc_engine.domain.enums import ReviewStatus, UserRole
 from ra_xsoc_engine.domain.models import AnalystFeedback
 from ra_xsoc_api.schemas import FeedbackRequest, FeedbackResponse
 from ra_xsoc_api.schemas import CaseSummaryResponse
@@ -47,7 +47,7 @@ def submit_feedback(
     feedback = AnalystFeedback(
         analysis_id=analysis_id,
         analyst_id=user.user_id,
-        status=request.status,
+        status=ReviewStatus(request.status),
         comments=request.comments,
         corrected_attack_id=request.corrected_attack_id,
     )
