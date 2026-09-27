@@ -212,3 +212,36 @@ def test_case_feedback_lifecycle() -> None:
     detail = client.get(f"/api/v1/cases/{analysis_id}")
     assert detail.status_code == 200
     assert detail.json()["review_status"] == "approved"
+
+
+def test_analysis_requires_authentication_outside_development(monkeypatch) -> None:
+    monkeypatch.setenv("RA_XSOC_ENVIRONMENT", "production")
+    monkeypatch.setenv("RA_XSOC_AUTH_REQUIRED", "true")
+
+    response = client.post(
+        "/api/v1/analyze",
+        json={"description": "A suspicious phishing email requested credentials."},
+    )
+
+    assert response.status_code == 401
+
+
+def test_analysis_accepts_configured_bearer_token_in_production(monkeypatch) -> None:
+    from uuid import UUID
+
+    token = "test-token"
+    user_id = UUID(int=1)
+    monkeypatch.setenv("RA_XSOC_ENVIRONMENT", "production")
+    monkeypatch.setenv("RA_XSOC_AUTH_REQUIRED", "true")
+    monkeypatch.setenv(
+        "RA_XSOC_AUTH_TOKENS",
+        f"{token}:{user_id}:test-analyst:analyst",
+    )
+
+    response = client.post(
+        "/api/v1/analyze",
+        headers={"Authorization": f"Bearer {token}"},
+        json={"description": "A suspicious phishing email requested credentials."},
+    )
+
+    assert response.status_code == 200
