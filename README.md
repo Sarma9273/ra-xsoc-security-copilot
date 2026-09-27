@@ -11,7 +11,7 @@ Incident → Evidence → State → Hypotheses → Investigation → Verificatio
 
 ## Verified release state
 
-The current `master` head at the time of this verification is **`4ec788df7d2cf62d07ff1b1a6f9e132dd85f4c83`**.
+The current `master` head at the time of this verification is **`c08725609840c3ca9cbce5e9ef835c810b01f6e7`**.
 
 The release gates associated with that commit are green:
 
