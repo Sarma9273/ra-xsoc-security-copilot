@@ -22,14 +22,14 @@ The project is considered release-complete only when every required engineering 
 - [x] Novelty/evidence presentation
 - [x] MITRE verification path
 - [x] GitHub Pages deployment path
-- [ ] Full backend investigation-state persistence
+- [x] Full backend investigation-state persistence
 - [x] Authentication/RBAC
 - [x] Analyst case/history persistence
 - [x] Durable analyst feedback store
-- [ ] PDF/HTML report generation
-- [ ] Production database migrations
+- [x] PDF/HTML report generation
+- [x] Production database migrations
 - [x] Security scanning and dependency policy
-- [ ] Versioned benchmark results committed as release evidence
+- [x] Versioned benchmark results committed as release evidence
 - [ ] Final release tag and reproducibility record
 
 ## Non-goals
