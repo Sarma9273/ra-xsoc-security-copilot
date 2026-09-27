@@ -57,10 +57,10 @@ class APISettings:
                 "false",
             ).lower()
             in {"1", "true", "yes"},
-            auth_required=(\n                os.getenv("RA_XSOC_AUTH_REQUIRED", "true").lower()\n                in {"1", "true", "yes"}\n            ),
-            cors_origins=tuple(
-                origin.strip()
-                for origin in os.getenv(
+            auth_required=(
+                os.getenv("RA_XSOC_AUTH_REQUIRED", "true").lower()
+                in {"1", "true", "yes"}
+            ),
                     "RA_XSOC_CORS_ORIGINS",
                     "",
                 ).split(",")
