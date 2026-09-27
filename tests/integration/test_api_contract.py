@@ -175,3 +175,19 @@ def test_missing_required_field_has_structured_error() -> None:
     assert payload["error"]["code"] == "VALIDATION_ERROR"
     assert payload["error"]["details"]
     assert payload["request_id"]
+
+def test_case_is_persisted_and_retrievable() -> None:
+    response = client.post(
+        "/api/v1/analyze",
+        json={"description": "A suspicious phishing email requested credentials."},
+    )
+    assert response.status_code == 200
+    analysis_id = response.json()["analysis_id"]
+
+    listed = client.get("/api/v1/cases")
+    assert listed.status_code == 200
+    assert any(item["analysis_id"] == analysis_id for item in listed.json())
+
+    detail = client.get(f"/api/v1/cases/{analysis_id}")
+    assert detail.status_code == 200
+    assert detail.json()["analysis_id"] == analysis_id
