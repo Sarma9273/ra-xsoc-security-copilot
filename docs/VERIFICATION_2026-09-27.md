@@ -2,7 +2,7 @@
 
 ## Verified commit
 
-`bcc7bae482b4f18cb34b70ddbe2b21425c39b46e`
+`c08725609840c3ca9cbce5e9ef835c810b01f6e7`
 
 Change: aligned release documentation with the verified repository state after the retrieval evaluator root-path fix.
 
@@ -10,9 +10,9 @@ Change: aligned release documentation with the verified repository state after t
 
 | Gate | Run | Result |
 |---|---:|---|
-| RA-XSOC-X CI | 36343322892 | PASS |
-| RA-XSOC-X Security | 36343322902 | PASS |
-| GitHub Pages deployment | 36343322942 | PASS |
+| RA-XSOC-X CI | 36343813885 | PASS |
+| RA-XSOC-X Security | 36343813880 | PASS |
+| GitHub Pages deployment | 36343813907 | PASS |
 
 All three runs target the same commit above.
 
