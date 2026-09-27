@@ -9,6 +9,7 @@ import numpy as np
 
 from ra_xsoc_engine.domain.exceptions import DomainValidationError, RetrievalError
 from ra_xsoc_engine.domain.models import AttackMatch, IncidentInput, MitreTechnique
+from ra_xsoc_engine.retrieval.ranking import HybridRanker, KeywordScorer
 
 
 class QueryEmbeddingService(Protocol):
@@ -113,7 +114,10 @@ class FAISSAttackRetriever:
                     attack_id=document["attack_id"],
                     name=document["title"],
                     semantic_score=semantic_score,
-                    keyword_score=0.0,
+                    keyword_score=self._keyword_scorer.score(
+                        incident.description,
+                        str(document.get("retrieval_text", "")),
+                    ),
                     hybrid_score=semantic_score,
                     mitre_techniques=self._extract_mitre_techniques(
                         document.get("framework_labels", []),
@@ -121,7 +125,8 @@ class FAISSAttackRetriever:
                 )
             )
 
-        return tuple(matches)
+        keyword_scores = [match.keyword_score for match in matches]
+        return self._hybrid_ranker.rank(matches, keyword_scores)
 
     def _load_index(self) -> faiss.Index:
         index_path = self._artifact_directory / self.INDEX_FILENAME
