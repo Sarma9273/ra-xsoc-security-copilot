@@ -28,11 +28,9 @@ class LightweightApplication:
 
 
 def _heavy_ml_explicitly_enabled() -> bool:
-    """Require an explicit opt-in before the heavyweight ML stack can load.
+    """Use FAISS by default; allow an explicit lexical fallback for constrained deployments.
 
-    This prevents stale Render environment variables such as an older
-    ``RA_XSOC_DEPLOYMENT_PROFILE=full`` from accidentally re-enabling the
-    SentenceTransformer/FAISS path on the free instance.
+    The API and research evaluator therefore use the same canonical retrieval engine by default.
     """
 
     return os.getenv("RA_XSOC_RETRIEVER", "faiss").lower() != "lexical"
@@ -55,7 +53,7 @@ def get_application():
         )
         return LightweightApplication(analyzer)
 
-    # Heavy ML is an explicit opt-in for deployments with sufficient memory.
+    # FAISS retrieval is the canonical deployment path; lexical retrieval is an explicit constrained fallback.
     from ra_xsoc_engine.application.container import ApplicationContainer
     from ra_xsoc_engine.domain.embedding import EmbeddingConfiguration
 
