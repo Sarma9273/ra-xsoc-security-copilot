@@ -8,7 +8,7 @@ from ra_xsoc_engine.domain.exceptions import (
 )
 from ra_xsoc_engine.domain.models import IncidentInput
 
-from ra_xsoc_api.dependencies import get_application
+from ra_xsoc_api.dependencies import get_application, get_case_store
 from ra_xsoc_api.schemas import (
     AnalyzeRequest,
     AnalyzeResponse,
@@ -54,6 +54,7 @@ def _attack_match_to_response(match: object) -> AttackMatchResponse:
 def analyze_incident(
     request: AnalyzeRequest,
     application=Depends(get_application),
+    store=Depends(get_case_store),
 ) -> AnalyzeResponse:
     try:
         incident_kwargs = {
@@ -82,7 +83,7 @@ def analyze_incident(
             detail=str(error),
         ) from error
 
-    return AnalyzeResponse(
+    response = AnalyzeResponse(
         analysis_id=result.analysis_id,
         incident_id=result.incident_id,
         primary_match=_attack_match_to_response(
@@ -198,3 +199,6 @@ def analyze_incident(
             "Correlate surrounding telemetry before assigning a final verdict.",
         ],
     )
+
+    store.save_analysis(response.model_dump(mode="json"))
+    return response
