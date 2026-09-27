@@ -30,7 +30,7 @@ The project is considered release-complete only when every required engineering 
 - [x] Production database migrations
 - [x] Security scanning and dependency policy
 - [x] Versioned benchmark results committed as release evidence
-- [ ] Final release tag and reproducibility record
+- [x] Final release tag and reproducibility record
 
 ## Non-goals
 
