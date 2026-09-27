@@ -79,6 +79,19 @@ class CaseStore:
             ).fetchall()
         return [json.loads(row["payload"]) for row in rows]
 
+    def update_review_status(self, analysis_id: UUID, status: str) -> dict[str, Any] | None:
+        with self._connect() as db:
+            row = db.execute("SELECT payload FROM cases WHERE analysis_id = ?", (str(analysis_id),)).fetchone()
+            if row is None:
+                return None
+            payload = json.loads(row["payload"])
+            payload["review_status"] = status
+            db.execute(
+                "UPDATE cases SET payload = ?, review_status = ?, updated_at = datetime('now') WHERE analysis_id = ?",
+                (json.dumps(payload, default=str), status, str(analysis_id)),
+            )
+        return payload
+
     def save_feedback(self, feedback: dict[str, Any]) -> None:
         with self._connect() as db:
             db.execute(
