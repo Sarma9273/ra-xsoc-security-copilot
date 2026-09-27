@@ -137,9 +137,9 @@ def analyze_incident(
         evidence=[
             EvidenceItemResponse(
                 id=f"{result.analysis_id}-primary",
-                text=f"Hybrid retrieval score: {result.primary_match.hybrid_score:.3f}",
-                type="supporting",
-                source="RA-XSOC retrieval engine",
+                text=f"Retrieval-derived signal: hybrid retrieval score {result.primary_match.hybrid_score:.3f}.",
+                type="retrieval_signal",
+                source="RA-XSOC retrieval engine (not independent telemetry)",
                 strength=result.primary_match.hybrid_score,
             )
         ],
@@ -184,7 +184,7 @@ def analyze_incident(
             detectionState="unknown",
             securityState="undetermined",
             verdict="UNDETERMINED",
-            rationale="The V2 retrieval API does not receive independent alert-state evidence; human review is required before assigning TP/FP/TN/FN.",
+            rationale="This API response is retrieval-derived and does not receive independent alert-state, endpoint, network, identity, or authorization telemetry. Do not treat retrieval confidence as proof of maliciousness; corroborating evidence and human review are required before assigning TP/FP/TN/FN.",
         ),
         next_evidence=[
             "Original alert/rule context",
