@@ -13,7 +13,7 @@ Incident → Evidence → State → Hypotheses → Investigation → Verificatio
 
 The current `master` head at the time of this verification is **`c08725609840c3ca9cbce5e9ef835c810b01f6e7`**.
 
-The release gates associated with that commit are green:
+The release gates associated with that baseline are green:
 
 - Python CI
 - Frontend lint/build
