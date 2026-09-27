@@ -29,8 +29,8 @@ The project is considered release-complete only when every required engineering 
 - [x] PDF/HTML report generation
 - [x] Production database migrations
 - [x] Security scanning and dependency policy
-- [x] Versioned benchmark results committed as release evidence
-- [x] Final release tag and reproducibility record
+- [x] Versioned benchmark evaluation produced as release evidence artifact
+- [x] Reproducible release workflow and tag automation
 
 ## Non-goals
 
