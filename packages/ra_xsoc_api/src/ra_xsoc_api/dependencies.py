@@ -4,6 +4,8 @@ import os
 from functools import lru_cache
 from pathlib import Path
 
+from ra_xsoc_api.persistence import CaseStore
+
 from ra_xsoc_engine.analysis.analyzer import IncidentAnalysisService
 from ra_xsoc_engine.knowledge_base.normalized_repository import NormalizedKnowledgeBaseRepository
 from ra_xsoc_engine.playbooks.repository import KnowledgeBasePlaybookRepository
@@ -74,3 +76,8 @@ def get_application():
         corpus_directory=CORPUS_DIRECTORY,
         embedding_configuration=configuration,
     )
+
+
+@lru_cache(maxsize=1)
+def get_case_store() -> CaseStore:
+    return CaseStore()
