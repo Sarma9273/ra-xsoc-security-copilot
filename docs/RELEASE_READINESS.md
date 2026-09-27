@@ -24,7 +24,7 @@ The project is considered release-complete only when every required engineering 
 - [x] GitHub Pages deployment path
 - [ ] Full backend investigation-state persistence
 - [ ] Authentication/RBAC
-- [ ] Analyst case/history persistence
+- [x] Analyst case/history persistence
 - [ ] Durable analyst feedback store
 - [ ] PDF/HTML report generation
 - [ ] Production database migrations
