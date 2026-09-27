@@ -8,7 +8,7 @@ from ra_xsoc_engine.application.container import ApplicationContainer
 from ra_xsoc_engine.domain.embedding import EmbeddingConfiguration
 from ra_xsoc_engine.domain.models import IncidentInput
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = Path(__file__).resolve().parents[1]
 BENCHMARK = ROOT / "research" / "benchmarks" / "ra_xsoc_x_v1.json"
 OUTPUT = ROOT / "research" / "results" / "ra_xsoc_x_v1_results.json"
 
