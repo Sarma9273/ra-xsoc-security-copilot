@@ -191,3 +191,24 @@ def test_case_is_persisted_and_retrievable() -> None:
     detail = client.get(f"/api/v1/cases/{analysis_id}")
     assert detail.status_code == 200
     assert detail.json()["analysis_id"] == analysis_id
+
+
+def test_case_feedback_lifecycle() -> None:
+    response = client.post(
+        "/api/v1/analyze",
+        json={"description": "A suspicious phishing email requested credentials."},
+    )
+    assert response.status_code == 200
+    analysis_id = response.json()["analysis_id"]
+
+    feedback = client.post(
+        f"/api/v1/cases/{analysis_id}/feedback",
+        json={"status": "approved", "comments": "Reviewed against the available evidence."},
+    )
+    assert feedback.status_code == 200
+    assert feedback.json()["analysis_id"] == analysis_id
+    assert feedback.json()["status"] == "approved"
+
+    detail = client.get(f"/api/v1/cases/{analysis_id}")
+    assert detail.status_code == 200
+    assert detail.json()["review_status"] == "approved"
