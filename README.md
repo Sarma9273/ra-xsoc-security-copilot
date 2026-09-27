@@ -11,36 +11,33 @@ Incident → Evidence → State → Hypotheses → Investigation → Verificatio
 
 ## Verified release state
 
-The current `master` head at the time of this verification is **`c08725609840c3ca9cbce5e9ef835c810b01f6e7`**.
+The current `master` head verified on **2026-09-28** is **`a295d2870b143a46b6a06f1c7e8a4bbff1660120`**.
 
-The release gates associated with that baseline are green:
+The release gates for that exact baseline are green:
 
 - Python CI
 - Frontend lint/build
-- Reproducible retrieval benchmark
 - Dependency/security scan
 - GitHub Pages deployment
 
-See [verification evidence](docs/VERIFICATION_2026-09-27.md).
+The fixed 30-case retrieval benchmark is a reproducibility check, not held-out real-world detection validation. See [verification evidence](docs/VERIFICATION_2026-09-27.md).
 
 ## Public demo
 
-The public demonstration is designed for **GitHub Pages** and runs its deterministic demo engine in the browser. It requires no paid server, account, API key, or continuously running computer.
-
-The full Python/FastAPI research engine remains in this repository for local execution, experiments, and reproducible evaluation.
+The demonstration is designed for **GitHub Pages** and runs its deterministic demo engine in the browser. The full Python/FastAPI research engine remains in this repository for local execution, experiments, and reproducible evaluation.
 
 ## Runtime boundaries
 
-- The API uses the same SentenceTransformer + FAISS retrieval engine as the research evaluator by default.
-- Set `RA_XSOC_RETRIEVER=lexical` only when a constrained deployment intentionally cannot load the ML stack.
-- Authentication is required outside `development` and `test` environments unless explicitly overridden with `RA_XSOC_AUTH_REQUIRED`.
+- The API uses SentenceTransformer + FAISS retrieval by default.
+- Set `RA_XSOC_RETRIEVER=lexical` only for constrained deployments that intentionally cannot load the ML stack.
+- Authentication is required outside `development` and `test` unless explicitly overridden with `RA_XSOC_AUTH_REQUIRED`.
 - Analysis, case access, feedback, and reports are protected by role-based authorization.
 - Retrieval-derived signals are decision support; they are not independent SIEM, EDR, network, identity, or authorization evidence.
-- The current V2 API does not claim autonomous containment or real-time external telemetry ingestion.
+- The current API does not claim autonomous containment or real-time external telemetry ingestion.
 
-## Research engine
+## Implemented research capabilities
 
-- versioned 30-record security knowledge base
+- versioned security knowledge base
 - SentenceTransformer + FAISS retrieval
 - lexical fallback retrieval
 - evidence normalization and incident state
@@ -51,7 +48,7 @@ The full Python/FastAPI research engine remains in this repository for local exe
 - MITRE ATT&CK verification path
 - analyst feedback and experience memory
 - investigation replay
-- retrieval/evaluation scripts
+- HTML/PDF investigation reports
 
 ## Local research engine
 
@@ -71,7 +68,7 @@ See [GitHub-only deployment](docs/DEPLOYMENT_GITHUB_PAGES.md).
 
 ## Safety
 
-The public demo is read-only and uses synthetic/demo scenarios. It does not perform containment, blocking, arbitrary command execution, or access to private SOC systems.
+The demo is read-only and uses synthetic/demo scenarios. It does not perform containment, blocking, arbitrary command execution, or access to private SOC systems.
 
 ## Citation
 
@@ -79,7 +76,7 @@ See `CITATION.cff`.
 
 ## Reproducible research evaluation
 
-A fixed 30-case benchmark is stored at `research/benchmarks/ra_xsoc_x_v1.json`. Run the local research evaluator after generating the FAISS artifacts:
+A fixed 30-case benchmark is stored at `research/benchmarks/ra_xsoc_x_v1.json`. Run the local evaluator after generating the FAISS artifacts:
 
 ```powershell
 python .\scripts\generate_retrieval_corpus.py
@@ -87,4 +84,13 @@ python .\scripts\generate_embeddings.py
 python .\research\evaluate_retrieval.py
 ```
 
-The evaluator records Top-1 accuracy, Recall@3, Recall@5, MRR, mean confidence, and per-case predictions under `research/results/`. The benchmark is versioned and must not be modified when reporting a completed experiment; create a new benchmark version for new experiments.
+The evaluator records Top-1 accuracy, Recall@3, Recall@5, MRR, mean confidence, and per-case predictions under `research/results/`. The benchmark must remain unchanged when reporting a completed experiment; create a new benchmark version for new experiments.
+
+## Known next-stage requirements
+
+The following require additional infrastructure or a new evaluation dataset and therefore are not represented as completed by the current V2 baseline:
+
+- live SIEM/EDR/network/identity telemetry connectors
+- production hosting for FastAPI, FAISS, and PostgreSQL
+- held-out/adversarial evaluation
+- autonomous response/containment
