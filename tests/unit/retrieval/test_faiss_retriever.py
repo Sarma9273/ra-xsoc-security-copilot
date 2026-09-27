@@ -260,3 +260,42 @@ def test_retriever_rejects_mapping_count_mismatch(
             corpus_directory=corpus_directory,
             embedding_service=embedding_service,
         )
+
+def test_retriever_populates_and_uses_keyword_score(
+    tmp_path: Path,
+) -> None:
+    artifact_directory, corpus_directory = build_artifacts(tmp_path)
+    documents = {
+        "document_id": "retrieval:phishing:1.0",
+        "attack_id": "phishing",
+        "title": "PHISHING",
+        "retrieval_text": "suspicious email credential phishing login",
+        "framework_labels": [],
+    }
+    (corpus_directory / "phishing.json").write_text(
+        json.dumps(documents),
+        encoding="utf-8",
+    )
+    (corpus_directory / "ransomware.json").write_text(
+        json.dumps({
+            "document_id": "retrieval:ransomware:1.0",
+            "attack_id": "ransomware",
+            "title": "RANSOMWARE",
+            "retrieval_text": "encrypted files impact",
+            "framework_labels": [],
+        }),
+        encoding="utf-8",
+    )
+    retriever = FAISSAttackRetriever(
+        artifact_directory=artifact_directory,
+        corpus_directory=corpus_directory,
+        embedding_service=build_embedding_service((1.0, 0.0, 0.0)),
+    )
+    matches = retriever.retrieve(
+        IncidentInput(description="suspicious email credential phishing"),
+        limit=2,
+    )
+    assert matches[0].keyword_score > 0.0
+    assert matches[0].hybrid_score == pytest.approx(
+        0.7 * matches[0].semantic_score + 0.3 * matches[0].keyword_score
+    )
