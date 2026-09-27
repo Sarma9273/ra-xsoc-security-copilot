@@ -19,6 +19,7 @@ class APISettings:
 
     cors_enabled: bool = False
     cors_origins: tuple[str, ...] = ()
+    auth_required: bool = False
 
     @classmethod
     def from_environment(cls) -> APISettings:
@@ -56,6 +57,7 @@ class APISettings:
                 "false",
             ).lower()
             in {"1", "true", "yes"},
+            auth_required=os.getenv("RA_XSOC_AUTH_REQUIRED", "false").lower() in {"1", "true", "yes"},
             cors_origins=tuple(
                 origin.strip()
                 for origin in os.getenv(
