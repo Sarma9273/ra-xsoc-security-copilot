@@ -1,0 +1,25 @@
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: raxsoc
+      POSTGRES_USER: raxsoc
+      POSTGRES_PASSWORD: ${RA_XSOC_POSTGRES_PASSWORD:-raxsoc-local-only}
+    ports:
+      - "5432:5432"
+    volumes:
+      - raxsoc-postgres:/var/lib/postgresql/data
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      RA_XSOC_DATABASE_URL: postgresql+psycopg://raxsoc:${RA_XSOC_POSTGRES_PASSWORD:-raxsoc-local-only}@postgres:5432/raxsoc
+      RA_XSOC_AUTH_REQUIRED: "true"
+      RA_XSOC_AUTH_TOKENS: ${RA_XSOC_AUTH_TOKENS:-}
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+volumes:
+  raxsoc-postgres:
