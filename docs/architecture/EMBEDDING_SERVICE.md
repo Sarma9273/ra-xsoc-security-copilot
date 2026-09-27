@@ -2,7 +2,7 @@
 
 ## Purpose
 
-The domain already exposes an `EmbeddingService` port. Phase 1.4A.3 adds deterministic preparation utilities without coupling the domain to SentenceTransformers.
+The domain exposes an `EmbeddingService` port, while the concrete SentenceTransformer adapter lives at the infrastructure boundary. Deterministic preparation utilities keep document ordering and artifact identity stable without coupling the domain to a specific ML library.
 
 ## Ordering contract
 
@@ -18,14 +18,18 @@ The utility guarantees that:
 
 ## Pipeline boundary
 
-    Retrieval documents
-            ↓
-    deterministic ordering
-            ↓
-    aligned IDs and texts
-            ↓
-    EmbeddingService port
-            ↓
-    EmbeddingVectorBatch
+```
+Retrieval documents
+        ↓
+deterministic ordering
+        ↓
+aligned IDs and texts
+        ↓
+EmbeddingService port
+        ↓
+SentenceTransformer adapter
+        ↓
+EmbeddingVectorBatch
+```
 
-The SentenceTransformer adapter will be implemented in Phase 1.4B.
+The production/research implementation is already present and is exercised by the retrieval corpus and embedding generation pipeline.
