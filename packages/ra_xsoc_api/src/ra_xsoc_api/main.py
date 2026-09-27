@@ -6,6 +6,7 @@ from fastapi import FastAPI, HTTPException, Request, Response
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
+from starlette.middleware.gzip import GZipMiddleware
 
 from ra_xsoc_api.config import APISettings
 from ra_xsoc_api.routes.analysis import router as analysis_router
@@ -75,6 +76,8 @@ async def http_exception_handler(
         headers=exc.headers,
     )
 
+app.add_middleware(GZipMiddleware, minimum_size=1000)
+
 if settings.cors_enabled:
     app.add_middleware(
         CORSMiddleware,
@@ -99,6 +102,10 @@ async def request_id_middleware(
 
     response = await call_next(request)
     response.headers["X-Request-ID"] = request_id
+    response.headers["X-Content-Type-Options"] = "nosniff"
+    response.headers["X-Frame-Options"] = "DENY"
+    response.headers["Referrer-Policy"] = "no-referrer"
+    response.headers["Cache-Control"] = "no-store"
 
     return response
 

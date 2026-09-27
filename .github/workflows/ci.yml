@@ -33,3 +33,5 @@ jobs:
       - run: python -m pip install -e ./packages/ra_xsoc_api
       - run: python -m pip install pytest faiss-cpu httpx2 sentence-transformers
       - run: python -m pytest -q
+      - run: python -m pip install ruff
+      - run: ruff check packages tests
