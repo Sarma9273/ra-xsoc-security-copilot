@@ -1,10 +1,10 @@
 # RA-XSOC-X Verification Evidence — 2026-09-27
 
-## Verified commit
+## Verified release baseline
 
 `c08725609840c3ca9cbce5e9ef835c810b01f6e7`
 
-Change: aligned release documentation with the verified repository state after the retrieval evaluator root-path fix.
+This record captures the automated gate results for the documented release baseline. Subsequent documentation-only commits may advance `master` without changing the verified application code.
 
 ## GitHub Actions evidence
 
