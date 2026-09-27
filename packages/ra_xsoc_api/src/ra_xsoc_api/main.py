@@ -10,6 +10,7 @@ from starlette.middleware.gzip import GZipMiddleware
 
 from ra_xsoc_api.config import APISettings
 from ra_xsoc_api.routes.analysis import router as analysis_router
+from ra_xsoc_api.routes.cases import router as cases_router
 from ra_xsoc_api.schemas import ErrorDetail, ErrorResponse
 
 settings = APISettings.from_environment()
@@ -111,6 +112,7 @@ async def request_id_middleware(
 
 
 app.include_router(analysis_router)
+app.include_router(cases_router)
 
 
 @app.get("/health")
