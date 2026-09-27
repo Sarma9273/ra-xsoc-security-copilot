@@ -11,7 +11,7 @@ Incident → Evidence → State → Hypotheses → Investigation → Verificatio
 
 ## Verified release state
 
-The current `master` head verified on **2026-09-28** is **`a295d2870b143a46b6a06f1c7e8a4bbff1660120`**.
+The current `master` head verified on **2026-09-28** is **`d22f81348000ae00f4632e568b286d4b74d40009`**.
 
 The release gates for that exact baseline are green:
 
