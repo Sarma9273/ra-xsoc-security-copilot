@@ -1,7 +1,7 @@
 import json
 from pathlib import Path
 
-BENCHMARK = Path(__file__).resolve().parents[1] / "research" / "benchmarks" / "ra_xsoc_x_v1.json"
+BENCHMARK = Path(__file__).resolve().parents[2] / "research" / "benchmarks" / "ra_xsoc_x_v1.json"
 
 def test_benchmark_is_frozen_and_complete():
     data = json.loads(BENCHMARK.read_text(encoding="utf-8"))
