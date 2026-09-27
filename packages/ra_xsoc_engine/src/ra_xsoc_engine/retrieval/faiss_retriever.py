@@ -37,6 +37,8 @@ class FAISSAttackRetriever:
         self._artifact_directory = artifact_directory
         self._corpus_directory = corpus_directory
         self._embedding_service = embedding_service
+        self._keyword_scorer = KeywordScorer()
+        self._hybrid_ranker = HybridRanker()
 
         self._index = self._load_index()
         self._mapping = self._load_mapping()
