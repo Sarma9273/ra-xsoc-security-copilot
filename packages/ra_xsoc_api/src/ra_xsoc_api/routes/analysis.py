@@ -15,6 +15,10 @@ from ra_xsoc_api.schemas import (
     AttackMatchResponse,
     MitreTechniqueResponse,
     ResponsePlaybookResponse,
+    EvidenceItemResponse, HypothesisResponse, IncidentIdentityResponse,
+    NoveltyAssessmentResponse, ResearchEvaluationResponse,
+    InvestigationQuestionResponse, SourceVerificationResponse,
+    InvestigationStepResponse, InvestigationAssessmentResponse,
 )
 
 router = APIRouter(
@@ -103,4 +107,94 @@ def analyze_incident(
         model_version=result.model_version,
         review_status=result.review_status.value,
         created_at=result.created_at.isoformat(),
+        incident=IncidentIdentityResponse(
+            name=result.primary_match.name,
+            attack_family=result.primary_match.attack_id,
+            stage=result.primary_match.mitre_techniques[0].tactic if result.primary_match.mitre_techniques and result.primary_match.mitre_techniques[0].tactic else "Unknown",
+            confidence=result.confidence,
+            description=request.description,
+        ),
+        novelty=NoveltyAssessmentResponse(
+            score=max(0.0, min(1.0, 1.0 - result.confidence)),
+            status="KNOWN_PATTERN" if result.novelty_status.value == "known" else "INSUFFICIENT_EVIDENCE",
+            known_similarity=result.confidence,
+            behavior_coverage=1.0 if result.confidence >= 0.7 else result.confidence,
+            unseen_signal_ratio=0.0,
+            combination_novelty=0.0,
+            reasons=list(result.explanation),
+        ),
+        research=ResearchEvaluationResponse(
+            planner=[],
+            feature_vector=[],
+            matched_pattern_ids=[result.primary_match.attack_id] + [m.attack_id for m in result.alternatives],
+            unmatched_features=[],
+            hypothesis_count=1 + len(result.alternatives),
+            technique_count=len(result.primary_match.mitre_techniques),
+            reproducible=True,
+            evaluation_version="RA-XSOC-X-API-1.0",
+        ),
+        evidence=[
+            EvidenceItemResponse(
+                id=f"{result.analysis_id}-primary",
+                text=f"Hybrid retrieval score: {result.primary_match.hybrid_score:.3f}",
+                type="supporting",
+                source="RA-XSOC retrieval engine",
+                strength=result.primary_match.hybrid_score,
+            )
+        ],
+        hypotheses=[
+            HypothesisResponse(
+                id=match.attack_id,
+                name=match.name,
+                category=match.attack_id,
+                score=match.hybrid_score,
+                status="supported" if match is result.primary_match else "possible",
+                supporting=[f"Retrieved with hybrid score {match.hybrid_score:.3f}"],
+                contradicting=[],
+                missing=[],
+                techniques=[
+                    MitreTechniqueResponse(
+                        technique_id=t.technique_id, name=t.name, tactic=t.tactic, url=t.url
+                    ) for t in match.mitre_techniques
+                ],
+            )
+            for match in (result.primary_match,) + result.alternatives
+        ],
+        verification=[],
+        investigation=[
+            InvestigationStepResponse(
+                order=1,
+                title="Preserve and correlate evidence",
+                action="Record the original alert, event, identity, asset and timestamp.",
+                whatToLookFor="Original telemetry and correlated authentication, endpoint or network evidence.",
+                supports=["A reproducible security event."],
+                contradicts=["Missing or unreliable source evidence."],
+            ),
+            InvestigationStepResponse(
+                order=2,
+                title="Review the response playbook",
+                action="Validate containment, investigation, recovery and prevention guidance against local procedures.",
+                whatToLookFor="Applicable response steps and required analyst approval.",
+                supports=["Guidance consistent with the incident context."],
+                contradicts=["Guidance inconsistent with local policy or evidence."],
+            ),
+        ],
+        assessment=InvestigationAssessmentResponse(
+            detectionState="unknown",
+            securityState="undetermined",
+            verdict="UNDETERMINED",
+            rationale="The V2 retrieval API does not receive independent alert-state evidence; human review is required before assigning TP/FP/TN/FN.",
+        ),
+        next_evidence=[
+            "Original alert/rule context",
+            "Identity and source/destination information",
+            "Authentication and MFA events",
+            "Endpoint or application telemetry",
+            "Authorization or change-ticket context",
+        ],
+        beginner_summary=[
+            "Start with the original evidence rather than a screenshot or summary.",
+            "Confirm the affected identity, asset and timestamp.",
+            "Correlate surrounding telemetry before assigning a final verdict.",
+        ],
     )
