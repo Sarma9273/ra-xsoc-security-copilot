@@ -2,17 +2,17 @@
 
 ## Verified commit
 
-`b7c0b8dd87cd5688d897ef0d23affec6b71ccad1`
+`bcc7bae482b4f18cb34b70ddbe2b21425c39b46e`
 
-Change: corrected `research/evaluate_retrieval.py` to resolve the repository root with `Path(__file__).resolve().parents[1]`.
+Change: aligned release documentation with the verified repository state after the retrieval evaluator root-path fix.
 
 ## GitHub Actions evidence
 
 | Gate | Run | Result |
 |---|---:|---|
-| RA-XSOC-X CI | 36341979477 | PASS |
-| RA-XSOC-X Security | 36341979476 | PASS |
-| GitHub Pages deployment | 36341979406 | PASS |
+| RA-XSOC-X CI | 36343322892 | PASS |
+| RA-XSOC-X Security | 36343322902 | PASS |
+| GitHub Pages deployment | 36343322942 | PASS |
 
 All three runs target the same commit above.
 
