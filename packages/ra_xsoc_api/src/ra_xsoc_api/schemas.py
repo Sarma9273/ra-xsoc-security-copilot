@@ -164,3 +164,18 @@ class CaseSummaryResponse(BaseModel):
     primary_attack_id: str
     primary_attack_name: str
     confidence: float
+
+
+class FeedbackRequest(BaseModel):
+    status: str = Field(..., pattern="^(approved|corrected|rejected)$")
+    comments: str = Field(..., min_length=1, max_length=10_000)
+    corrected_attack_id: str | None = Field(default=None, max_length=200)
+
+class FeedbackResponse(BaseModel):
+    feedback_id: UUID
+    analysis_id: UUID
+    analyst_id: UUID
+    status: str
+    comments: str
+    corrected_attack_id: str | None
+    created_at: str
