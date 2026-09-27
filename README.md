@@ -1,4 +1,4 @@
-# RA-XSOC-X
+# RA-XSOC-X v2.0.0
 
 **Evidence-Driven Adaptive Investigation Intelligence for Security Operations**
 
@@ -9,11 +9,11 @@ Incident → Evidence → State → Hypotheses → Investigation → Verificatio
         → ATT&CK Mapping → Human Review → Feedback → Experience Memory
 ```
 
-## Verified release state
+## V2.0.0 release state
 
-The current `master` head verified on **2026-09-28** is **`d22f81348000ae00f4632e568b286d4b74d40009`**.
+The V2.0.0 release candidate is being verified from the current `master` head.
 
-The release gates for that exact baseline are green:
+The V2.0.0 release gates are required to pass before tagging the public release:
 
 - Python CI
 - Frontend lint/build
@@ -86,7 +86,7 @@ python .\research\evaluate_retrieval.py
 
 The evaluator records Top-1 accuracy, Recall@3, Recall@5, MRR, mean confidence, and per-case predictions under `research/results/`. The benchmark must remain unchanged when reporting a completed experiment; create a new benchmark version for new experiments.
 
-## Known next-stage requirements
+## V2.0.0 boundary and next-stage requirements
 
 The following require additional infrastructure or a new evaluation dataset and therefore are not represented as completed by the current V2 baseline:
 
