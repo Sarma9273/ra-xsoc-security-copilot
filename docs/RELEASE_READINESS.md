@@ -28,7 +28,7 @@ The project is considered release-complete only when every required engineering 
 - [ ] Durable analyst feedback store
 - [ ] PDF/HTML report generation
 - [ ] Production database migrations
-- [ ] Security scanning and dependency policy
+- [x] Security scanning and dependency policy
 - [ ] Versioned benchmark results committed as release evidence
 - [ ] Final release tag and reproducibility record
 
