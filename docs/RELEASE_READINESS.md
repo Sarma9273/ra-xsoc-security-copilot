@@ -23,9 +23,9 @@ The project is considered release-complete only when every required engineering 
 - [x] MITRE verification path
 - [x] GitHub Pages deployment path
 - [ ] Full backend investigation-state persistence
-- [ ] Authentication/RBAC
+- [x] Authentication/RBAC
 - [x] Analyst case/history persistence
-- [ ] Durable analyst feedback store
+- [x] Durable analyst feedback store
 - [ ] PDF/HTML report generation
 - [ ] Production database migrations
 - [x] Security scanning and dependency policy
