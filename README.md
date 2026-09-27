@@ -9,6 +9,20 @@ Incident → Evidence → State → Hypotheses → Investigation → Verificatio
         → ATT&CK Mapping → Human Review → Feedback → Experience Memory
 ```
 
+## Verified release state
+
+The current `master` head is **`b7c0b8dd87cd5688d897ef0d23affec6b71ccad1`**.
+
+The release gates associated with that commit are green:
+
+- Python CI
+- Frontend lint/build
+- Reproducible retrieval benchmark
+- Dependency/security scan
+- GitHub Pages deployment
+
+See [verification evidence](docs/VERIFICATION_2026-09-27.md).
+
 ## Public demo
 
 The public demonstration is designed for **GitHub Pages** and runs its deterministic demo engine in the browser. It requires no paid server, account, API key, or continuously running computer.
@@ -25,7 +39,7 @@ The full Python/FastAPI research engine remains in this repository for local exe
 - information-gain investigation planning
 - evidence verification
 - security knowledge graph
-- optional MITRE ATT&CK verification
+- MITRE ATT&CK verification path
 - analyst feedback and experience memory
 - investigation replay
 - retrieval/evaluation scripts
