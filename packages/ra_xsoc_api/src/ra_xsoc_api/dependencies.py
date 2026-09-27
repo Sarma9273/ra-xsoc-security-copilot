@@ -35,7 +35,7 @@ def _heavy_ml_explicitly_enabled() -> bool:
     SentenceTransformer/FAISS path on the free instance.
     """
 
-    return os.getenv("RA_XSOC_ALLOW_HEAVY_ML", "false").lower() == "true"
+    return os.getenv("RA_XSOC_RETRIEVER", "faiss").lower() != "lexical"
 
 
 @lru_cache(maxsize=1)
