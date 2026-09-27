@@ -62,8 +62,11 @@ class APISettings:
                 in {"1", "true", "yes"}
             ),
                     "RA_XSOC_CORS_ORIGINS",
+            cors_origins=tuple(
+                origin.strip()
+                for origin in os.getenv(
+                    "RA_XSOC_CORS_ORIGINS",
                     "",
                 ).split(",")
                 if origin.strip()
             ),
-        )
