@@ -29,6 +29,15 @@ The public demonstration is designed for **GitHub Pages** and runs its determini
 
 The full Python/FastAPI research engine remains in this repository for local execution, experiments, and reproducible evaluation.
 
+## Runtime boundaries
+
+- The API uses the same SentenceTransformer + FAISS retrieval engine as the research evaluator by default.
+- Set `RA_XSOC_RETRIEVER=lexical` only when a constrained deployment intentionally cannot load the ML stack.
+- Authentication is required outside `development` and `test` environments unless explicitly overridden with `RA_XSOC_AUTH_REQUIRED`.
+- Analysis, case access, feedback, and reports are protected by role-based authorization.
+- Retrieval-derived signals are decision support; they are not independent SIEM, EDR, network, identity, or authorization evidence.
+- The current V2 API does not claim autonomous containment or real-time external telemetry ingestion.
+
 ## Research engine
 
 - versioned 30-record security knowledge base
