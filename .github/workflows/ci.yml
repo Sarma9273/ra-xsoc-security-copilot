@@ -32,4 +32,4 @@ jobs:
       - run: python -m pip install -e ./packages/ra_xsoc_engine
       - run: python -m pip install -e ./packages/ra_xsoc_api
       - run: python -m pip install pytest faiss-cpu httpx2 sentence-transformers
-      - run: python -m pytest -q tests/unit tests/api tests/integration/test_cors.py tests/research
+      - run: python -m pytest -q
