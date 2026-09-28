@@ -29,11 +29,6 @@ jobs:
           python ./scripts/generate_embeddings.py
           python -m pytest -q
           python ./research/evaluate_retrieval.py
-      - name: Upload benchmark evidence
-        uses: actions/upload-artifact@v4
-        with:
-          name: ra-xsoc-x-benchmark-${{ inputs.version }}
-          path: research/results/ra_xsoc_x_v1_results.json
       - name: Verify release metadata
         env:
           VERSION: ${{ inputs.version }}
